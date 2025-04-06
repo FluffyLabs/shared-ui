@@ -3,7 +3,7 @@ name: Publish to NPM
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ["main"]
+    branches: ["publish-GA"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -34,7 +34,7 @@ jobs:
       - name: Build Shared UI
         run: npm run build
       - name: Publish package
-        working-directory: ./dist
+        working-directory: dist
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --access public
