@@ -34,7 +34,6 @@ jobs:
       - name: Build Shared UI
         run: npm run build
       - name: Publish package
-        working-directory: ../dist
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --access public
