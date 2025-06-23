@@ -80,6 +80,10 @@ jobs:
             echo "## 📝 New commits"
             echo ""
             head -n 20 commits.txt
+            echo ""
+            echo "## 📊 Additional Information"
+            echo "- Triggered by: ${{ github.actor }}"
+            echo "- Branch: ${{ github.ref_name }}"
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: 🚫 Skip release (dry run)
@@ -102,11 +106,34 @@ jobs:
           git push origin HEAD
           git push origin "v$version"
 
+      - name: 📋 Prepare Release Body
+        if: ${{ github.event.inputs.dry_run == 'false' }}
+        id: release_body
+        run: |
+          {
+            echo "## Version Bump"
+            echo "**${OLD_VERSION:-${{ steps.get_version.outputs.version }}} ➡️ ${NEW_VERSION:-${{ steps.bump.outputs.new_version }}}**"
+            echo ""
+            echo "## Commits since last tag"
+            cat commits.txt
+            echo ""
+            echo "## Additional Information"
+            echo "- Triggered by: ${GITHUB_ACTOR}"
+            echo "- Branch: ${GITHUB_REF_NAME}"
+          } > release_body.txt
+
+          # Set the body as output
+          body=$(cat release_body.txt)
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          echo "$body" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
       - name: 📦 Create GitHub Release
         if: ${{ github.event.inputs.dry_run == 'false' }}
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.bump.outputs.new_version }}
           name: Release v${{ steps.bump.outputs.new_version }}
+          body: ${{ steps.release_body.outputs.body }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
