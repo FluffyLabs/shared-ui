@@ -23,6 +23,7 @@ on:
 
 jobs:
   release:
+    name: "🚀 Release (${{ github.event.inputs.bump }})${{ github.event.inputs.dry_run == 'true' && ' [dry_run=true]' || '' }}"
     runs-on: ubuntu-latest
     permissions:
       contents: write
