@@ -76,6 +76,9 @@ jobs:
             if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
               echo "**🚫 DRY RUN ONLY - No actual release will be created**"
               echo ""
+              echo "### 🚀 Ready to release?"
+              echo "[**Click here to create the actual release**](${{ github.server_url }}/${{ github.repository }}/actions/workflows/release.yml?bump=${{ github.event.inputs.bump }}&dry_run=false)"
+              echo ""
             fi
             echo "## 📝 New commits"
             echo ""
