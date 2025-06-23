@@ -25,13 +25,13 @@ jobs:
   release:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Needed to push changes and create tags
+      contents: write
 
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Required for full git history
+          fetch-depth: 0 # Needed for commit history and tags
 
       - name: 🧰 Setup Node.js
         uses: actions/setup-node@v4
@@ -51,20 +51,32 @@ jobs:
           echo "new_version=$new" >> "$GITHUB_OUTPUT"
 
       - name: 📝 List commits since last tag
+        id: commit_list
         run: |
-          echo "::group::🔍 Commits since last release"
           git fetch --tags
           last_tag=$(git describe --tags --abbrev=0)
-          echo "Commits since $last_tag:"
-          git log "$last_tag"..HEAD --pretty=format:"- %s (%h)"
+          echo "last_tag=$last_tag" >> "$GITHUB_OUTPUT"
+          echo "::group::🔍 Commits since $last_tag"
+          git log "$last_tag"..HEAD --pretty=format:"- %s (%h)" | tee commits.txt
           echo "::endgroup::"
 
-      - name: 📣 Preview version bump
+      - name: 📢 Show summary in notices
         run: |
-          echo "📦 Current version: ${{ steps.get_version.outputs.version }}"
-          echo "➡️ Bump type: ${{ github.event.inputs.bump }}"
-          echo "🔜 New version: ${{ steps.bump.outputs.new_version }}"
-          echo "🧪 Dry run: ${{ github.event.inputs.dry_run }}"
+          echo "::notice title=Version::${{ steps.get_version.outputs.version }} ➡️ ${{ steps.bump.outputs.new_version }}"
+
+          commits=$(head -n 10 commits.txt | tr '\n' '\r')
+          echo "::notice title=Commits since ${{ steps.commit_list.outputs.last_tag }}::${commits}"
+
+      - name: 🧾 Write Markdown summary
+        run: |
+          {
+            echo "## 🔢 Version"
+            echo "**${{ steps.get_version.outputs.version }} ➡️ ${{ steps.bump.outputs.new_version }}**"
+            echo ""
+            echo "## 📝 Commits since ${{ steps.commit_list.outputs.last_tag }}"
+            echo ""
+            head -n 20 commits.txt
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: 🚫 Skip release (dry run)
         if: ${{ github.event.inputs.dry_run == 'true' }}
