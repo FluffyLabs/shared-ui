@@ -73,7 +73,11 @@ jobs:
             echo "## 🔢 Version"
             echo "**${{ steps.get_version.outputs.version }} ➡️ ${{ steps.bump.outputs.new_version }}**"
             echo ""
-            echo "## 📝 Commits since ${{ steps.commit_list.outputs.last_tag }}"
+            if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
+              echo "**🚫 DRY RUN ONLY - No actual release will be created**"
+              echo ""
+            fi
+            echo "## 📝 New commits"
             echo ""
             head -n 20 commits.txt
           } >> "$GITHUB_STEP_SUMMARY"
