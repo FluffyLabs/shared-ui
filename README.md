@@ -48,3 +48,6 @@ export const Header = () => {
   return <FluffyHeader endSlot={<EndSlot />} toolNameSrc={ToolName} />;
 };
 ```
+
+## Release
+some release here
