@@ -58,7 +58,7 @@ jobs:
           last_tag=$(git describe --tags --abbrev=0)
           echo "last_tag=$last_tag" >> "$GITHUB_OUTPUT"
           echo "::group::🔍 Commits since $last_tag"
-          git log "$last_tag"..HEAD --pretty=format:"- %s (%h)" | tee commits.txt
+          git log "$last_tag"..HEAD --pretty=format:"- %s %H" | tee commits.txt
           echo "::endgroup::"
 
       - name: 📢 Show summary in notices
