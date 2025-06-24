@@ -61,12 +61,9 @@ To prevent class duplication when using Tailwind CSS in your project, add the sh
 ```js
 // tailwind.config.js
 module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-    "../node_modules/@fluffylabs/shared-ui/dist/**/*.js"
-  ],
+  content: ["./src/**/*.{js,jsx,ts,tsx}", "../node_modules/@fluffylabs/shared-ui/dist/**/*.js"],
   // ... rest of your config
-}
+};
 ```
 
 ### Example Usage
@@ -103,6 +100,7 @@ Releases are managed through the [Release Workflow](.github/workflows/release.ym
 5. If everything looks good, run again with **Dry run**: `false`
 
 The workflow will:
+
 - Bump the version in package.json
 - Create a git tag
 - Generate a GitHub release with commit history
@@ -111,6 +109,7 @@ The workflow will:
 ### NPM Publishing
 
 Once a release is created, the [Publish Workflow](.github/workflows/publish.yml) automatically:
+
 - Builds the component library
 - Publishes the package to NPM registry
 
