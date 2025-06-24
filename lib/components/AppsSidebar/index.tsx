@@ -65,7 +65,7 @@ export const AppsSidebar = ({
       </div>
 
       {enableDarkModeToggle && (
-        <div className="py-4 border-t flex justify-center">
+        <div className="py-4 border-t flex justify-center border-gray-300 dark:border-gray-600">
           <ToggleDarkModeIcon />
         </div>
       )}
