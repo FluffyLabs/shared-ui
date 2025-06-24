@@ -88,9 +88,9 @@ For more usage examples and component documentation, visit our [Storybook](http:
 
 ### Releasing a New Version
 
-Releases are managed through the [Release Workflow](.github/workflows/release.yml):
+Releases are managed through the [Release Workflow](.github/workflows/shared-ui-release.yml):
 
-1. Go to [Actions → Bump Version and Release](../../actions/workflows/release.yml)
+1. Go to [Actions → Bump Version and Release](../../actions/workflows/shared-ui-release.yml)
 2. Click "Run workflow"
 3. Select:
    - **Branch**: `main` (releases should always be from main)
@@ -108,7 +108,7 @@ The workflow will:
 
 ### NPM Publishing
 
-Once a release is created, the [Publish Workflow](.github/workflows/publish.yml) automatically:
+Once a release is created, the [Publish Workflow](.github/workflows/shared-ui-publish.yml) automatically:
 
 - Builds the component library
 - Publishes the package to NPM registry
