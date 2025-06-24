@@ -1,19 +1,25 @@
 import { Button } from "@/ui/button";
-import { Moon, Sun } from "lucide-react";
-import { useIsDarkMode, useToggleColorMode } from "./utils";
+import { Moon, Sun, SunMoon } from "lucide-react";
+import { useThemeMode, initializeTheme } from "./theme-utils";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/ui/select";
+import { useEffect } from "react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/ui/tooltip";
+
+const ARBITRARY_ALMOST_INSTANT_DELAY_IN_MS = 250; // ms
 
 export const ToggleDarkMode = ({ className }: { className: string }) => {
-  const isDark = useIsDarkMode();
-  const toggleColorMode = useToggleColorMode();
+  const [themeMode, setThemeMode] = useThemeMode();
+
   const onClick = (val: string) => {
-    if ((isDark && val === "light") || (!isDark && val === "dark")) {
-      toggleColorMode();
-    }
+    setThemeMode(val as "light" | "dark" | "auto");
   };
 
+  useEffect(() => {
+    initializeTheme();
+  }, []);
+
   return (
-    <Select onValueChange={onClick} defaultValue={isDark ? "dark" : "light"}>
+    <Select onValueChange={onClick} defaultValue={themeMode}>
       <SelectTrigger
         onClick={(e) => {
           e.currentTarget.blur();
@@ -38,21 +44,76 @@ export const ToggleDarkMode = ({ className }: { className: string }) => {
           e.stopPropagation();
         }}
       >
-        <SelectItem value="light">Light</SelectItem>
-        <SelectItem value="dark">Dark</SelectItem>
+        <SelectItem value="light">
+          <div className="flex items-center gap-2">
+            <Sun className="h-4 w-4" />
+            <span>Light</span>
+          </div>
+        </SelectItem>
+        <SelectItem value="dark">
+          <div className="flex items-center gap-2">
+            <Moon className="h-4 w-4" />
+            <span>Dark</span>
+          </div>
+        </SelectItem>
+        <SelectItem value="auto">
+          <div className="flex items-center gap-2">
+            <SunMoon className="h-4 w-4" />
+            <span>Auto</span>
+          </div>
+        </SelectItem>
       </SelectContent>
     </Select>
   );
 };
 
 export const ToggleDarkModeIcon = () => {
-  const isDark = useIsDarkMode();
-  const toggleColorMode = useToggleColorMode();
-  const onCLick = toggleColorMode;
+  const [themeMode, setThemeMode] = useThemeMode();
+
+  const handleClick = () => {
+    // Cycle through: light -> dark -> auto -> light
+    const nextMode = themeMode === "light" ? "dark" : themeMode === "dark" ? "auto" : "light";
+
+    setThemeMode(nextMode);
+  };
+
+  const getIcon = () => {
+    switch (themeMode) {
+      case "light":
+        return <Sun width="30px" />;
+      case "dark":
+        return <Moon width="30px" />;
+      case "auto":
+        return <SunMoon width="30px" />;
+    }
+  };
+
+  const getTooltip = () => {
+    switch (themeMode) {
+      case "light":
+        return "Light Mode";
+      case "dark":
+        return "Dark Mode";
+      case "auto":
+        return "Auto Dark/Light Mode";
+    }
+  };
+
+  useEffect(() => {
+    initializeTheme();
+  }, []);
 
   return (
-    <Button onClick={onCLick} className="text-title-foreground p-2 border rounded" variant="ghost">
-      {isDark ? <Sun width="30px" /> : <Moon width="30px" />}
-    </Button>
+    <Tooltip delayDuration={ARBITRARY_ALMOST_INSTANT_DELAY_IN_MS}>
+      <TooltipTrigger asChild>
+        <Button onClick={handleClick} className="text-title-foreground p-2 border rounded" variant="ghost">
+          {getIcon()}
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent side="right">{getTooltip()}</TooltipContent>
+    </Tooltip>
   );
 };
+
+export { initializeTheme, useThemeMode } from "./theme-utils";
+export type { ThemeMode } from "./theme-utils";
