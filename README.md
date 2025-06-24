@@ -18,7 +18,7 @@ Shared UI components library for Fluffy Labs applications
 ## Installation
 
 ```bash
-npm install @krystian5011/shared-ui
+npm install @fluffylabs/shared-ui
 ```
 
 ## Development
@@ -42,7 +42,7 @@ npm install @krystian5011/shared-ui
 ### Basic Import
 
 ```tsx
-import { AppsSidebar } from "@krystian5011/shared-ui";
+import { AppsSidebar } from "@fluffylabs/shared-ui";
 ```
 
 ### Importing Styles
@@ -51,7 +51,7 @@ Use the precompiled styles in your app:
 
 ```tsx
 // main.tsx or App.tsx
-import "@krystian5011/shared-ui/style.css";
+import "@fluffylabs/shared-ui/style.css";
 ```
 
 ### Tailwind Configuration
@@ -61,16 +61,19 @@ To prevent class duplication when using Tailwind CSS in your project, add the sh
 ```js
 // tailwind.config.js
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}", "../node_modules/@krystian5011/shared-ui/dist/**/*.js"],
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "../node_modules/@fluffylabs/shared-ui/dist/**/*.js"
+  ],
   // ... rest of your config
-};
+}
 ```
 
 ### Example Usage
 
 ```tsx
-import { AppsSidebar } from "@krystian5011/shared-ui";
-import "@krystian5011/shared-ui/style.css";
+import { AppsSidebar } from "@fluffylabs/shared-ui";
+import "@fluffylabs/shared-ui/style.css";
 
 function App() {
   return (
@@ -100,7 +103,6 @@ Releases are managed through the [Release Workflow](.github/workflows/release.ym
 5. If everything looks good, run again with **Dry run**: `false`
 
 The workflow will:
-
 - Bump the version in package.json
 - Create a git tag
 - Generate a GitHub release with commit history
@@ -109,7 +111,6 @@ The workflow will:
 ### NPM Publishing
 
 Once a release is created, the [Publish Workflow](.github/workflows/publish.yml) automatically:
-
 - Builds the component library
 - Publishes the package to NPM registry
 
