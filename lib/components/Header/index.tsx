@@ -20,7 +20,7 @@ export const Header = ({
   keepNameWhenSmall?: boolean;
 }) => {
   return (
-    <div className="bg-[#242424] w-full flex flex-row items-center justify-between py-[18px] text-xs overflow-hidden border-b border-b-secondary-foreground dark:border-b-brand">
+    <div className="bg-[#242424] w-full flex flex-row items-center justify-between py-[18px] text-xs overflow-hidden border-b border-b-secondary-foreground dark:border-b-brand sm:gap-12">
       <div className="flex items-center gap-5 sm:w-full">
         <a href="/" className="flex items-center pl-4 shrink-0">
           <img src={Logo} alt="FluffyLabs logo" className="h-[40px] max-w-fit" />
