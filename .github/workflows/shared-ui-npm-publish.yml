@@ -1,16 +1,14 @@
 name: Release step 3 - Publish to NPM
 
 on:
-  # Runs on every push to main
   release:
     types: [published]
 
-# Sets permissions of the GITHUB_TOKEN
 permissions:
-  contents: read # Only need to read the repository content
+  contents: read
 
 jobs:
-  check-and-publish:
+  publish-to-npm:
     runs-on: ubuntu-latest
     strategy:
       matrix:

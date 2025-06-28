@@ -25,7 +25,7 @@ jobs:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Needed for commit history and tags
+          fetch-depth: 0
 
       - name: 🧰 Setup Node.js
         uses: actions/setup-node@v4
@@ -109,10 +109,9 @@ jobs:
             echo ""
             echo "---"
             echo ""
-            echo "**Note:** Merging this PR will trigger the publish workflow to create a GitHub release and publish to NPM."
+            echo "**Note:** After merging this PR, run 'Release step 2' workflow to create a GitHub release."
           } > pr_body.txt
 
-          # Set the body as output
           body=$(cat pr_body.txt)
           echo "body<<EOF" >> $GITHUB_OUTPUT
           echo "$body" >> $GITHUB_OUTPUT
