@@ -1,0 +1,124 @@
+name: Release step 2 - create Github Release
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  check-and-publish:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.x]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Need full history to check tags
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Check version and package name
+        id: check_version
+        run: |
+          # Get version from package.json
+          version=$(node -p "require('./package.json').version")
+          package_name=$(node -p "require('./package.json').name")
+
+          echo "current_version=$version" >> "$GITHUB_OUTPUT"
+          echo "package_name=$package_name" >> "$GITHUB_OUTPUT"
+          echo "::notice title=Version::Found version $version for package $package_name"
+
+      - name: 🏷️ Create and push tag
+        id: create_tag
+        run: |
+          version="${{ steps.check_version.outputs.current_version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Create the tag
+          git tag -a "v$version" -m "Release v$version"
+
+          # Push the tag
+          git push origin "v$version"
+
+          echo "tag_name=v$version" >> "$GITHUB_OUTPUT"
+          echo "tag_created=true" >> "$GITHUB_OUTPUT"
+          echo "::notice title=Tag Created::Created and pushed tag v$version"
+
+      - name: Get commit history for release
+        id: get_commits
+        run: |
+          # Get the previous tag
+          current_version="${{ steps.check_version.outputs.current_version }}"
+          current_tag="v$current_version"
+
+          # Get list of all tags sorted by version, excluding the current one
+          previous_tag=$(git tag -l "v*" | grep -v "^$current_tag$" | sort -V | tail -n1 || echo "")
+
+          if [ -z "$previous_tag" ]; then
+            echo "No previous tag found"
+            commits=$(git log --pretty=format:"- %s (%h)" --max-count=20)
+          else
+            echo "Previous tag: $previous_tag"
+            commits=$(git log "$previous_tag"..HEAD --pretty=format:"- %s (%h)")
+          fi
+
+          # Prepare release body
+          {
+            echo "## 📦 Package Published to NPM"
+            echo ""
+            echo "Version \`$current_version\` has been published to [npm](https://www.npmjs.com/package/${{ steps.check_version.outputs.package_name }})."
+            echo ""
+            echo "### 📝 Changes in this release"
+            echo ""
+            echo "$commits"
+            echo ""
+            echo "### 📥 Installation"
+            echo ""
+            echo "\`\`\`bash"
+            echo "npm install ${{ steps.check_version.outputs.package_name }}@$current_version"
+            echo "\`\`\`"
+          } > release_body.txt
+
+          # Set the body as output
+          body=$(cat release_body.txt)
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          echo "$body" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.check_version.outputs.current_version }}
+          name: v${{ steps.check_version.outputs.current_version }}
+          body: ${{ steps.get_commits.outputs.body }}
+          draft: true
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🧹 Cleanup on failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Workflow failed. Cleaning up created tag and release..."
+          tag_name="${{ steps.create_tag.outputs.tag_name }}"
+
+          # Delete the remote tag
+          if git push --delete origin "$tag_name" 2>/dev/null; then
+            echo "✅ Successfully deleted remote tag: $tag_name"
+          else
+            echo "⚠️ Failed to delete remote tag: $tag_name (it may not exist)"
+          fi

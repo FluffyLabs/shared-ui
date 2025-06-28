@@ -1,0 +1,60 @@
+name: Release step 3 - Publish to NPM
+
+on:
+  # Runs on every push to main
+  release:
+    types: [published]
+
+# Sets permissions of the GITHUB_TOKEN
+permissions:
+  contents: read # Only need to read the repository content
+
+jobs:
+  check-and-publish:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.x]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
+      - name: Verify release tag
+        run: |
+          echo "Release tag: ${{ github.event.release.tag_name }}"
+          echo "Current ref: $(git describe --tags --exact-match)"
+
+          # Verify we're on the exact tag
+          if [[ "$(git describe --tags --exact-match)" != "${{ github.event.release.tag_name }}" ]]; then
+            echo "ERROR: Not on the expected tag!"
+            exit 1
+          fi
+
+          # Verify package.json version matches tag
+          package_version="v$(node -p "require('./package.json').version")"
+          if [[ "$package_version" != "${{ github.event.release.tag_name }}" ]]; then
+            echo "ERROR: Package version ($package_version) doesn't match tag (${{ github.event.release.tag_name }})!"
+            exit 1
+          fi
+
+          echo "✅ Verified: Building from tag ${{ github.event.release.tag_name }}"
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Shared UI
+        run: npm run build:lib
+
+      - name: Publish package to NPM
+        id: npm_publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public
