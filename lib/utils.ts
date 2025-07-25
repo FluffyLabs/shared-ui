@@ -12,7 +12,7 @@ export function cn(...inputs: ClassValue[]) {
 export function redirectToBeta(betaHost: string) {
   try {
     const shouldRedirectLocal = localStorage.getItem("BETA_REDIRECT");
-    if (shouldRedirectLocal === undefined) {
+    if (shouldRedirectLocal === null) {
       return;
     }
     const url = new URL(window.location.href);
