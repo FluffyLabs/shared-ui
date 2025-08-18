@@ -1,7 +1,7 @@
+import { ChevronDown, EllipsisVertical, ExternalLink } from "lucide-react";
 import { useIsSmallBreakpoint } from "@/hooks";
 import { Button } from "@/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/ui/dropdown-menu";
-import { ChevronDown, EllipsisVertical, ExternalLink } from "lucide-react";
 
 export const GithubDropdownMenu = ({ ghRepoName }: { ghRepoName: string }) => {
   const isSmall = useIsSmallBreakpoint();
@@ -12,7 +12,11 @@ export const GithubDropdownMenu = ({ ghRepoName }: { ghRepoName: string }) => {
         <DropdownMenuTrigger asChild>
           <Button
             variant="outlineBrand"
-            className="max-sm:hidden text-brand bg-transparent border-brand focus:bg-[#2D2D2D] hover:bg-[#2D2D2D] hover:text-brand focus-visible:shadow-none mr-4 px-3 h-[32px]"
+            className={`
+              dark
+              max-sm:hidden text-brand bg-transparent border-brand focus:bg-[--var(--card)] hover:bg-[--var(--card)] hover:text-brand focus-visible:shadow-none mr-4 px-3 h-[32px]
+              focus-visible:ring-[var(--brand)] focus-visible:ring-offset-[var(--card)]
+              `}
           >
             Github&nbsp;
             <ChevronDown height={20} />
@@ -24,7 +28,11 @@ export const GithubDropdownMenu = ({ ghRepoName }: { ghRepoName: string }) => {
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
-            className="sm:hidden text-brand bg-transparent border-brand focus:bg-[#2D2D2D] hover:bg-[#2D2D2D] hover:text-brand focus-visible:shadow-none mr-4 px-3 h-[32px] sm-hidden"
+            className={`
+              dark
+              sm:hidden text-brand bg-transparent border-brand focus:bg-[--var(--card)] hover:bg-[--var(--card)] hover:text-brand focus-visible:shadow-none mr-4 px-3 h-[32px]
+              focus-visible:ring-[var(--brand)] focus-visible:ring-offset-[var(--card)]
+              `}
           >
             <EllipsisVertical />
           </Button>
