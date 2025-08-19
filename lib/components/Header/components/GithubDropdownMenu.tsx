@@ -1,6 +1,6 @@
 import { ChevronDown, EllipsisVertical, ExternalLink } from "lucide-react";
 import { useIsSmallBreakpoint } from "@/hooks";
-import { Button } from "@/ui/button";
+import { Button } from "@/ui/Button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/ui/dropdown-menu";
 
 export const GithubDropdownMenu = ({ ghRepoName }: { ghRepoName: string }) => {
@@ -10,14 +10,7 @@ export const GithubDropdownMenu = ({ ghRepoName }: { ghRepoName: string }) => {
     <DropdownMenu>
       {!isSmall && (
         <DropdownMenuTrigger asChild>
-          <Button
-            variant="outlineBrand"
-            className={`
-              dark
-              max-sm:hidden text-brand bg-transparent border-brand focus:bg-[--var(--card)] hover:bg-[--var(--card)] hover:text-brand focus-visible:shadow-none mr-4 px-3 h-[32px]
-              focus-visible:ring-[var(--brand)] focus-visible:ring-offset-[var(--card)]
-              `}
-          >
+          <Button variant="outlineBrand" forcedColorScheme="dark" className={"mr-4 px-3 h-[32px]"}>
             Github&nbsp;
             <ChevronDown height={20} />
           </Button>
@@ -26,14 +19,7 @@ export const GithubDropdownMenu = ({ ghRepoName }: { ghRepoName: string }) => {
 
       {isSmall && (
         <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            className={`
-              dark
-              sm:hidden text-brand bg-transparent border-brand focus:bg-[--var(--card)] hover:bg-[--var(--card)] hover:text-brand focus-visible:shadow-none mr-4 px-3 h-[32px]
-              focus-visible:ring-[var(--brand)] focus-visible:ring-offset-[var(--card)]
-              `}
-          >
+          <Button variant="ghost" forcedColorScheme="dark" className={"text-brand mr-4 px-3 h-[32px]"}>
             <EllipsisVertical />
           </Button>
         </DropdownMenuTrigger>

@@ -1,9 +1,9 @@
-import { Button } from "@/ui/button";
 import { Moon, Sun, SunMoon } from "lucide-react";
-import { useThemeMode, initializeTheme } from "./theme-utils";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/ui/select";
 import { useEffect } from "react";
+import { Button } from "@/ui/Button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/select";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/ui/tooltip";
+import { initializeTheme, useThemeMode } from "./theme-utils";
 
 const ARBITRARY_ALMOST_INSTANT_DELAY_IN_MS = 250; // ms
 
@@ -115,5 +115,5 @@ export const ToggleDarkModeIcon = () => {
   );
 };
 
-export { initializeTheme, useThemeMode } from "./theme-utils";
 export type { ThemeMode } from "./theme-utils";
+export { initializeTheme, useThemeMode } from "./theme-utils";
