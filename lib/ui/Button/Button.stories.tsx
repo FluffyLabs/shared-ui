@@ -47,7 +47,6 @@ const ThemeSwitcherDecorator = (Story: React.FC) => (
   </div>
 );
 
-// All variants showcase
 export const AllVariants: Story = {
   decorators: [ThemeSwitcherDecorator],
   render: () => (
@@ -122,7 +121,6 @@ export const AllVariants: Story = {
   ),
 };
 
-// Individual variant stories
 export const Default: Story = {
   args: {
     children: "Button",
@@ -179,7 +177,6 @@ export const Link: Story = {
   decorators: [ThemeSwitcherDecorator],
 };
 
-// Size variations
 export const Small: Story = {
   args: {
     children: "Small Button",
@@ -204,7 +201,6 @@ export const Icon: Story = {
   decorators: [ThemeSwitcherDecorator],
 };
 
-// Forced color scheme variations
 export const OutlineWithForcedDark: Story = {
   args: {
     children: "Forced Dark Mode",
@@ -237,7 +233,6 @@ export const OutlineBrandWithForcedDark: Story = {
   ],
 };
 
-// Disabled state
 export const Disabled: Story = {
   args: {
     children: "Disabled",

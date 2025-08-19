@@ -1,7 +1,7 @@
 import { ChevronDown, EllipsisVertical, ExternalLink } from "lucide-react";
 import { useIsSmallBreakpoint } from "@/hooks";
 import { Button } from "@/ui/Button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/ui/DropdownMenu";
 
 export const GithubDropdownMenu = ({ ghRepoName }: { ghRepoName: string }) => {
   const isSmall = useIsSmallBreakpoint();
