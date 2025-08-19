@@ -112,6 +112,9 @@ export const AllVariants: Story = {
             <Button variant="outlineBrand" forcedColorScheme="dark">
               Outline Brand Dark
             </Button>
+            <Button variant="ghost" forcedColorScheme="dark">
+              asdasd
+            </Button>
           </div>
         </div>
       </div>

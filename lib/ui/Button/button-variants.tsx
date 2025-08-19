@@ -13,7 +13,8 @@ export const buttonVariants = cva(
           "border border-input border-brand-dark dark:border-brand dark:text-brand hover:bg-brand-dark hover:text-brand",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-black hover:text-background dark:hover:bg-brand dark:hover:text-background",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
+        ghost:
+          "hover:bg-accent hover:text-accent-foreground dark:text-brand dark:hover:text-brand dark:hover:bg-[var(--brand-dark)] dark:hover:focus:bg-[var(--brand-dark)]",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
@@ -44,7 +45,7 @@ export const buttonVariants = cva(
         forcedColorScheme: "dark",
         variant: "ghost",
         class:
-          "bg-transparent focus:bg-[var(--card)] hover:bg-[var(--title)] hover:text-brand focus-visible:shadow-none focus-visible:ring-[var(--brand)] focus-visible:ring-offset-[var(--card)]",
+          "bg-transparent focus:bg-[var(--card)] hover:bg-[var(--title)] focus-visible:shadow-none focus-visible:ring-[var(--brand)] focus-visible:ring-offset-[var(--card)]",
       },
     ],
     defaultVariants: {
