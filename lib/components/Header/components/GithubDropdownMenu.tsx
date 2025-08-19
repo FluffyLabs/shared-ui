@@ -12,7 +12,7 @@ export const GithubDropdownMenu = ({ ghRepoName }: { ghRepoName: string }) => {
         <DropdownMenuTrigger asChild>
           <Button variant="outlineBrand" forcedColorScheme="dark" className={"mr-4 px-3 h-[32px]"}>
             Github&nbsp;
-            <ChevronDown height={20} />
+            <ChevronDown className="ml-2 h-5 w-4" />
           </Button>
         </DropdownMenuTrigger>
       )}
