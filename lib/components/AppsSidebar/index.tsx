@@ -14,7 +14,7 @@ export const AppsSidebar = ({
   className,
   enableDarkModeToggle = true,
 }: {
-  activeLink: "debugger" | "reader" | "trie" | "codec" | "website" | "search";
+  activeLink: "debugger" | "reader" | "state" | "codec" | "website" | "search";
   className?: string;
   enableDarkModeToggle?: boolean;
 }) => {
@@ -40,10 +40,10 @@ export const AppsSidebar = ({
           active={activeLink === "debugger"}
         />
         <SidebarLink
-          name="Trie Visualiser"
-          href="https://trie.fluffylabs.dev"
+          name="State Viewer"
+          href="https://state.fluffylabs.dev"
           icon={<Computers />}
-          active={activeLink === "trie"}
+          active={activeLink === "state"}
         />
         {/*<SidebarLink
           name="??"
