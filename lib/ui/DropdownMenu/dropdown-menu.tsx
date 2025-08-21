@@ -95,11 +95,18 @@ function DropdownMenuCheckboxItem({
   checked,
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.CheckboxItem>) {
+  const { forcedColorScheme } = useDropdownMenuContext();
+
   return (
     <DropdownMenuPrimitive.CheckboxItem
       data-slot="dropdown-menu-checkbox-item"
       className={cn(
-        "focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm",
+        "outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "data-[highlighted]:bg-[var(--accent)] data-highlighted:text-[var(--accent-foreground)]",
+        "data-[state=checked]:text-[var(--brand-dark)] focus:data-[state=checked]:text-[var(--brand-dark)]",
+        "dark:data-[state=checked]:text-[var(--brand-light)] dark:focus:data-[state=checked]:text-[var(--brand-light)]",
+        forcedColorScheme === "dark" && "hover:dark:bg-[var(--accent)] hover:dark:text-[var(--accent-foreground)] ",
         className,
       )}
       checked={checked}
@@ -124,22 +131,23 @@ function DropdownMenuRadioItem({
   children,
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.RadioItem>) {
-  const { forcedColorScheme } = useDropdownMenuContext();
   return (
     <DropdownMenuPrimitive.RadioItem
       data-slot="dropdown-menu-radio-item"
       className={cn(
+        "group",
         "focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-sm py-1.5 my-0.5 pr-2 pl-8 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        "data-[state=checked]:bg-[var(--brand)] data-[state=checked]:text-[var(--card)] data-[state=checked]:hover:opacity-100 data-[state=checked]:focus:opacity-100",
-        "data-[highlighted]:bg-[var(--title-foreground)] data-highlighted:text-[var(--card)]",
-        forcedColorScheme === "dark" && `transition-none text-[var(--title-foreground)] rounded-sm`,
+        "data-[state=checked]:text-[var(--brand-dark)] focus:data-[state=checked]:text-[var(--brand-dark)]",
+        "dark:data-[highlighted]:bg-[var(--accent)] dark:data-highlighted:text-[var(--accent-foreground)]",
+        "dark:data-[state=checked]:text-[var(--brand-light)] dark:data-highlighted:data-[state=checked]:text-[var(--brand-light)]",
+        "data-[highlighted]:bg-[var(--accent)] data-highlighted:text-[var(--accent-foreground)]",
         className,
       )}
       {...props}
     >
       <span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
         <DropdownMenuPrimitive.ItemIndicator>
-          <CircleIcon className="size-2 fill-current" />
+          <CircleIcon className="size-2 fill-current dark:text-[var(--brand-light)] text-[var(--brand-dark)]" />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
       {children}

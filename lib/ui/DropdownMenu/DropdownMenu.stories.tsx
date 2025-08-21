@@ -126,7 +126,7 @@ export const RadioGroup: Story = {
   },
 };
 
-export const RadioGroupWithForcedDarkDome: Story = {
+export const RadioGroupWithForcedDarkTheme: Story = {
   decorators: [WrapWithDarkCard, ThemeSwitcherDecorator],
   render: () => {
     const [position, setPosition] = React.useState("top");
@@ -148,6 +148,68 @@ export const RadioGroupWithForcedDarkDome: Story = {
             <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="left">Left</DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
+  },
+};
+
+export const CheckboxItems: Story = {
+  decorators: [ThemeSwitcherDecorator],
+  render: () => {
+    const [showStatusBar, setShowStatusBar] = React.useState(true);
+    const [showActivityBar, setShowActivityBar] = React.useState(false);
+    const [showPanel, setShowPanel] = React.useState(false);
+
+    return (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline">View Options</Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56">
+          <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuCheckboxItem checked={showStatusBar} onCheckedChange={setShowStatusBar}>
+            Status Bar
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem checked={showActivityBar} onCheckedChange={setShowActivityBar} disabled>
+            Activity Bar
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem checked={showPanel} onCheckedChange={setShowPanel}>
+            Panel
+          </DropdownMenuCheckboxItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
+  },
+};
+
+export const CheckboxItemsWithForcedDarkTheme: Story = {
+  decorators: [WrapWithDarkCard, ThemeSwitcherDecorator],
+  render: () => {
+    const [showStatusBar, setShowStatusBar] = React.useState(true);
+    const [showActivityBar, setShowActivityBar] = React.useState(false);
+    const [showPanel, setShowPanel] = React.useState(false);
+
+    return (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" forcedColorScheme="dark">
+            View Options
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56" forcedColorScheme="dark">
+          <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuCheckboxItem checked={showStatusBar} onCheckedChange={setShowStatusBar}>
+            Status Bar
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem checked={showActivityBar} onCheckedChange={setShowActivityBar} disabled>
+            Activity Bar
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem checked={showPanel} onCheckedChange={setShowPanel}>
+            Panel
+          </DropdownMenuCheckboxItem>
         </DropdownMenuContent>
       </DropdownMenu>
     );
@@ -205,36 +267,6 @@ export const ColorSelection: Story = {
               </div>
             </DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    );
-  },
-};
-
-export const CheckboxItems: Story = {
-  decorators: [ThemeSwitcherDecorator],
-  render: () => {
-    const [showStatusBar, setShowStatusBar] = React.useState(true);
-    const [showActivityBar, setShowActivityBar] = React.useState(false);
-    const [showPanel, setShowPanel] = React.useState(false);
-
-    return (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline">View Options</Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56">
-          <DropdownMenuLabel>Appearance</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuCheckboxItem checked={showStatusBar} onCheckedChange={setShowStatusBar}>
-            Status Bar
-          </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem checked={showActivityBar} onCheckedChange={setShowActivityBar} disabled>
-            Activity Bar
-          </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem checked={showPanel} onCheckedChange={setShowPanel}>
-            Panel
-          </DropdownMenuCheckboxItem>
         </DropdownMenuContent>
       </DropdownMenu>
     );

@@ -26,7 +26,7 @@
   /*  */
   --muted: hsl(220 20% 97%);
   --muted-foreground: hsl(0 0% 72%);
-  --accent: var(--background);
+  --accent: hsl(0 0% 97%);
   --accent-foreground: var(--foreground);
   /* Defaults */
   --destructive: hsl(0 84.2% 60.2%);
