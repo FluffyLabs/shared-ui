@@ -9,6 +9,9 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/ui/tooltip";
 import type { ReactNode } from "react";
 import { Search } from "./icons/Search";
 
+
+const darkBorderClass = "dark:border-[#3D3D3D]";
+const lightBorderClass = "border-[#D4D4D4]";
 export const AppsSidebar = ({
   activeLink,
   className,
@@ -65,7 +68,7 @@ export const AppsSidebar = ({
       </div>
 
       {enableDarkModeToggle && (
-        <div className="py-4 border-t flex justify-center border-gray-300 dark:border-gray-600">
+        <div className={`py-4 border-t flex justify-center ${darkBorderClass} ${lightBorderClass}`}>
           <ToggleDarkModeIcon />
         </div>
       )}
@@ -94,8 +97,8 @@ function SidebarLink({ name, href, icon, active = false }: SidebarLinkProps) {
           {
             "text-[#639894] bg-[#F2FFFE] border-[#BBDAD8]": active,
             "dark:text-[#61EDE2] dark:bg-[#0E3532] dark:border-[#61EDE2]": active,
-            "text-[#BBBBBB] bg-[#F5F5F5] border-[#D4D4D4]": !active,
-            "dark:text-[#525252] dark:bg-[#242424] dark:border-[#3D3D3D]": !active,
+            [`text-[#BBBBBB] bg-[#F5F5F5] ${lightBorderClass}`]: !active,
+            [`dark:text-[#525252] dark:bg-[#242424] ${darkBorderClass}`]: !active,
           },
         )}
       >
