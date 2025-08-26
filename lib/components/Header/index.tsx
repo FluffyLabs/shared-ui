@@ -50,6 +50,8 @@ export const Header = ({
 const Environment = () => {
   const badgeName = getRightBadgeName();
 
+  if (!badgeName) return null;
+
   return (
     <Badge className="px-2 py-[0.5px] sm:py-1 bg-brand text-[10px] max-sm:text-[7px] text-black whitespace-nowrap hover:bg-brand">
       {badgeName}
