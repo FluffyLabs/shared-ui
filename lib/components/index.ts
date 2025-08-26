@@ -3,5 +3,6 @@ import { isDarkMode, setColorMode, useIsDarkMode, useToggleColorMode } from "./D
 export * from "./Header";
 export * from "./DarkMode";
 export * from "./AppsSidebar";
+export * from "./Content";
 
 export { isDarkMode, useIsDarkMode, useToggleColorMode, setColorMode };
