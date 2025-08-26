@@ -5,6 +5,7 @@ import { AppsSidebar } from "./AppsSidebar";
 import Toolname from "@/assets/tool-name.svg";
 import { useEffect } from "react";
 import { initializeTheme, useThemeMode } from "./DarkMode";
+import { Content } from "./Content";
 
 const meta = {
   title: "Layout/DemoLayout",
@@ -18,22 +19,6 @@ const meta = {
 export default meta;
 
 type Story = StoryObj<typeof DemoLayout>;
-
-// export const DefaultDemoLayout: Story = {};
-
-export const DefaultDemoLayout: Story = {
-  render: () => {
-    return (
-      <div>
-        <Header endSlot={<div className="text-gray-100 mr-2">End slot content</div>} toolNameSrc={Toolname} />
-        <div className="flex h-full w-full items-center justify-center">
-          <AppsSidebar activeLink="debugger" />
-          <div className="w-full h-full"></div>
-        </div>
-      </div>
-    );
-  },
-};
 
 export const LayoutWithoutThemeModeSwitcher: Story = {
   parameters: {
@@ -51,10 +36,10 @@ export const LayoutWithoutThemeModeSwitcher: Story = {
 
     return (
       <div>
-        <Header endSlot={<div className="text-gray-100 mr-2">End slot content</div>} toolNameSrc={Toolname} />
-        <div className="flex h-full w-full items-center justify-center">
+        <Header endSlot={<div className="text-gray-100 mr-2">xxxEnd slot content</div>} toolNameSrc={Toolname} />
+        <div className="flex h-full w-full items-stretch justify-center">
           <AppsSidebar activeLink="debugger" enableDarkModeToggle={false} />
-          <div className="w-full h-full"></div>
+          <Content />
         </div>
       </div>
     );
@@ -104,9 +89,9 @@ export const LayoutWithoutThemeModeSwitcher2: Story = {
     return (
       <div>
         <Header endSlot={<div className="text-gray-100 mr-2">End slot content</div>} toolNameSrc={Toolname} />
-        <div className="flex h-full w-full items-center justify-center">
+        <div className="flex h-full w-full items-stretch justify-center">
           <AppsSidebar activeLink="debugger" enableDarkModeToggle={false} />
-          <div className="w-full h-full"></div>
+          <Content />
         </div>
       </div>
     );
@@ -125,9 +110,9 @@ export const LayoutWithDarkModeSwitcher: Story = {
     return (
       <div>
         <Header endSlot={<div className="text-gray-100 mr-2">End slot content</div>} toolNameSrc={Toolname} />
-        <div className="flex h-full w-full items-center justify-center">
+        <div className="flex h-full w-full items-stretch justify-center">
           <AppsSidebar activeLink="debugger" />
-          <div className="w-full h-full"></div>
+          <Content />
         </div>
       </div>
     );
