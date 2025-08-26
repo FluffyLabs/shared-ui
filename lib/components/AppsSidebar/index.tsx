@@ -21,7 +21,12 @@ export const AppsSidebar = ({
   enableDarkModeToggle?: boolean;
 }) => {
   return (
-    <div className={cn("flex flex-col gap-5 bg-sidebar max-sm:hidden border-r-1 border-r-[#D4D4D4] dark:border-r-1 dark:border-r-[#181818]", className)}>
+    <div
+      className={cn(
+        "flex flex-col gap-5 bg-sidebar max-sm:hidden border-r-1 border-r-[#D4D4D4] dark:border-r-1 dark:border-r-[#181818]",
+        className,
+      )}
+    >
       <div className="grow flex flex-col items-center justify-center px-3">
         <SidebarLink
           name="JAM Search"
