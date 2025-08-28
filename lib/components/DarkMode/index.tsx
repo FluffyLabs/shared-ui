@@ -108,7 +108,7 @@ export const ToggleDarkModeIcon = () => {
       <TooltipTrigger asChild>
         <Button
           onClick={handleClick}
-          className="text-sidebar-foreground-muted dark:text-sidebar-foreground-muted p-1.5 h-11 border rounded-full"
+          className="dark:text-sidebar-foreground-muted text-sidebar-foreground-muted  p-1.5 h-11 border rounded-full"
           variant="outline"
         >
           {getIcon()}
