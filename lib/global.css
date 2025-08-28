@@ -47,7 +47,8 @@
 
   --sidebar: var(--secondary);
   --sidebar-darker: hsl(0 0% 95%);
-  --sidebar-foreground: hsl(0 0% 73%);
+  --sidebar-foreground: var(--color-gray-600);
+  --sidebar-foreground-muted: hsl(0 0% 68%);
 
   --toastify-toast-width: 350px;
 
@@ -81,7 +82,8 @@
 
   --sidebar: hsl(0 0% 14%);
   --sidebar-darker: hsl(0 0% 12%);
-  --sidebar-foreground: hsl(0 0% 32%);
+  --sidebar-foreground: var(--color-gray-300);
+  --sidebar-foreground-muted: hsl(0 0% 36%);
 }
 
 @theme {
@@ -123,6 +125,7 @@
   --color-sidebar: var(--sidebar);
   --color-sidebar-darker: var(--sidebar-darker);
   --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-foreground-muted: var(--sidebar-foreground-muted);
 }
 
 body {
