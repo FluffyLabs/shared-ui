@@ -103,7 +103,9 @@ export const BasicWithMenuItemWithForcedDarkTheme: Story = {
   render: () => (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" forcedColorScheme="dark">Open Menu</Button>
+        <Button variant="outline" forcedColorScheme="dark">
+          Open Menu
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" forcedColorScheme="dark">
         <DropdownMenuItem>
