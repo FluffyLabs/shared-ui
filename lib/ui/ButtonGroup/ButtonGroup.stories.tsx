@@ -114,21 +114,39 @@ export const Default: Story = {
         <h3 className="text-lg font-semibold mb-4 text-foreground">Mixed Sizes</h3>
         <div className="flex flex-col gap-4">
           <ButtonGroup>
-            <Button variant="outline" size="sm">Small</Button>
-            <Button variant="outline" size="sm">Small</Button>
-            <Button variant="outline" size="sm">Small</Button>
+            <Button variant="outline" size="sm">
+              Small
+            </Button>
+            <Button variant="outline" size="sm">
+              Small
+            </Button>
+            <Button variant="outline" size="sm">
+              Small
+            </Button>
           </ButtonGroup>
 
           <ButtonGroup>
-            <Button variant="outline" size="default">Default</Button>
-            <Button variant="outline" size="default">Default</Button>
-            <Button variant="outline" size="default">Default</Button>
+            <Button variant="outline" size="default">
+              Default
+            </Button>
+            <Button variant="outline" size="default">
+              Default
+            </Button>
+            <Button variant="outline" size="default">
+              Default
+            </Button>
           </ButtonGroup>
 
           <ButtonGroup>
-            <Button variant="outline" size="lg">Large</Button>
-            <Button variant="outline" size="lg">Large</Button>
-            <Button variant="outline" size="lg">Large</Button>
+            <Button variant="outline" size="lg">
+              Large
+            </Button>
+            <Button variant="outline" size="lg">
+              Large
+            </Button>
+            <Button variant="outline" size="lg">
+              Large
+            </Button>
           </ButtonGroup>
         </div>
       </div>
@@ -189,14 +207,20 @@ export const DisabledStates: Story = {
   render: () => (
     <div className="flex flex-col gap-4">
       <ButtonGroup>
-        <Button variant="outline" disabled>Disabled</Button>
+        <Button variant="outline" disabled>
+          Disabled
+        </Button>
         <Button variant="outline">Enabled</Button>
-        <Button variant="outline" disabled>Disabled</Button>
+        <Button variant="outline" disabled>
+          Disabled
+        </Button>
       </ButtonGroup>
 
       <ButtonGroup>
         <Button variant="outline">Enabled</Button>
-        <Button variant="outline" disabled>Disabled</Button>
+        <Button variant="outline" disabled>
+          Disabled
+        </Button>
         <Button variant="outline">Enabled</Button>
       </ButtonGroup>
     </div>

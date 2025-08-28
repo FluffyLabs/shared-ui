@@ -16,16 +16,16 @@ export const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
       <div
         ref={ref}
         className={cn(
-          styles['buttonGroup'],
-          orientation === "horizontal" ? styles['horizontal'] : styles['vertical'],
-          className
+          styles["buttonGroup"],
+          orientation === "horizontal" ? styles["horizontal"] : styles["vertical"],
+          className,
         )}
         {...props}
       >
         {children}
       </div>
     );
-  }
+  },
 );
 
 ButtonGroup.displayName = "ButtonGroup";
