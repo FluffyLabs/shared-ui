@@ -8,9 +8,9 @@ export const buttonVariants = cva(
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground text-title-foreground dark:text-title-foreground dark:bg-transparent dark:hover:bg-[var(--title)]",
+          "border border-input bg-sidebar-darker hover:bg-brand-very-light/85 hover:text-brand-very-dark/85 hover:border-brand-dark/25 text-title-foreground dark:text-title-foreground dark:bg-transparent dark:hover:bg-brand-darkest dark:hover:text-brand dark:hover:border-brand",
         outlineBrand:
-          "border border-input border-brand-dark dark:border-brand dark:text-brand hover:bg-brand-dark hover:text-brand",
+          "border border-input border-brand-dark dark:border-brand dark:text-brand hover:bg-brand-darkest hover:text-brand",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-black hover:text-background dark:hover:bg-brand dark:hover:text-background",
         ghost:
@@ -33,13 +33,13 @@ export const buttonVariants = cva(
         forcedColorScheme: "dark",
         variant: "outline",
         class:
-          "bg-transparent border-[var(--border)] text-[var(--title-foreground)] hover:bg-[var(--title)] hover:text-[var(--accent-foreground)] focus-visible:ring-[var(--brand)] focus-visible:ring-offset-[var(--card)]",
+          "bg-transparent border-[var(--border)] dark:text-[var(--title-foreground)] hover:bg-[var(--title)] hover:text-[var(--accent-foreground)] focus-visible:ring-[var(--brand)] focus-visible:ring-offset-[var(--card)]",
       },
       {
         forcedColorScheme: "dark",
         variant: "outlineBrand",
         class:
-          "text-brand bg-transparent focus:bg-[var(--card)] hover:bg-[var(--brand-dark)] hover:focus:bg-[var(--brand-dark)] hover:text-brand focus-visible:ring-[var(--brand)] focus-visible:ring-offset-[var(--card)]",
+          "text-brand bg-transparent focus:bg-[var(--card)] hover:focus:bg-brand-darkest hover:text-brand focus-visible:ring-[var(--brand)] focus-visible:ring-offset-[var(--card)]",
       },
       {
         forcedColorScheme: "dark",
