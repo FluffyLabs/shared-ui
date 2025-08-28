@@ -68,7 +68,7 @@ const WrapWithDarkCard = (Story: React.FC) => (
   </div>
 );
 
-export const Basic: Story = {
+export const BasicWithMenuItem: Story = {
   decorators: [ThemeSwitcherDecorator],
   render: () => (
     <DropdownMenu>
@@ -76,6 +76,38 @@ export const Basic: Story = {
         <Button variant="outline">Open Menu</Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
+        <DropdownMenuItem>
+          <UserIcon className="mr-2 h-4 w-4" />
+          <span>Profile</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <CreditCardIcon className="mr-2 h-4 w-4" />
+          <span>Billing</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <SettingsIcon className="mr-2 h-4 w-4" />
+          <span>Settings</span>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          <LogOutIcon className="mr-2 h-4 w-4" />
+          <span>Log out</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  ),
+};
+
+export const BasicWithMenuItemWithForcedDarkTheme: Story = {
+  decorators: [WrapWithDarkCard, ThemeSwitcherDecorator],
+  render: () => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" forcedColorScheme="dark">
+          Open Menu
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56" forcedColorScheme="dark">
         <DropdownMenuItem>
           <UserIcon className="mr-2 h-4 w-4" />
           <span>Profile</span>
