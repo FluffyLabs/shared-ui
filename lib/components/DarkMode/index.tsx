@@ -106,7 +106,11 @@ export const ToggleDarkModeIcon = () => {
   return (
     <Tooltip delayDuration={ARBITRARY_ALMOST_INSTANT_DELAY_IN_MS}>
       <TooltipTrigger asChild>
-        <Button onClick={handleClick} className="text-title-foreground p-2 border rounded" variant="ghost">
+        <Button
+          onClick={handleClick}
+          className="dark:text-sidebar-foreground p-1.5 h-11 border rounded-full"
+          variant="outline"
+        >
           {getIcon()}
         </Button>
       </TooltipTrigger>
