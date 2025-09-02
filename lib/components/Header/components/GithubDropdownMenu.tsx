@@ -2,15 +2,16 @@ import { ChevronDown, EllipsisVertical, ExternalLink } from "lucide-react";
 import { useIsSmallBreakpoint } from "@/hooks";
 import { Button } from "@/ui/Button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/ui/DropdownMenu";
+import { cn } from "@/utils";
 
-export const GithubDropdownMenu = ({ ghRepoName }: { ghRepoName: string }) => {
+export const GithubDropdownMenu = ({ ghRepoName, className }: { ghRepoName: string; className?: string }) => {
   const isSmall = useIsSmallBreakpoint();
 
   return (
     <DropdownMenu>
       {!isSmall && (
         <DropdownMenuTrigger asChild>
-          <Button variant="outlineBrand" forcedColorScheme="dark" className={"mr-4 px-3 h-[32px]"}>
+          <Button variant="outlineBrand" forcedColorScheme="dark" className={cn("mr-4 px-3 h-[32px]", className)}>
             Github&nbsp;
             <ChevronDown className="ml-2 h-5 w-4" />
           </Button>
@@ -19,7 +20,7 @@ export const GithubDropdownMenu = ({ ghRepoName }: { ghRepoName: string }) => {
 
       {isSmall && (
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" forcedColorScheme="dark" className={"text-brand mr-4 px-3 h-[32px]"}>
+          <Button variant="ghost" forcedColorScheme="dark" className={cn("text-brand mr-4 px-3 h-[32px]", className)}>
             <EllipsisVertical />
           </Button>
         </DropdownMenuTrigger>

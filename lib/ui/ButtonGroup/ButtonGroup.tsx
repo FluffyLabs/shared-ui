@@ -16,6 +16,7 @@ export const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
       <div
         ref={ref}
         className={cn(
+          "inline-flex",
           styles["buttonGroup"],
           orientation === "horizontal" ? styles["horizontal"] : styles["vertical"],
           className,
