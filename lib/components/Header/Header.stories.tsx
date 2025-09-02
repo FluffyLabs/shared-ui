@@ -45,13 +45,16 @@ export const MinimalHeader: Story = {
 export const HeaderWithCustomEndSlot: Story = {
   args: {
     endSlot: (
-      <div className="flex items-center gap-2">
-        <button type="button" className="px-3 py-1 bg-blue-500 text-white rounded text-sm">
-          Sign In
-        </button>
-        <span className="text-gray-400">|</span>
-        <span className="text-gray-200">v1.0.0</span>
-      </div>
+      <>
+        <div className="flex items-center gap-2">
+          <button type="button" className="px-3 py-1 bg-blue-500 text-white rounded text-sm">
+            Sign In
+          </button>
+          <span className="text-gray-400">|</span>
+          <span className="text-gray-200">v1.0.0</span>
+        </div>
+        <Header.GithubDropdownMenu />
+      </>
     ),
     ghRepoName: "my-awesome-project",
     toolNameSrc: Toolname,
@@ -72,13 +75,16 @@ export const HeaderWithCustomEndSlot: Story = {
 export const HeaderWithCustomEndSlotAndKeepNameWhenSmall: Story = {
   args: {
     endSlot: (
-      <div className="flex items-center gap-2">
-        <button type="button" className="px-3 py-1 bg-blue-500 text-white rounded text-sm">
-          Sign In
-        </button>
-        <span className="text-gray-400">|</span>
-        <span className="text-gray-200">v1.0.0</span>
-      </div>
+      <>
+        <div className="flex items-center gap-2">
+          <button type="button" className="px-3 py-1 bg-blue-500 text-white rounded text-sm">
+            Sign In
+          </button>
+          <span className="text-gray-400">|</span>
+          <span className="text-gray-200">v1.0.0</span>
+        </div>
+        <Header.GithubDropdownMenu />
+      </>
     ),
     ghRepoName: "my-awesome-project",
     toolNameSrc: Toolname,

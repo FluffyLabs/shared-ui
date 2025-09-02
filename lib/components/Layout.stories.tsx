@@ -1,11 +1,22 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { DemoLayout } from "./DemoLayout";
 import { Header } from "./Header";
 import { AppsSidebar } from "./AppsSidebar";
 import Toolname from "@/assets/tool-name.svg";
 import { useEffect } from "react";
 import { initializeTheme, useThemeMode } from "./DarkMode";
 import { Content } from "./Content";
+
+const DemoLayout = () => {
+  return (
+    <div>
+      <Header endSlot={<div className="text-gray-100 mr-2">End slot content</div>} toolNameSrc={Toolname} />
+      <div className="flex h-full w-full items-stretch justify-center">
+        <AppsSidebar activeLink="debugger" />
+        <Content />
+      </div>
+    </div>
+  );
+};
 
 const meta = {
   title: "Layout/DemoLayout",
@@ -36,7 +47,15 @@ export const LayoutWithoutThemeModeSwitcher: Story = {
 
     return (
       <div>
-        <Header endSlot={<div className="text-gray-100 mr-2">xxxEnd slot content</div>} toolNameSrc={Toolname} />
+        <Header
+          endSlot={
+            <>
+              <div className="text-gray-100 mr-2">End slot content</div>
+              <Header.GithubDropdownMenu />
+            </>
+          }
+          toolNameSrc={Toolname}
+        />
         <div className="flex h-full w-full items-stretch justify-center">
           <AppsSidebar activeLink="debugger" enableDarkModeToggle={false} />
           <Content />
