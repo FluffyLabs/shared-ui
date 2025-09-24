@@ -2,12 +2,12 @@ import { ToggleDarkModeIcon } from "../DarkMode";
 import { Stack } from "./icons/Stack";
 import { Debugger } from "./icons/Debugger";
 import { Computers } from "./icons/Computers";
-import { Chip } from "./icons/Chip";
 import { Logo } from "./icons/Logo";
 import { cn } from "@/utils";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/ui/tooltip";
 import type { ReactNode } from "react";
 import { Search } from "./icons/Search";
+import { Proc } from "./icons/Proc";
 
 const darkBorderClass = "dark:border-[#3D3D3D]";
 const lightBorderClass = "border-[#D4D4D4]";
@@ -36,7 +36,7 @@ export const AppsSidebar = ({
         />
         <SidebarLink
           name="Gray Paper Reader"
-          href="https://graypaper.fluffylabs.dev"
+          href="https://reader.fluffylabs.dev"
           icon={<Stack />}
           active={activeLink === "reader"}
         />
@@ -52,15 +52,10 @@ export const AppsSidebar = ({
           icon={<Computers />}
           active={activeLink === "state"}
         />
-        {/*<SidebarLink
-          name="??"
-          href="#"
-          icon={<Brick />}
-          />*/}
         <SidebarLink
           name="JAM Codec"
-          href="https://papi.fluffylabs.dev"
-          icon={<Chip />}
+          href="https://codec.fluffylabs.dev"
+          icon={<Proc />}
           active={activeLink === "codec"}
         />
         <SidebarLink
