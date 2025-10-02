@@ -24,14 +24,15 @@
         "default": "./dist/index.cjs"
       }
     },
-    "./style.css": "./dist/style.css"
+    "./style.css": "./dist/style.css",
+    "./theme.css": "./dist/theme.css"
   },
   "scripts": {
     "dev": "storybook dev -p 6006",
     "test": "vitest run",
     "test:watch": "vitest",
     "build": "storybook build",
-    "build:lib": "tsc && vite build",
+    "build:lib": "tsc && vite build && cp ./lib/theme.css ./dist/theme.css",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "format": "prettier . --write",
     "prepare": "echo \"npx --no -- commitlint --edit \\$1\" > .husky/commit-msg"

@@ -51,7 +51,16 @@ Use the precompiled styles in your app:
 
 ```tsx
 // main.tsx or App.tsx
+import "./tailwind.css";
 import "@fluffylabs/shared-ui/style.css";
+```
+
+And also theme variables:
+
+```css
+/* tailwind.css */
+@import "tailwind";
+@import "@fluffylabs/shared-ui/theme.css";
 ```
 
 ### Tailwind Configuration
