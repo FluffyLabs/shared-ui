@@ -40,7 +40,7 @@
   --destructive-foreground: hsl(1 61% 56%);
 
   /*  */
-  --border: hsl(0 0% 83%);
+  --border: hsl(0 0% 94%);
   --input: var(--border);
   --ring: var(--title-secondary-foreground);
   --radius: 0.5rem;
@@ -84,6 +84,12 @@
   --sidebar-darker: hsl(0 0% 12%);
   --sidebar-foreground: var(--color-gray-300);
   --sidebar-foreground-muted: hsl(0 0% 36%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
 }
 
 body {
