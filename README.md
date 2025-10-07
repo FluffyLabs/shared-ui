@@ -50,17 +50,12 @@ import { AppsSidebar } from "@fluffylabs/shared-ui";
 Use the precompiled styles in your app:
 
 ```tsx
-// main.tsx or App.tsx
-import "./tailwind.css";
-import "@fluffylabs/shared-ui/style.css";
-```
-
-And also theme variables:
-
-```css
-/* tailwind.css */
-@import "tailwind";
+// styles.css
+@import "tailwindcss/preflight" layer(base);
 @import "@fluffylabs/shared-ui/theme.css";
+@import "@fluffylabs/shared-ui/style.css";
+@import "tailwindcss/theme" layer(theme);
+@import "tailwindcss/utilities" layer(utilities);
 ```
 
 ### Tailwind Configuration

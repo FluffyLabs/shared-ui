@@ -35,7 +35,9 @@ function DropdownMenuContent({
   sideOffset = 4,
   forcedColorScheme,
   ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.Content> & { forcedColorScheme?: "light" | "dark" }) {
+}: React.ComponentProps<typeof DropdownMenuPrimitive.Content> & {
+  forcedColorScheme?: "light" | "dark";
+}) {
   const contextValue = useMemo(
     () => ({
       forcedColorScheme,
@@ -84,7 +86,7 @@ function DropdownMenuItem({
       data-variant={variant}
       className={cn(
         "focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        forcedColorScheme === "dark" && "hover:dark:bg-[var(--accent)] hover:dark:text-[var(--accent-foreground)] ",
+        forcedColorScheme === "dark" && "focus:dark:bg-[var(--accent)] focus:dark:text-[var(--accent-foreground)] ",
         className,
       )}
       {...props}
@@ -109,7 +111,7 @@ function DropdownMenuCheckboxItem({
         "data-[highlighted]:bg-[var(--accent)] data-highlighted:text-[var(--accent-foreground)]",
         "data-[state=checked]:text-[var(--brand-dark)] focus:data-[state=checked]:text-[var(--brand-dark)]",
         "dark:data-[state=checked]:text-[var(--brand-light)] dark:focus:data-[state=checked]:text-[var(--brand-light)]",
-        forcedColorScheme === "dark" && "hover:dark:bg-[var(--accent)] hover:dark:text-[var(--accent-foreground)] ",
+        forcedColorScheme === "dark" && "focus:dark:bg-[var(--accent)] focus:dark:text-[var(--accent-foreground)] ",
         className,
       )}
       checked={checked}
@@ -134,6 +136,8 @@ function DropdownMenuRadioItem({
   children,
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.RadioItem>) {
+  const { forcedColorScheme } = useDropdownMenuContext();
+
   return (
     <DropdownMenuPrimitive.RadioItem
       data-slot="dropdown-menu-radio-item"
@@ -144,6 +148,7 @@ function DropdownMenuRadioItem({
         "dark:data-[highlighted]:bg-[var(--accent)] dark:data-highlighted:text-[var(--accent-foreground)]",
         "dark:data-[state=checked]:text-[var(--brand-light)] dark:data-highlighted:data-[state=checked]:text-[var(--brand-light)]",
         "data-[highlighted]:bg-[var(--accent)] data-highlighted:text-[var(--accent-foreground)]",
+        forcedColorScheme === "dark" && "focus:dark:bg-[var(--accent)] focus:dark:text-[var(--accent-foreground)] ",
         className,
       )}
       {...props}

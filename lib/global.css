@@ -5,7 +5,7 @@
 
 :root {
   --title-foreground: hsl(0 0% 56%);
-  --title: hsl(0 0% 97%);
+  --title: hsl(0 0% 94%);
   --title-secondary-foreground: hsl(0 0% 70.2%);
 
   --brand: rgb(97 237 226);
@@ -40,12 +40,12 @@
   --destructive-foreground: hsl(1 61% 56%);
 
   /*  */
-  --border: hsl(0 0% 83%);
+  --border: hsl(0 0% 94%);
   --input: var(--border);
   --ring: var(--title-secondary-foreground);
   --radius: 0.5rem;
 
-  --sidebar: var(--secondary);
+  --sidebar: hsl(0 0% 97%);
   --sidebar-darker: hsl(0 0% 95%);
   --sidebar-foreground: var(--color-gray-600);
   --sidebar-foreground-muted: hsl(0 0% 68%);
@@ -61,7 +61,7 @@
   --card: hsl(0 0% 14%);
   --title: hsl(0 0% 18%);
   --title-foreground: hsl(0 0% 56%);
-  --border: hsl(0 0% 27%);
+  --border: hsl(0 0% 24%);
   --input: var(--border);
   --ring: var(--brand);
 
@@ -84,6 +84,12 @@
   --sidebar-darker: hsl(0 0% 12%);
   --sidebar-foreground: var(--color-gray-300);
   --sidebar-foreground-muted: hsl(0 0% 36%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
 }
 
 body {
