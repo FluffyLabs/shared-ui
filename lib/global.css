@@ -4,100 +4,100 @@
 @import "./theme.css";
 
 :root {
-	--title-foreground: hsl(0 0% 56%);
-	--title: hsl(0 0% 94%);
-	--title-secondary-foreground: hsl(0 0% 70.2%);
+  --title-foreground: hsl(0 0% 56%);
+  --title: hsl(0 0% 94%);
+  --title-secondary-foreground: hsl(0 0% 70.2%);
 
-	--brand: rgb(97 237 226);
-	--brand-light: rgb(200 243 240);
-	--brand-very-light: rgb(242 255 254);
-	--brand-dark: rgb(18 152 141);
-	--brand-very-dark: rgb(14 116 107);
-	--brand-darkest: rgb(14 53 50);
+  --brand: rgb(97 237 226);
+  --brand-light: rgb(200 243 240);
+  --brand-very-light: rgb(242 255 254);
+  --brand-dark: rgb(18 152 141);
+  --brand-very-dark: rgb(14 116 107);
+  --brand-darkest: rgb(14 53 50);
 
-	/* ShadCN colors */
-	--background: hsl(0 0% 100%);
-	--foreground: hsl(218 22% 10%);
-	--card: var(--background);
-	--card-foreground: var(--title-foreground);
-	--popover: var(--background);
-	--popover-foreground: var(--title-foreground);
+  /* ShadCN colors */
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(218 22% 10%);
+  --card: var(--background);
+  --card-foreground: var(--title-foreground);
+  --popover: var(--background);
+  --popover-foreground: var(--title-foreground);
 
-	/* Buttons */
-	--secondary-foreground: hsl(0 0% 36%);
-	--secondary: var(--title);
-	--primary-foreground: hsl(220 20% 97.25%);
-	--primary: hsl(0 0% 14.12%);
+  /* Buttons */
+  --secondary-foreground: hsl(0 0% 36%);
+  --secondary: var(--title);
+  --primary-foreground: hsl(220 20% 97.25%);
+  --primary: hsl(0 0% 14.12%);
 
-	/*  */
-	--muted: hsl(220 20% 97%);
-	--muted-foreground: hsl(0 0% 72%);
-	--accent: hsl(0 0% 97%);
-	--accent-foreground: var(--foreground);
+  /*  */
+  --muted: hsl(220 20% 97%);
+  --muted-foreground: hsl(0 0% 72%);
+  --accent: hsl(0 0% 97%);
+  --accent-foreground: var(--foreground);
 
-	/* Defaults */
-	--destructive: hsl(0 84.2% 60.2%);
-	--destructive-foreground: hsl(1 61% 56%);
+  /* Defaults */
+  --destructive: hsl(0 84.2% 60.2%);
+  --destructive-foreground: hsl(1 61% 56%);
 
-	/*  */
-	--border: hsl(0 0% 94%);
-	--input: var(--border);
-	--ring: var(--title-secondary-foreground);
-	--radius: 0.5rem;
+  /*  */
+  --border: hsl(0 0% 94%);
+  --input: var(--border);
+  --ring: var(--title-secondary-foreground);
+  --radius: 0.5rem;
 
-	--sidebar: var(--secondary);
-	--sidebar-darker: hsl(0 0% 95%);
-	--sidebar-foreground: var(--color-gray-600);
-	--sidebar-foreground-muted: hsl(0 0% 68%);
+  --sidebar: var(--secondary);
+  --sidebar-darker: hsl(0 0% 95%);
+  --sidebar-foreground: var(--color-gray-600);
+  --sidebar-foreground-muted: hsl(0 0% 68%);
 
-	--toastify-toast-width: 350px;
+  --toastify-toast-width: 350px;
 
-	--font-display: "Poppins", "sans-serif";
+  --font-display: "Poppins", "sans-serif";
 }
 
 .dark {
-	--background: hsl(0 0% 20%);
-	--foreground: hsl(0 0% 70%);
-	--card: hsl(0 0% 14%);
-	--title: hsl(0 0% 18%);
-	--title-foreground: hsl(0 0% 56%);
-	--border: hsl(0 0% 24%);
-	--input: var(--border);
-	--ring: var(--brand);
+  --background: hsl(0 0% 20%);
+  --foreground: hsl(0 0% 70%);
+  --card: hsl(0 0% 14%);
+  --title: hsl(0 0% 18%);
+  --title-foreground: hsl(0 0% 56%);
+  --border: hsl(0 0% 24%);
+  --input: var(--border);
+  --ring: var(--brand);
 
-	--secondary: hsl(0 0% 23%);
-	--secondary-foreground: hsl(0 0% 52%);
+  --secondary: hsl(0 0% 23%);
+  --secondary-foreground: hsl(0 0% 52%);
 
-	--card-foreground: var(--title-foreground);
-	--popover: hsl(0 0% 14%);
-	--popover-foreground: var(--title-foreground);
-	--primary: hsl(175 80% 65%);
-	--primary-foreground: hsl(190 47.4% 11.2%);
-	--muted: hsl(0 0% 0%);
-	--muted-foreground: var(--title-foreground);
-	--accent: var(--background);
-	--accent-foreground: var(--foreground);
-	--destructive: hsl(0 62.8% 30.6%);
-	--destructive-foreground: hsl(0.88 60.71% 56.08%);
+  --card-foreground: var(--title-foreground);
+  --popover: hsl(0 0% 14%);
+  --popover-foreground: var(--title-foreground);
+  --primary: hsl(175 80% 65%);
+  --primary-foreground: hsl(190 47.4% 11.2%);
+  --muted: hsl(0 0% 0%);
+  --muted-foreground: var(--title-foreground);
+  --accent: var(--background);
+  --accent-foreground: var(--foreground);
+  --destructive: hsl(0 62.8% 30.6%);
+  --destructive-foreground: hsl(0.88 60.71% 56.08%);
 
-	--sidebar: hsl(0 0% 14%);
-	--sidebar-darker: hsl(0 0% 12%);
-	--sidebar-foreground: var(--color-gray-300);
-	--sidebar-foreground-muted: hsl(0 0% 36%);
+  --sidebar: hsl(0 0% 14%);
+  --sidebar-darker: hsl(0 0% 12%);
+  --sidebar-foreground: var(--color-gray-300);
+  --sidebar-foreground-muted: hsl(0 0% 36%);
 }
 
 @layer base {
-	* {
-		@apply border-border;
-	}
+  * {
+    @apply border-border;
+  }
 }
 
 body {
-	@font-face {
-		font-family: Oswald;
-		font-style: normal;
-		font-weight: 200 700;
-		font-display: swap;
-		src: url("/fonts/Oswald.woff2") format("woff2");
-	}
+  @font-face {
+    font-family: Oswald;
+    font-style: normal;
+    font-weight: 200 700;
+    font-display: swap;
+    src: url("/fonts/Oswald.woff2") format("woff2");
+  }
 }
