@@ -12,9 +12,7 @@ export interface DialogProps {
 const Dialog: React.FC<DialogProps> = ({ className, children, asChild }) => {
   const Comp = asChild ? Slot : "div";
   return (
-    <Comp className={cn(`flex flex-col w-full h-full bg-card rounded-lg border-1 gap-3 pb-4`, className)}>
-      {children}
-    </Comp>
+    <Comp className={cn(`flex flex-col w-full bg-card rounded-lg border-1 gap-3 pb-4`, className)}>{children}</Comp>
   );
 };
 
