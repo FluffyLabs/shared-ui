@@ -1,6 +1,6 @@
 import * as RadixDialog from "@radix-ui/react-dialog";
 import type React from "react";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { cn } from "@/utils";
 import Dialog from "../Dialog/Dialog";
 
@@ -42,6 +42,15 @@ const DialogModal: React.FC<DialogModalProps> = ({
     }
     onOpenChange?.(newOpen);
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      //setTimeout is necessary here to tackle pointer events issue between dropdown and modal
+      if (!open && document.body.style.pointerEvents === "none") {
+        document.body.style.pointerEvents = "";
+      }
+    }, 250);
+  }, [open]);
 
   return (
     <DialogModalContext.Provider value={{ open, setOpen }}>
