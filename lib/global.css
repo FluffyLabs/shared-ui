@@ -45,7 +45,7 @@
   --ring: var(--title-secondary-foreground);
   --radius: 0.5rem;
 
-  --sidebar: var(--secondary);
+  --sidebar: hsl(0 0% 97%);
   --sidebar-darker: hsl(0 0% 95%);
   --sidebar-foreground: var(--color-gray-600);
   --sidebar-foreground-muted: hsl(0 0% 68%);

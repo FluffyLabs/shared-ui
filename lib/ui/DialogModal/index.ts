@@ -1,2 +1,1 @@
-export * from "./DialogModal";
-export { default as DialogModal } from "./DialogModal";
+export { type DialogModalProps, default as DialogModal } from "./DialogModal";
