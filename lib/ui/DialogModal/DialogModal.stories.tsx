@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import type React from "react";
+import { useState } from "react";
 import { ToggleDarkModeIcon } from "@/components";
 import { Button } from "../Button";
-import Dialog from "../Dialog/Dialog";
 import DialogModal from "./DialogModal";
 
 const meta = {
   title: "UI/DialogModal",
   component: DialogModal,
   parameters: {
-    layout: "fullscreen",
+    layout: "centered",
   },
 } satisfies Meta<typeof DialogModal>;
 
@@ -44,21 +44,50 @@ export const Default: Story = {
     <div className="bg-accent p-12 max-sm:p-6">
       <DialogModal>
         <DialogModal.Trigger>
-          <Button>Open Modal</Button>
+          <Button size="sm">Open Modal</Button>
         </DialogModal.Trigger>
         <DialogModal.Content>
-          <Dialog.Header size="sm" variant="brand">
+          <DialogModal.Title size="md" variant="brand">
             Modal Dialog Example
-          </Dialog.Header>
-          <Dialog.Content>{loremIpsum}</Dialog.Content>
-          <Dialog.Footer className="flex gap-2">
-            <DialogModal.Trigger>
+          </DialogModal.Title>
+          <DialogModal.Description>{loremIpsum.slice(0, 24)}</DialogModal.Description>
+          <DialogModal.Body>{loremIpsum}</DialogModal.Body>
+          <DialogModal.Footer className="flex gap-2">
+            <DialogModal.Close asChild>
               <Button variant="secondary">Cancel</Button>
-            </DialogModal.Trigger>
+            </DialogModal.Close>
             <Button>Save Changes</Button>
-          </Dialog.Footer>
+          </DialogModal.Footer>
         </DialogModal.Content>
       </DialogModal>
     </div>
   ),
+};
+
+export const OpenCloseViaProp: Story = {
+  decorators: [ThemeSwitcherDecorator],
+  render: () => {
+    const [open, setOpen] = useState(false);
+
+    return (
+      <div className="bg-accent p-12 max-sm:p-6">
+        <Button onClick={() => setOpen(!open)}>Toggle modal</Button>
+        <DialogModal open={open} onOpenChange={setOpen}>
+          <DialogModal.Content>
+            <DialogModal.Title size="md" variant="brand">
+              Modal Dialog Example
+            </DialogModal.Title>
+            <DialogModal.Description>{loremIpsum.slice(0, 24)}</DialogModal.Description>
+            <DialogModal.Body>{loremIpsum}</DialogModal.Body>
+            <DialogModal.Footer className="flex gap-2">
+              <DialogModal.Close asChild>
+                <Button variant="secondary">Cancel</Button>
+              </DialogModal.Close>
+              <Button>Save Changes</Button>
+            </DialogModal.Footer>
+          </DialogModal.Content>
+        </DialogModal>
+      </div>
+    );
+  },
 };

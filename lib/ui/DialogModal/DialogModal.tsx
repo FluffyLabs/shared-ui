@@ -54,7 +54,7 @@ const DialogModal: React.FC<DialogModalProps> = ({
 
   return (
     <DialogModalContext.Provider value={{ open, setOpen }}>
-      <RadixDialog.Root open={open} onOpenChange={setOpen}>
+      <RadixDialog.Root open={open} onOpenChange={setOpen} modal>
         {children}
       </RadixDialog.Root>
     </DialogModalContext.Provider>
@@ -84,9 +84,10 @@ const DialogModalOverlay: React.FC<{
 const DialogModalContent: React.FC<{
   children: React.ReactNode;
   className?: string;
-}> = ({ children, className }) => {
+  portalContainer?: Element | DocumentFragment | null;
+}> = ({ children, className, portalContainer }) => {
   return (
-    <RadixDialog.Portal>
+    <RadixDialog.Portal container={portalContainer}>
       <DialogModalOverlay />
       <RadixDialog.Content
         className={cn(
@@ -100,10 +101,77 @@ const DialogModalContent: React.FC<{
   );
 };
 
+const DialogModalTitle: React.FC<{
+  children: React.ReactNode;
+  className?: string;
+  variant?: "brand" | "normal";
+  size?: "md" | "sm";
+}> = ({ children, className, variant = "normal", size = "md" }) => {
+  return (
+    <RadixDialog.Title className={cn(className)} asChild>
+      <Dialog.Header variant={variant} size={size}>
+        {children}
+      </Dialog.Header>
+    </RadixDialog.Title>
+  );
+};
+
+const DialogModalDescription: React.FC<{
+  children: React.ReactNode;
+  className?: string;
+}> = ({ children, className }) => {
+  return (
+    <RadixDialog.Description className={cn("mt-2", className)} asChild>
+      <Dialog.Content>{children}</Dialog.Content>
+    </RadixDialog.Description>
+  );
+};
+
+const DialogModalFooter: React.FC<{
+  children: React.ReactNode;
+  className?: string;
+  asChild?: boolean;
+}> = ({ children, className, asChild }) => {
+  return (
+    <Dialog.Footer className={className} asChild={asChild}>
+      {children}
+    </Dialog.Footer>
+  );
+};
+
+const DialogModalClose: React.FC<{
+  children: React.ReactNode;
+  className?: string;
+  asChild?: boolean;
+}> = ({ children, className, asChild }) => {
+  return (
+    <RadixDialog.Close className={className} asChild={asChild}>
+      {children}
+    </RadixDialog.Close>
+  );
+};
+
+const DialogModalBody: React.FC<{
+  children: React.ReactNode;
+  className?: string;
+  asChild?: boolean;
+}> = ({ children, className, asChild }) => {
+  return (
+    <Dialog.Content className={cn("mt-4", className)} asChild={asChild}>
+      {children}
+    </Dialog.Content>
+  );
+};
+
 export interface CompoundComponents {
   Trigger: typeof DialogModalTrigger;
   Overlay: typeof DialogModalOverlay;
   Content: typeof DialogModalContent;
+  Title: typeof DialogModalTitle;
+  Description: typeof DialogModalDescription;
+  Footer: typeof DialogModalFooter;
+  Close: typeof DialogModalClose;
+  Body: typeof DialogModalBody;
 }
 
 const DialogModalWithCompoundComponents = DialogModal as React.FC<DialogModalProps> & CompoundComponents;
@@ -112,5 +180,10 @@ DialogModalWithCompoundComponents.displayName = "DialogModal";
 DialogModalWithCompoundComponents.Trigger = DialogModalTrigger;
 DialogModalWithCompoundComponents.Overlay = DialogModalOverlay;
 DialogModalWithCompoundComponents.Content = DialogModalContent;
+DialogModalWithCompoundComponents.Description = DialogModalDescription;
+DialogModalWithCompoundComponents.Title = DialogModalTitle;
+DialogModalWithCompoundComponents.Footer = DialogModalFooter;
+DialogModalWithCompoundComponents.Body = DialogModalBody;
+DialogModalWithCompoundComponents.Close = DialogModalClose;
 
 export default DialogModalWithCompoundComponents;
