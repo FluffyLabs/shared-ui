@@ -5,17 +5,27 @@ export const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline:
-          "border border-input bg-sidebar-darker hover:bg-brand-very-light/85 hover:text-brand-very-dark/85 hover:border-brand-dark/25 text-title-foreground dark:text-title-foreground dark:bg-transparent dark:hover:bg-brand-darkest dark:hover:text-brand dark:hover:border-brand",
-        outlineBrand:
-          "border border-input border-brand-dark dark:border-brand dark:text-brand hover:bg-brand-darkest hover:text-brand",
+        primary: "bg-[var(--btn-tone)] text-[var(--btn-tone-contrast)] hover:bg-[var(--btn-tone)]/75",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-black hover:text-background dark:hover:bg-brand dark:hover:text-background",
-        ghost:
-          "hover:bg-accent hover:text-accent-foreground dark:text-brand dark:hover:text-brand dark:hover:bg-[var(--brand-dark)] dark:hover:focus:bg-[var(--brand-dark)]",
-        link: "text-primary underline-offset-4 hover:underline",
+          "border-1 border-[var(--btn-tone)] text-neutral-medium text-[var(--btn-text)] hover:bg-[var(--btn-tone-2nd)]",
+        tertiary: "border-0 text-neutral-medium text-[var(--btn-text)] hover:bg-[var(--btn-tone-2nd)]",
+      },
+      intent: {
+        primary:
+          "[--btn-tone:var(--color-brand-primary)] [--btn-tone-contrast:var(--color-brand-lightest)] [--btn-tone-2nd:var(--color-brand-fourth)] [--btn-text:var(--color-brand-darkest)] dark:[--btn-tone-contrast:var(--color-background)] dark:[--btn-text:var(--color-brand)]",
+        neturalStrong:
+          "[--btn-tone:var(--color-neutral-strong)] [--btn-tone-contrast:var(--color-background)] [--btn-tone-2nd:color-mix(in_hsl,var(--color-neutral-strong)_05%,transparent)] [--btn-text:var(--color-neutral-strong)]",
+        neturalMedium:
+          "[--btn-tone:var(--color-neutral-medium)] [--btn-tone-contrast:var(--color-background)] [--btn-tone-2nd:color-mix(in_hsl,var(--color-neutral-medium)_05%,transparent)] [--btn-text:var(--color-neutral-medium)]",
+        neturalSoft:
+          "[--btn-tone:var(--color-neutral-soft)] [--btn-tone-contrast:var(--color-background)] [--btn-tone-2nd:color-mix(in_hsl,var(--color-neutral-medium)_05%,transparent)] [--btn-text:var(--color-neutral-soft)]",
+        destructive:
+          "[--btn-tone:var(--color-destructive)] [--btn-tone-contrast:var(--color-destructive-foreground)] [--btn-tone-2nd:color-mix(in_hsl,var(--color-destructive-foreground)_50%,transparent)] [--btn-text:var(--color-destructive)] dark:[--btn-tone-2nd:color-mix(in_hsl,var(--color-destructive)_25%,transparent)]",
+        success:
+          "[--btn-tone:var(--color-success)] [--btn-tone-contrast:var(--color-success-foreground)] [--btn-tone-2nd:color-mix(in_hsl,var(--color-success-foreground)_100%,transparent)] [--btn-text:var(--color-success)] dark:[--btn-tone-2nd:color-mix(in_hsl,var(--color-success)_20%,transparent)]",
+        warning:
+          "[--btn-tone:var(--color-warning)] [--btn-tone-contrast:var(--color-warning-foreground)] [--btn-tone-2nd:color-mix(in_hsl,var(--color-warning)_15%,transparent)] [--btn-text:var(--color-warning-foreground)]",
+        info: "[--btn-tone:var(--color-info)] [--btn-tone-contrast:var(--color-info-foreground)] [--btn-tone-2nd:color-mix(in_hsl,var(--color-info)_10%,transparent)] [--btn-text:var(--color-info-foreground)]",
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -30,26 +40,36 @@ export const buttonVariants = cva(
     },
     compoundVariants: [
       {
+        variant: "tertiary",
+        intent: "primary",
+        class:
+          "[--btn-tone-2nd:var(--color-brand-tertiary)] dark:[--btn-tone-2nd:var(--color-brand-fourth)] [--btn-text:var(--color-brand-dark)]",
+      },
+      {
         forcedColorScheme: "dark",
-        variant: "outline",
+        variant: "secondary",
+        intent: "neturalStrong",
         class:
           "bg-transparent border-[var(--border)] dark:text-[var(--title-foreground)] hover:bg-[var(--title)] hover:text-[var(--accent-foreground)] focus-visible:ring-[var(--brand)] focus-visible:ring-offset-[var(--card)]",
       },
       {
         forcedColorScheme: "dark",
-        variant: "outlineBrand",
+        variant: "secondary",
+        intent: "primary",
         class:
           "text-brand bg-transparent focus:bg-[var(--card)] hover:focus:bg-brand-darkest hover:text-brand focus-visible:ring-[var(--brand)] focus-visible:ring-offset-[var(--card)]",
       },
       {
         forcedColorScheme: "dark",
-        variant: "ghost",
+        variant: "tertiary",
+        intent: "neturalStrong",
         class:
           "bg-transparent focus:bg-[var(--card)] hover:bg-[var(--title)] focus-visible:shadow-none focus-visible:ring-[var(--brand)] focus-visible:ring-offset-[var(--card)]",
       },
     ],
     defaultVariants: {
-      variant: "default",
+      variant: "primary",
+      intent: "primary",
       size: "default",
     },
   },
