@@ -9,9 +9,10 @@
   --title-secondary-foreground: hsl(0 0% 70.2%);
 
   --brand: rgb(97 237 226);
-  --brand-light: rgb(200 243 240);
-  --brand-very-light: rgb(242 255 254);
-  --brand-dark: rgb(18 152 141);
+  --brand-light: rgb(167 236 231);
+  --brand-very-light: rgb(200 243 240);
+  --brand-lightest: rgb(242 255 254);
+  --brand-dark: rgb(23, 175, 163);
   --brand-very-dark: rgb(14 116 107);
   --brand-darkest: rgb(14 53 50);
 
@@ -24,8 +25,8 @@
   --popover-foreground: var(--title-foreground);
 
   /* Buttons */
-  --secondary-foreground: hsl(0 0% 36%);
-  --secondary: var(--title);
+  --secondary-foreground: hsl(0 0% 55%);
+  --secondary: hsl(0 0% 88%);
   --primary-foreground: hsl(220 20% 97.25%);
   --primary: hsl(0 0% 14.12%);
 
@@ -53,6 +54,15 @@
   --toastify-toast-width: 350px;
 
   --font-display: "Poppins", "sans-serif";
+
+  --neutral-strong: hsl(0 0% 22%);
+  --neutral-medium: hsl(0 0% 45%);
+  --neutral-soft: hsl(0 0% 60%);
+
+  --brand-primary: var(--brand-dark);
+  --brand-secondary: var(--brand-light);
+  --brand-tertiary: var(--brand-very-light);
+  --brand-fourth: var(--brand-lightest);
 }
 
 .dark {
@@ -84,6 +94,15 @@
   --sidebar-darker: hsl(0 0% 12%);
   --sidebar-foreground: var(--color-gray-300);
   --sidebar-foreground-muted: hsl(0 0% 36%);
+
+  --neutral-strong: hsl(0 0% 98%);
+  --neutral-medium: hsl(0 0% 85%);
+  --neutral-soft: hsl(0 0% 70%);
+
+  --brand-primary: var(--brand);
+  --brand-secondary: var(--brand-dark);
+  --brand-tertiary: var(--brand-very-dark);
+  --brand-fourth: var(--brand-darkest);
 }
 
 @layer base {
