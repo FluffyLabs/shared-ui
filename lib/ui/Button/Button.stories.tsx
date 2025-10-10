@@ -11,18 +11,28 @@ const meta = {
   argTypes: {
     variant: {
       control: { type: "select" },
-      options: ["default", "destructive", "outline", "outlineBrand", "secondary", "ghost", "link"],
+      options: ["primary", "secondary", "tertiary"],
+    },
+    intent: {
+      control: { type: "select" },
+      options: [
+        "primary",
+        "neturalStrong",
+        "neturalMedium",
+        "neturalSoft",
+        "destructive",
+        "success",
+        "warning",
+        "info",
+      ],
     },
     size: {
       control: { type: "select" },
-      options: ["default", "sm", "lg", "icon"],
+      options: ["sm", "lg", "icon"],
     },
     forcedColorScheme: {
       control: { type: "select" },
       options: [undefined, "light", "dark"],
-    },
-    asChild: {
-      control: { type: "boolean" },
     },
     disabled: {
       control: { type: "boolean" },
@@ -47,24 +57,116 @@ const ThemeSwitcherDecorator = (Story: React.FC) => (
   </div>
 );
 
-export const AllVariants: Story = {
+export const Interactive: Story = {
+  args: {
+    children: "Button",
+    variant: "primary",
+    intent: "primary",
+    size: "default",
+    disabled: false,
+    asChild: false,
+  },
   decorators: [ThemeSwitcherDecorator],
-  render: () => (
-    <div className="p-4 bg-card">
-      <div className="flex flex-col gap-8">
-        <div>
-          <h3 className="text-lg font-semibold mb-4 text-foreground">All Variants</h3>
-          <div className="flex flex-wrap gap-4">
-            <Button variant="default">Default</Button>
-            <Button variant="destructive">Destructive</Button>
-            <Button variant="outline">Outline</Button>
-            <Button variant="outlineBrand">Outline Brand</Button>
-            <Button variant="secondary">Secondary</Button>
-            <Button variant="ghost">Ghost</Button>
-            <Button variant="link">Link</Button>
+};
+
+const variants = ["primary", "secondary", "tertiary"] as const;
+const intents = [
+  "primary",
+  "neturalStrong",
+  "neturalMedium",
+  "neturalSoft",
+  "destructive",
+  "success",
+  "warning",
+  "info",
+] as const;
+
+export const AllVariants: Story = {
+  parameters: {
+    layout: "fullscreen",
+  },
+  decorators: [ThemeSwitcherDecorator],
+  render: () => {
+    return (
+      <div className="p-4 bg-sidebar">
+        <div className="flex flex-col gap-6">
+          <div>
+            <div className="mb-6 text-foreground">
+              <h3 className="text-lg my-2">Recommended button types</h3>
+              <div className="text-foreground text-sm flex flex-col gap-4">
+                <div className="flex w-50 justify-between items-center">
+                  <div>Primary</div>
+                  <Button variant="primary" intent="primary">
+                    Primary
+                  </Button>
+                </div>
+                <div className="flex w-50 justify-between items-center">
+                  Secondary
+                  <Button variant="secondary" intent="primary">
+                    Secondary
+                  </Button>
+                </div>
+                <div className="flex w-50 justify-between items-center">
+                  Tertiary
+                  <Button variant="tertiary" intent="primary">
+                    Tertiary
+                  </Button>
+                </div>
+              </div>
+            </div>
+            <h3 className="text-lg font-semibold mb-4 text-foreground">
+              All Variant × Intent Combinations (Default Size)
+            </h3>
+            <div className="overflow-x-auto">
+              <table className="border-collapse border border-border">
+                <thead>
+                  <tr>
+                    <th className="border border-border p-2 text-left font-medium text-foreground bg-muted text-xs">
+                      Variant / Intent
+                    </th>
+                    {intents.map((intent) => (
+                      <th
+                        key={intent}
+                        className="border border-border p-2 text-center font-medium text-foreground bg-muted min-w-[100px] text-xs"
+                      >
+                        {intent}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {variants.map((variant) => (
+                    <tr key={variant}>
+                      <td className="border border-border p-2 font-medium text-foreground bg-muted/25 text-xs">
+                        {variant}
+                      </td>
+                      {intents.map((intent) => (
+                        <td key={`${variant}-${intent}`} className="border border-border p-1 text-center">
+                          <Button variant={variant} intent={intent} size="sm">
+                            {variant.slice(0, 3)} / {intent.slice(0, 3)}
+                          </Button>
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
+      </div>
+    );
+  },
+};
 
+export const AllOtherCombinations: Story = {
+  parameters: {
+    layout: "fullscreen",
+  },
+  decorators: [ThemeSwitcherDecorator],
+  render: () => {
+    return (
+      <div>
         <div>
           <h3 className="text-lg font-semibold mb-4 text-foreground">All Sizes</h3>
           <div className="flex flex-wrap items-center gap-4">
@@ -77,102 +179,34 @@ export const AllVariants: Story = {
 
         <div>
           <h3 className="text-lg font-semibold mb-4 text-foreground">Disabled States</h3>
-          <div className="flex flex-wrap gap-4">
-            <Button variant="default" disabled>
-              Default
-            </Button>
-            <Button variant="destructive" disabled>
-              Destructive
-            </Button>
-            <Button variant="outline" disabled>
-              Outline
-            </Button>
-            <Button variant="outlineBrand" disabled>
-              Outline Brand
-            </Button>
-            <Button variant="secondary" disabled>
-              Secondary
-            </Button>
-            <Button variant="ghost" disabled>
-              Ghost
-            </Button>
-            <Button variant="link" disabled>
-              Link
-            </Button>
+          <div className="grid grid-cols-3 gap-4">
+            {variants.map((variant) => (
+              <Button key={`disabled-${variant}`} variant={variant} intent="primary" disabled>
+                {variant} (Disabled)
+              </Button>
+            ))}
           </div>
         </div>
 
         <div>
           <h3 className="text-lg font-semibold mb-4 text-foreground">Forced Dark Color Scheme</h3>
-          <div className="flex flex-wrap gap-4 dark bg-[var(--card)] py-4 px-4">
-            <Button variant="outline" forcedColorScheme="dark">
-              Outline Dark
-            </Button>
-            <Button variant="outlineBrand" forcedColorScheme="dark">
-              Outline Brand Dark
-            </Button>
-            <Button variant="ghost" forcedColorScheme="dark">
-              asdasd
-            </Button>
+          <div className="grid grid-cols-3 gap-4 dark bg-[var(--card)] py-4 px-4 rounded-lg">
+            {variants.map((variant) => (
+              <Button key={`dark-${variant}`} variant={variant} intent="primary" forcedColorScheme="dark">
+                {variant} (Dark)
+              </Button>
+            ))}
           </div>
         </div>
       </div>
-    </div>
-  ),
+    );
+  },
 };
 
 export const Default: Story = {
   args: {
     children: "Button",
-    variant: "default",
-  },
-  decorators: [ThemeSwitcherDecorator],
-};
-
-export const Destructive: Story = {
-  args: {
-    children: "Delete",
-    variant: "destructive",
-  },
-  decorators: [ThemeSwitcherDecorator],
-};
-
-export const Outline: Story = {
-  args: {
-    children: "Outline",
-    variant: "outline",
-  },
-  decorators: [ThemeSwitcherDecorator],
-};
-
-export const OutlineBrand: Story = {
-  args: {
-    children: "Outline Brand",
-    variant: "outlineBrand",
-  },
-  decorators: [ThemeSwitcherDecorator],
-};
-
-export const Secondary: Story = {
-  args: {
-    children: "Secondary",
-    variant: "secondary",
-  },
-  decorators: [ThemeSwitcherDecorator],
-};
-
-export const Ghost: Story = {
-  args: {
-    children: "Ghost",
-    variant: "ghost",
-  },
-  decorators: [ThemeSwitcherDecorator],
-};
-
-export const Link: Story = {
-  args: {
-    children: "Link Button",
-    variant: "link",
+    variant: "primary",
   },
   decorators: [ThemeSwitcherDecorator],
 };
@@ -204,7 +238,7 @@ export const Icon: Story = {
 export const OutlineWithForcedDark: Story = {
   args: {
     children: "Forced Dark Mode",
-    variant: "outline",
+    variant: "secondary",
     forcedColorScheme: "dark",
   },
   decorators: [
@@ -220,7 +254,7 @@ export const OutlineWithForcedDark: Story = {
 export const OutlineBrandWithForcedDark: Story = {
   args: {
     children: "Forced Dark Mode",
-    variant: "outlineBrand",
+    variant: "secondary",
     forcedColorScheme: "dark",
   },
   decorators: [
