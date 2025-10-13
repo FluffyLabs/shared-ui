@@ -8,14 +8,17 @@ export const buttonVariants = cva(
         primary: "bg-[var(--btn-tone)] text-[var(--btn-tone-contrast)] hover:bg-[var(--btn-tone)]/75",
         secondary:
           "border-1 border-[var(--btn-tone)] text-neutral-medium text-[var(--btn-text)] hover:bg-[var(--btn-tone-2nd)]",
-        tertiary: "border-0 text-neutral-medium text-[var(--btn-text)] hover:bg-[var(--btn-tone-2nd)]",
+        tertiary:
+          "border-1 border-neutral-medium text-neutral-medium shadow-[1px_1px_0_#ffffff] hover:border-[var(--btn-tone)] hover:text-[var(--btn-tone)] hover:bg-[var(--btn-tone-2nd)]" +
+          " dark:shadow-none dark:border-neutral-soft dark:hover:border-[var(--btn-tone)]",
+        ghost: "border-0 text-neutral-medium text-[var(--btn-text)] hover:bg-[var(--btn-tone-2nd)]",
       },
       intent: {
         primary:
           "[--btn-tone:var(--color-brand-primary)] [--btn-tone-contrast:var(--color-brand-lightest)] [--btn-tone-2nd:var(--color-brand-fourth)] [--btn-text:var(--color-brand-darkest)] dark:[--btn-tone-contrast:var(--color-background)] dark:[--btn-text:var(--color-brand)]",
-        neturalStrong:
+        neutralStrong:
           "[--btn-tone:var(--color-neutral-strong)] [--btn-tone-contrast:var(--color-background)] [--btn-tone-2nd:color-mix(in_hsl,var(--color-neutral-strong)_05%,transparent)] [--btn-text:var(--color-neutral-strong)]",
-        neturalMedium:
+        neutralMedium:
           "[--btn-tone:var(--color-neutral-medium)] [--btn-tone-contrast:var(--color-background)] [--btn-tone-2nd:color-mix(in_hsl,var(--color-neutral-medium)_05%,transparent)] [--btn-text:var(--color-neutral-medium)]",
         neturalSoft:
           "[--btn-tone:var(--color-neutral-soft)] [--btn-tone-contrast:var(--color-background)] [--btn-tone-2nd:color-mix(in_hsl,var(--color-neutral-medium)_05%,transparent)] [--btn-text:var(--color-neutral-soft)]",
@@ -40,32 +43,69 @@ export const buttonVariants = cva(
     },
     compoundVariants: [
       {
+        variant: "primary",
+        intent: "warning",
+        class: "hover:bg-[var(--btn-tone)]/55",
+      },
+      {
         variant: "tertiary",
         intent: "primary",
         class:
-          "[--btn-tone-2nd:var(--color-brand-tertiary)] dark:[--btn-tone-2nd:var(--color-brand-fourth)] [--btn-text:var(--color-brand-dark)]",
+          "[--btn-tone:var(--color-brand-very-dark)] dark:[--btn-tone:var(--color-brand)] hover:border-[var(--btn-tone)]/25",
       },
       {
-        forcedColorScheme: "dark",
-        variant: "secondary",
-        intent: "neturalStrong",
-        class:
-          "bg-transparent border-[var(--border)] dark:text-[var(--title-foreground)] hover:bg-[var(--title)] hover:text-[var(--accent-foreground)] focus-visible:ring-[var(--brand)] focus-visible:ring-offset-[var(--card)]",
+        variant: "tertiary",
+        intent: "neutralMedium",
+        class: "border-neutral-soft text-neutral-soft [--btn-tone:var(--color-neutral-medium)]",
       },
       {
-        forcedColorScheme: "dark",
-        variant: "secondary",
+        variant: "tertiary",
+        intent: "warning",
+        class: "hover:text-[var(--btn-tone-contrast)]",
+      },
+      {
+        variant: "tertiary",
+        intent: "info",
+        class: "hover:text-[var(--btn-tone-contrast)]",
+      },
+      {
+        variant: "ghost",
+        intent: "success",
+        class: "[--btn-tone-2nd:color-mix(in_hsl,var(--color-success)_25%,transparent)]",
+      },
+      {
+        variant: "ghost",
+        intent: "destructive",
+        class: "[--btn-tone-2nd:color-mix(in_hsl,var(--color-destructive)_25%,transparent)]",
+      },
+      {
+        variant: "ghost",
         intent: "primary",
         class:
-          "text-brand bg-transparent focus:bg-[var(--card)] hover:focus:bg-brand-darkest hover:text-brand focus-visible:ring-[var(--brand)] focus-visible:ring-offset-[var(--card)]",
+          "[--btn-tone-2nd:var(--color-brand-tertiary)] dark:[--btn-tone-2nd:var(--color-brand-fourth)] [--btn-text:var(--color-brand-dark)]" +
+          " ",
       },
-      {
-        forcedColorScheme: "dark",
-        variant: "tertiary",
-        intent: "neturalStrong",
-        class:
-          "bg-transparent focus:bg-[var(--card)] hover:bg-[var(--title)] focus-visible:shadow-none focus-visible:ring-[var(--brand)] focus-visible:ring-offset-[var(--card)]",
-      },
+      // {
+      // 	forcedColorScheme: "dark",
+      // 	variant: "secondary",
+      // 	intent: "neutralStrong",
+      // 	class:
+      // 		"bg-transparent border-[var(--border)] dark:text-[var(--title-foreground)] hover:bg-[var(--title)] hover:text-[var(--accent-foreground)] focus-visible:ring-[var(--brand)] focus-visible:ring-offset-[var(--card)]",
+      // },
+      // {
+      // 	forcedColorScheme: "dark",
+      // 	variant: "secondary",
+      // 	intent: "primary",
+      // 	class:
+      // 		"text-brand bg-transparent focus:bg-[var(--card)] hover:focus:bg-brand-darkest hover:text-brand focus-visible:ring-[var(--brand)] focus-visible:ring-offset-[var(--card)]",
+      // },
+      // {
+      // 	forcedColorScheme: "dark",
+      // 	variant: "tertiary",
+      // 	intent: "neutralStrong",
+      // 	class:
+      // 		"bg-transparent focus:bg-[var(--card)] hover:bg-[var(--title)] focus-visible:shadow-none focus-visible:ring-[var(--brand)] focus-visible:ring-offset-[var(--card)]",
+      // },
     ],
     defaultVariants: {
       variant: "primary",

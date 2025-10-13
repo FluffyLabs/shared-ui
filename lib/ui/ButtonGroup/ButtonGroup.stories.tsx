@@ -48,12 +48,12 @@ export const Default: Story = {
       <div>
         <h3 className="text-lg font-semibold mb-4 text-foreground">Horizontal Button Group</h3>
         <ButtonGroup>
-          <Button variant="outline">First</Button>
-          <Button variant="outline">Second</Button>
-          <Button variant="outline">Third</Button>
+          <Button variant="secondary">First</Button>
+          <Button variant="secondary">Second</Button>
+          <Button variant="secondary">Third</Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline">
+              <Button variant="secondary">
                 Options <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -69,12 +69,12 @@ export const Default: Story = {
       <div>
         <h3 className="text-lg font-semibold mb-4 text-foreground">Vertical Button Group</h3>
         <ButtonGroup orientation="vertical">
-          <Button variant="outline">First</Button>
-          <Button variant="outline">Second</Button>
-          <Button variant="outline">Third</Button>
+          <Button variant="secondary">First</Button>
+          <Button variant="secondary">Second</Button>
+          <Button variant="secondary">Third</Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline">
+              <Button variant="secondary">
                 Options <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -91,21 +91,27 @@ export const Default: Story = {
         <h3 className="text-lg font-semibold mb-4 text-foreground">Different Variants</h3>
         <div className="flex flex-col gap-4">
           <ButtonGroup>
-            <Button variant="outlineBrand">Outline Brand</Button>
-            <Button variant="outlineBrand">Outline Brand</Button>
-            <Button variant="outlineBrand">Outline Brand</Button>
+            <Button variant="primary">Outline Brand</Button>
+            <Button variant="primary">Outline Brand</Button>
+            <Button variant="primary">Outline Brand</Button>
           </ButtonGroup>
 
           <ButtonGroup>
-            <Button variant="secondary">Secondary</Button>
-            <Button variant="secondary">Secondary</Button>
-            <Button variant="secondary">Secondary</Button>
+            <Button variant="primary" intent="neutralStrong">
+              Secondary
+            </Button>
+            <Button variant="primary" intent="neutralStrong">
+              Secondary
+            </Button>
+            <Button variant="primary" intent="neutralStrong">
+              Secondary
+            </Button>
           </ButtonGroup>
 
           <ButtonGroup>
-            <Button variant="outline">Cut</Button>
-            <Button variant="outline">Copy</Button>
-            <Button variant="outline">Paste</Button>
+            <Button variant="secondary">Cut</Button>
+            <Button variant="secondary">Copy</Button>
+            <Button variant="secondary">Paste</Button>
           </ButtonGroup>
         </div>
       </div>
@@ -114,37 +120,37 @@ export const Default: Story = {
         <h3 className="text-lg font-semibold mb-4 text-foreground">Mixed Sizes</h3>
         <div className="flex flex-col gap-4">
           <ButtonGroup>
-            <Button variant="outline" size="sm">
+            <Button variant="secondary" size="sm">
               Small
             </Button>
-            <Button variant="outline" size="sm">
+            <Button variant="secondary" size="sm">
               Small
             </Button>
-            <Button variant="outline" size="sm">
+            <Button variant="secondary" size="sm">
               Small
             </Button>
           </ButtonGroup>
 
           <ButtonGroup>
-            <Button variant="outline" size="default">
+            <Button variant="secondary" size="default">
               Default
             </Button>
-            <Button variant="outline" size="default">
+            <Button variant="secondary" size="default">
               Default
             </Button>
-            <Button variant="outline" size="default">
+            <Button variant="secondary" size="default">
               Default
             </Button>
           </ButtonGroup>
 
           <ButtonGroup>
-            <Button variant="outline" size="lg">
+            <Button variant="secondary" size="lg">
               Large
             </Button>
-            <Button variant="outline" size="lg">
+            <Button variant="secondary" size="lg">
               Large
             </Button>
-            <Button variant="outline" size="lg">
+            <Button variant="secondary" size="lg">
               Large
             </Button>
           </ButtonGroup>
@@ -158,10 +164,10 @@ export const Horizontal: Story = {
   decorators: [ThemeSwitcherDecorator],
   render: () => (
     <ButtonGroup>
-      <Button variant="outline">First</Button>
-      <Button variant="outline">Second</Button>
-      <Button variant="outline">Third</Button>
-      <Button variant="outline">Fourth</Button>
+      <Button variant="secondary">First</Button>
+      <Button variant="secondary">Second</Button>
+      <Button variant="secondary">Third</Button>
+      <Button variant="secondary">Fourth</Button>
     </ButtonGroup>
   ),
 };
@@ -173,10 +179,10 @@ export const Vertical: Story = {
   },
   render: (args) => (
     <ButtonGroup {...args}>
-      <Button variant="outline">First</Button>
-      <Button variant="outline">Second</Button>
-      <Button variant="outline">Third</Button>
-      <Button variant="outline">Fourth</Button>
+      <Button variant="secondary">First</Button>
+      <Button variant="secondary">Second</Button>
+      <Button variant="secondary">Third</Button>
+      <Button variant="secondary">Fourth</Button>
     </ButtonGroup>
   ),
 };
@@ -185,10 +191,10 @@ export const WithDropdown: Story = {
   decorators: [ThemeSwitcherDecorator],
   render: () => (
     <ButtonGroup>
-      <Button variant="outline">Action</Button>
+      <Button variant="secondary">Action</Button>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="icon">
+          <Button variant="secondary" size="icon">
             <ChevronDown className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
@@ -207,21 +213,21 @@ export const DisabledStates: Story = {
   render: () => (
     <div className="flex flex-col gap-4">
       <ButtonGroup>
-        <Button variant="outline" disabled>
+        <Button variant="secondary" disabled>
           Disabled
         </Button>
-        <Button variant="outline">Enabled</Button>
-        <Button variant="outline" disabled>
+        <Button variant="secondary">Enabled</Button>
+        <Button variant="secondary" disabled>
           Disabled
         </Button>
       </ButtonGroup>
 
       <ButtonGroup>
-        <Button variant="outline">Enabled</Button>
-        <Button variant="outline" disabled>
+        <Button variant="secondary">Enabled</Button>
+        <Button variant="secondary" disabled>
           Disabled
         </Button>
-        <Button variant="outline">Enabled</Button>
+        <Button variant="secondary">Enabled</Button>
       </ButtonGroup>
     </div>
   ),

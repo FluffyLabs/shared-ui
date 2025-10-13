@@ -23,7 +23,6 @@
   --title: hsl(0 0% 94%);
   --title-secondary-foreground: hsl(0 0% 70.2%);
 
-
   /* ShadCN colors */
   --background: hsl(0 0% 100%);
   --foreground: hsl(218 22% 10%);
@@ -66,8 +65,8 @@
   --sidebar-foreground-muted: hsl(0 0% 68%);
 
   --neutral-strong: hsl(0 0% 22%);
-  --neutral-medium: hsl(0 0% 45%);
-  --neutral-soft: hsl(0 0% 60%);
+  --neutral-medium: hsl(0 0% 50%);
+  --neutral-soft: hsl(0 0% 70%);
 
   --brand-primary: var(--brand-dark);
   --brand-secondary: var(--brand-light);
@@ -98,7 +97,7 @@
   --muted-foreground: var(--title-foreground);
   --accent: var(--background);
   --accent-foreground: var(--foreground);
-  --destructive: hsl(0 62.8% 30.6%);
+  --destructive: hsl(0 62.8% 45.6%);
   --destructive-foreground: hsl(1 50% 77%);
   --success: hsl(120 50% 50%);
   --success-foreground: hsl(120 50% 95%);
@@ -113,8 +112,8 @@
   --sidebar-foreground-muted: hsl(0 0% 36%);
 
   --neutral-strong: hsl(0 0% 98%);
-  --neutral-medium: hsl(0 0% 78%);
-  --neutral-soft: hsl(0 0% 58%);
+  --neutral-medium: hsl(0 0% 56%);
+  --neutral-soft: hsl(0 0% 32%);
 
   --brand-primary: var(--brand);
   --brand-secondary: var(--brand-dark);

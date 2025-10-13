@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { useState } from "react";
+import { cn } from "@/utils";
 import { ToggleDarkModeIcon } from "../../components/DarkMode";
 import { Button } from "./button";
 
@@ -11,15 +13,15 @@ const meta = {
   argTypes: {
     variant: {
       control: { type: "select" },
-      options: ["primary", "secondary", "tertiary"],
+      options: ["primary", "secondary", "tertiary", "ghost"],
     },
     intent: {
       control: { type: "select" },
       options: [
         "primary",
-        "neturalStrong",
-        "neturalMedium",
-        "neturalSoft",
+        "neutralStrong",
+        "neutralMedium",
+        "neutralSoft",
         "destructive",
         "success",
         "warning",
@@ -69,11 +71,11 @@ export const Interactive: Story = {
   decorators: [ThemeSwitcherDecorator],
 };
 
-const variants = ["primary", "secondary", "tertiary"] as const;
+const variants = ["primary", "secondary", "tertiary", "ghost"] as const;
 const intents = [
   "primary",
-  "neturalStrong",
-  "neturalMedium",
+  "neutralStrong",
+  "neutralMedium",
   "neturalSoft",
   "destructive",
   "success",
@@ -87,6 +89,8 @@ export const AllVariants: Story = {
   },
   decorators: [ThemeSwitcherDecorator],
   render: () => {
+    const [forceDark, setForceDark] = useState(false);
+
     return (
       <div className="p-4 bg-sidebar">
         <div className="flex flex-col gap-6">
@@ -112,12 +116,29 @@ export const AllVariants: Story = {
                     Tertiary
                   </Button>
                 </div>
+                <div className="flex w-50 justify-between items-center">
+                  Ghost (Fourth)
+                  <Button variant="ghost" intent="primary">
+                    Ghost
+                  </Button>
+                </div>
               </div>
             </div>
             <h3 className="text-lg font-semibold mb-4 text-foreground">
               All Variant × Intent Combinations (Default Size)
             </h3>
-            <div className="overflow-x-auto">
+            <div className="py-4">
+              <Button
+                variant="secondary"
+                intent="neutralStrong"
+                size="sm"
+                type="button"
+                onClick={() => setForceDark((prev) => !prev)}
+              >
+                Toggle Force Dark
+              </Button>
+            </div>
+            <div className={cn("overflow-x-auto", forceDark && "dark")}>
               <table className="border-collapse border border-border">
                 <thead>
                   <tr>
@@ -142,9 +163,11 @@ export const AllVariants: Story = {
                       </td>
                       {intents.map((intent) => (
                         <td key={`${variant}-${intent}`} className="border border-border p-1 text-center">
-                          <Button variant={variant} intent={intent} size="sm">
-                            {variant.slice(0, 3)} / {intent.slice(0, 3)}
-                          </Button>
+                          {variant === "tertiary" && intent === "neturalSoft" ? null : (
+                            <Button variant={variant} intent={intent} size="sm">
+                              {variant.slice(0, 3)} / {intent.slice(0, 3)}
+                            </Button>
+                          )}
                         </td>
                       ))}
                     </tr>
