@@ -135,7 +135,7 @@ export const AllVariants: Story = {
                 type="button"
                 onClick={() => setForceDark((prev) => !prev)}
               >
-                Toggle Force Dark
+                Toggle Force Dark locally
               </Button>
             </div>
             <div className={cn("overflow-x-auto", forceDark && "dark")}>
@@ -158,11 +158,11 @@ export const AllVariants: Story = {
                 <tbody>
                   {variants.map((variant) => (
                     <tr key={variant}>
-                      <td className="border border-border p-2 font-medium text-foreground bg-muted/25 text-xs">
+                      <td className="border border-border p-2 font-medium text-foreground bg-muted text-xs">
                         {variant}
                       </td>
                       {intents.map((intent) => (
-                        <td key={`${variant}-${intent}`} className="border border-border p-1 text-center">
+                        <td key={`${variant}-${intent}`} className="border border-border p-1 text-center bg-muted/90">
                           {variant === "tertiary" && intent === "neturalSoft" ? null : (
                             <Button variant={variant} intent={intent} size="sm">
                               {variant.slice(0, 3)} / {intent.slice(0, 3)}
@@ -226,74 +226,10 @@ export const AllOtherCombinations: Story = {
   },
 };
 
-export const Default: Story = {
-  args: {
-    children: "Button",
-    variant: "primary",
-  },
-  decorators: [ThemeSwitcherDecorator],
-};
-
-export const Small: Story = {
-  args: {
-    children: "Small Button",
-    size: "sm",
-  },
-  decorators: [ThemeSwitcherDecorator],
-};
-
-export const Large: Story = {
-  args: {
-    children: "Large Button",
-    size: "lg",
-  },
-  decorators: [ThemeSwitcherDecorator],
-};
-
 export const Icon: Story = {
   args: {
     children: "×",
     size: "icon",
-  },
-  decorators: [ThemeSwitcherDecorator],
-};
-
-export const OutlineWithForcedDark: Story = {
-  args: {
-    children: "Forced Dark Mode",
-    variant: "secondary",
-    forcedColorScheme: "dark",
-  },
-  decorators: [
-    (Story) => (
-      <div className="flex flex-wrap gap-4 dark bg-[var(--card)] py-4 px-4">
-        <Story />
-      </div>
-    ),
-    ThemeSwitcherDecorator,
-  ],
-};
-
-export const OutlineBrandWithForcedDark: Story = {
-  args: {
-    children: "Forced Dark Mode",
-    variant: "secondary",
-    forcedColorScheme: "dark",
-  },
-  decorators: [
-    (Story) => (
-      <div className="flex flex-wrap gap-4 dark bg-[var(--card)] py-4 px-4">
-        <Story />
-      </div>
-    ),
-    ThemeSwitcherDecorator,
-  ],
-};
-
-export const Disabled: Story = {
-  args: {
-    children: "Disabled",
-    disabled: true,
   },
   decorators: [ThemeSwitcherDecorator],
 };

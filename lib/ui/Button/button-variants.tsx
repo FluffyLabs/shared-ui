@@ -82,30 +82,8 @@ export const buttonVariants = cva(
         variant: "ghost",
         intent: "primary",
         class:
-          "[--btn-tone-2nd:var(--color-brand-tertiary)] dark:[--btn-tone-2nd:var(--color-brand-fourth)] [--btn-text:var(--color-brand-dark)]" +
-          " ",
+          "[--btn-tone-2nd:var(--color-brand-tertiary)] dark:[--btn-tone-2nd:var(--color-brand-fourth)] [--btn-text:var(--color-brand-dark)]",
       },
-      // {
-      // 	forcedColorScheme: "dark",
-      // 	variant: "secondary",
-      // 	intent: "neutralStrong",
-      // 	class:
-      // 		"bg-transparent border-[var(--border)] dark:text-[var(--title-foreground)] hover:bg-[var(--title)] hover:text-[var(--accent-foreground)] focus-visible:ring-[var(--brand)] focus-visible:ring-offset-[var(--card)]",
-      // },
-      // {
-      // 	forcedColorScheme: "dark",
-      // 	variant: "secondary",
-      // 	intent: "primary",
-      // 	class:
-      // 		"text-brand bg-transparent focus:bg-[var(--card)] hover:focus:bg-brand-darkest hover:text-brand focus-visible:ring-[var(--brand)] focus-visible:ring-offset-[var(--card)]",
-      // },
-      // {
-      // 	forcedColorScheme: "dark",
-      // 	variant: "tertiary",
-      // 	intent: "neutralStrong",
-      // 	class:
-      // 		"bg-transparent focus:bg-[var(--card)] hover:bg-[var(--title)] focus-visible:shadow-none focus-visible:ring-[var(--brand)] focus-visible:ring-offset-[var(--card)]",
-      // },
     ],
     defaultVariants: {
       variant: "primary",
