@@ -11,7 +11,7 @@ export const GithubDropdownMenu = ({ ghRepoName, className }: { ghRepoName: stri
     <DropdownMenu>
       {!isSmall && (
         <DropdownMenuTrigger asChild>
-          <Button variant="outlineBrand" forcedColorScheme="dark" className={cn("mr-4 px-3 h-[32px]", className)}>
+          <Button variant="secondary" forcedColorScheme="dark" className={cn("mr-4 px-3 h-[32px]", className)}>
             Github&nbsp;
             <ChevronDown className="ml-2 h-5 w-4" />
           </Button>
@@ -20,7 +20,11 @@ export const GithubDropdownMenu = ({ ghRepoName, className }: { ghRepoName: stri
 
       {isSmall && (
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" forcedColorScheme="dark" className={cn("text-brand mr-4 px-3 h-[32px]", className)}>
+          <Button
+            variant="tertiary"
+            forcedColorScheme="dark"
+            className={cn("text-brand mr-4 px-3 h-[32px]", className)}
+          >
             <EllipsisVertical />
           </Button>
         </DropdownMenuTrigger>
