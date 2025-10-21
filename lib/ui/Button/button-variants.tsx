@@ -17,18 +17,18 @@ export const buttonVariants = cva(
         primary:
           "[--btn-tone:var(--color-brand-primary)] [--btn-tone-contrast:var(--color-brand-lightest)] [--btn-tone-2nd:var(--color-brand-fourth)] [--btn-text:var(--color-brand-darkest)] dark:[--btn-tone-contrast:var(--color-background)] dark:[--btn-text:var(--color-brand)]",
         neutralStrong:
-          "[--btn-tone:var(--color-neutral-strong)] [--btn-tone-contrast:var(--color-background)] [--btn-tone-2nd:color-mix(in_hsl,var(--color-neutral-strong)_05%,transparent)] [--btn-text:var(--color-neutral-strong)]",
+          "[--btn-tone:var(--color-neutral-strong)] [--btn-tone-contrast:var(--color-background)] [--btn-tone-2nd:color-mix(in_srgb,var(--color-neutral-strong)_10%,white)] dark:[--btn-tone-2nd:color-mix(in_srgb,var(--color-neutral-strong)_20%,black)] [--btn-text:var(--color-neutral-strong)]",
         neutralMedium:
-          "[--btn-tone:var(--color-neutral-medium)] [--btn-tone-contrast:var(--color-background)] [--btn-tone-2nd:color-mix(in_hsl,var(--color-neutral-medium)_05%,transparent)] [--btn-text:var(--color-neutral-medium)]",
+          "[--btn-tone:var(--color-neutral-medium)] [--btn-tone-contrast:var(--color-background)] [--btn-tone-2nd:color-mix(in_srgb,var(--color-neutral-medium)_15%,white)] dark:[--btn-tone-2nd:color-mix(in_srgb,var(--color-neutral-medium)_20%,black)] [--btn-text:var(--color-neutral-medium)]",
         neturalSoft:
-          "[--btn-tone:var(--color-neutral-soft)] [--btn-tone-contrast:var(--color-background)] [--btn-tone-2nd:color-mix(in_hsl,var(--color-neutral-medium)_05%,transparent)] [--btn-text:var(--color-neutral-soft)]",
+          "[--btn-tone:var(--color-neutral-soft)] [--btn-tone-contrast:var(--color-background)] [--btn-tone-2nd:color-mix(in_srgb,var(--color-neutral-soft)_20%,white)]  dark:[--btn-tone-2nd:color-mix(in_srgb,var(--color-neutral-medium)_20%,black)] [--btn-text:var(--color-neutral-soft)]",
         destructive:
           "[--btn-tone:var(--color-destructive)] [--btn-tone-contrast:var(--color-destructive-foreground)] [--btn-tone-2nd:color-mix(in_hsl,var(--color-destructive-foreground)_50%,transparent)] [--btn-text:var(--color-destructive)] dark:[--btn-tone-2nd:color-mix(in_hsl,var(--color-destructive)_25%,transparent)]",
         success:
           "[--btn-tone:var(--color-success)] [--btn-tone-contrast:var(--color-success-foreground)] [--btn-tone-2nd:color-mix(in_hsl,var(--color-success-foreground)_100%,transparent)] [--btn-text:var(--color-success)] dark:[--btn-tone-2nd:color-mix(in_hsl,var(--color-success)_20%,transparent)]",
         warning:
           "[--btn-tone:var(--color-warning)] [--btn-tone-contrast:var(--color-warning-foreground)] [--btn-tone-2nd:color-mix(in_hsl,var(--color-warning)_15%,transparent)] [--btn-text:var(--color-warning-foreground)]",
-        info: "[--btn-tone:var(--color-info)] [--btn-tone-contrast:var(--color-info-foreground)] [--btn-tone-2nd:color-mix(in_hsl,var(--color-info)_10%,transparent)] [--btn-text:var(--color-info-foreground)]",
+        info: "[--btn-tone:var(--color-info)] [--btn-tone-contrast:var(--color-info-foreground)] [--btn-tone-2nd:color-mix(in_hsl,var(--color-info)_15%,transparent)] [--btn-text:var(--color-info-foreground)]",
       },
       size: {
         default: "h-10 px-4 py-2",
