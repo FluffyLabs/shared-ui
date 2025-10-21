@@ -1,11 +1,10 @@
-import Logo from "@/assets/logo.svg";
-import Brand from "@/assets/brand.svg";
-
 import { Separator } from "@radix-ui/react-separator";
-import { Badge } from "@/ui/badge";
-import { createContext, useContext, useMemo, type FC, type JSX } from "react";
-import { GithubDropdownMenu } from "./components/GithubDropdownMenu";
+import { createContext, type FC, type JSX, useContext, useMemo } from "react";
+import Brand from "@/assets/brand.svg";
+import Logo from "@/assets/logo.svg";
+import { BadgeLegacy as Badge } from "@/ui/BadgeLegacy";
 import { cn } from "@/utils";
+import { GithubDropdownMenu } from "./components/GithubDropdownMenu";
 
 type HeaderContextValue = {
   ghRepoName: string;
