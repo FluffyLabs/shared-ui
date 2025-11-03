@@ -48,6 +48,36 @@ export const SemanticColors: Story = {
             <ColorSwatch name="Netural soft" className="bg-neutral-soft" />
           </div>
         </div>
+        <div>
+          <h2 className="text-xl font-bold text-title-foreground mb-2">Base UI Colors</h2>
+          <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 bg-card border border-border rounded-lg p-4">
+            <ColorSwatch name="Background" className="bg-background" />
+            <ColorSwatch name="Foreground" className="bg-foreground" />
+            <ColorSwatch name="Card" className="bg-card" />
+            <ColorSwatch name="Card Foreground" className="bg-card-foreground" />
+            <ColorSwatch name="Popover" className="bg-popover" />
+            <ColorSwatch name="Popover Foreground" className="bg-popover-foreground" />
+            <ColorSwatch name="Muted" className="bg-muted" />
+            <ColorSwatch name="Muted Foreground" className="bg-muted-foreground" />
+            <ColorSwatch name="Accent" className="bg-accent" />
+            <ColorSwatch name="Accent Foreground" className="bg-accent-foreground" />
+          </div>
+        </div>
+        <div>
+          <h2 className="text-xl font-bold text-title-foreground mb-2">UI Element Colors</h2>
+          <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 bg-card border border-border rounded-lg p-4">
+            <ColorSwatch name="Border" className="bg-border" />
+            <ColorSwatch name="Input" className="bg-input" />
+            <ColorSwatch name="Ring" className="bg-ring" />
+            <ColorSwatch name="Sidebar" className="bg-sidebar" />
+            <ColorSwatch name="Sidebar Darker" className="bg-sidebar-darker" />
+            <ColorSwatch name="Sidebar Foreground" className="bg-sidebar-foreground" />
+            <ColorSwatch name="Sidebar Foreground Muted" className="bg-sidebar-foreground-muted" />
+            <ColorSwatch name="Title Foreground" className="bg-title-foreground" />
+            <ColorSwatch name="Title" className="bg-title" />
+            <ColorSwatch name="Title Secondary Foreground" className="bg-title-secondary-foreground" />
+          </div>
+        </div>
       </div>
     </div>
   ),

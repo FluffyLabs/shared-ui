@@ -7,3 +7,4 @@ export * from "./DropdownMenu";
 export * from "./Popover";
 export * from "./Switch";
 export * from "./WithTooltip";
+export * from "./Textarea";
