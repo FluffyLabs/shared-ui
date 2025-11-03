@@ -54,9 +54,9 @@
   --info-foreground: hsl(200 100% 18%);
 
   /*  */
-  --border: hsl(0 0% 94%);
+  --border: hsl(0 0% 82%);
   --input: var(--border);
-  --ring: var(--title-secondary-foreground);
+  --ring: var(--brand-dark);
   --radius: 0.5rem;
 
   --sidebar: hsl(0 0% 97%);
@@ -134,7 +134,7 @@
 .dark {
   /*DARK MODE COLORS*/
   --background: hsl(0 0% 20%);
-  --foreground: hsl(0 0% 70%);
+  --foreground: hsl(0 1% 86%);
   --card: hsl(0 0% 14%);
   --title: hsl(0 0% 18%);
   --title-foreground: hsl(0 0% 56%);
