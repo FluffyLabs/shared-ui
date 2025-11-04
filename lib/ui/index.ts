@@ -8,3 +8,4 @@ export * from "./Popover";
 export * from "./Switch";
 export * from "./WithTooltip";
 export * from "./Textarea";
+export * from "./Input";
