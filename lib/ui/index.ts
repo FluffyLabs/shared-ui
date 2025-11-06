@@ -10,3 +10,4 @@ export * from "./Switch";
 export * from "./WithTooltip";
 export * from "./Textarea";
 export * from "./Input";
+export * from "./Alert";
