@@ -1,6 +1,7 @@
 export * from "./Badge";
 export * from "./Button";
 export * from "./ButtonGroup";
+export * from "./Checkbox";
 export * from "./Dialog";
 export * from "./DialogModal";
 export * from "./DropdownMenu";
