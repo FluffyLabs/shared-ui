@@ -82,3 +82,72 @@ export const Disabled: Story = {
   },
   decorators: [ThemeSwitcherDecorator],
 };
+
+export const AllIntents: Story = {
+  decorators: [ThemeSwitcherDecorator],
+  render: () => (
+    <div className="p-4 bg-card">
+      <div className="flex flex-col gap-6 w-80">
+        <h3 className="text-lg font-semibold text-foreground">Intent Variations</h3>
+
+        <div className="flex flex-col gap-4">
+          <h4 className="text-md font-medium text-foreground">Normal State</h4>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-foreground">Primary</label>
+            <Input intent="primary" placeholder="Primary intent input..." />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-foreground">Neutral (Default)</label>
+            <Input intent="neutral" placeholder="Neutral intent input..." />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-foreground">Destructive</label>
+            <Input intent="destructive" placeholder="Destructive intent input..." />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-foreground">Success</label>
+            <Input intent="success" placeholder="Success intent input..." />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-foreground">Warning</label>
+            <Input intent="warning" placeholder="Warning intent input..." />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4">
+          <h4 className="text-md font-medium text-foreground">Disabled State</h4>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-foreground">Primary (Disabled)</label>
+            <Input intent="primary" placeholder="Disabled primary..." disabled />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-foreground">Neutral (Disabled)</label>
+            <Input intent="neutral" placeholder="Disabled neutral..." disabled />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-foreground">Destructive (Disabled)</label>
+            <Input intent="destructive" placeholder="Disabled destructive..." disabled />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-foreground">Success (Disabled)</label>
+            <Input intent="success" placeholder="Disabled success..." disabled />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-foreground">Warning (Disabled)</label>
+            <Input intent="warning" placeholder="Disabled warning..." disabled />
+          </div>
+        </div>
+      </div>
+    </div>
+  ),
+};

@@ -102,6 +102,75 @@ export const Large: Story = {
   decorators: [ThemeSwitcherDecorator],
 };
 
+export const AllIntents: Story = {
+  decorators: [ThemeSwitcherDecorator],
+  render: () => (
+    <div className="p-4 bg-card">
+      <div className="flex flex-col gap-6 w-80">
+        <h3 className="text-lg font-semibold text-foreground">Intent Variations</h3>
+
+        <div className="flex flex-col gap-4">
+          <h4 className="text-md font-medium text-foreground">Normal State</h4>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-foreground">Primary</label>
+            <Textarea intent="primary" placeholder="Primary intent textarea..." rows={3} />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-foreground">Neutral (Default)</label>
+            <Textarea intent="neutral" placeholder="Neutral intent textarea..." rows={3} />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-foreground">Destructive</label>
+            <Textarea intent="destructive" placeholder="Destructive intent textarea..." rows={3} />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-foreground">Success</label>
+            <Textarea intent="success" placeholder="Success intent textarea..." rows={3} />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-foreground">Warning</label>
+            <Textarea intent="warning" placeholder="Warning intent textarea..." rows={3} />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4">
+          <h4 className="text-md font-medium text-foreground">Disabled State</h4>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-foreground">Primary (Disabled)</label>
+            <Textarea intent="primary" placeholder="Disabled primary..." rows={3} disabled />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-foreground">Neutral (Disabled)</label>
+            <Textarea intent="neutral" placeholder="Disabled neutral..." rows={3} disabled />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-foreground">Destructive (Disabled)</label>
+            <Textarea intent="destructive" placeholder="Disabled destructive..." rows={3} disabled />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-foreground">Success (Disabled)</label>
+            <Textarea intent="success" placeholder="Disabled success..." rows={3} disabled />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-foreground">Warning (Disabled)</label>
+            <Textarea intent="warning" placeholder="Disabled warning..." rows={3} disabled />
+          </div>
+        </div>
+      </div>
+    </div>
+  ),
+};
+
 export const Disabled: Story = {
   args: {
     placeholder: "This textarea is disabled",
