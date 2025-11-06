@@ -1,2 +1,2 @@
 export { Input, type InputProps } from "./Input";
-export { intentColors, type Intent } from "./input-intent";
+export { inputIntentColors as intentColors, type InputIntent as Intent } from "./input-intent";

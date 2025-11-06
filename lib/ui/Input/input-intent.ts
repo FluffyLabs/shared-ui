@@ -1,8 +1,8 @@
 import { cva } from "class-variance-authority";
 
-export type Intent = "primary" | "neutral" | "destructive" | "success" | "warning";
+export type InputIntent = "primary" | "neutral" | "destructive" | "success" | "warning";
 
-export const intentColors = cva(
+export const inputIntentColors = cva(
   "placeholder:text-[color-mix(in_srgb,var(--intent-color)_30%,var(--color-muted-foreground))] text-[var(--intent-color)] bg-[color-mix(in_srgb,var(--intent-color)_10%,var(--color-background))] border-[var(--intent-color)] focus-visible:ring-[var(--intent-color)]",
   {
     variants: {
