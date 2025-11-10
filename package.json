@@ -75,7 +75,7 @@
         "default": "./dist/utils.cjs.js"
       }
     },
-    "./global.css": "./dist/global.css",
+    "./style.css": "./dist/style.css",
     "./theme.css": "./dist/theme.css"
   },
   "scripts": {
@@ -135,7 +135,8 @@
   },
   "peerDependencies": {
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^3.1.0"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.3.3",

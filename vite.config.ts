@@ -45,15 +45,17 @@ export default defineConfig({
     rollupOptions: {
       // Exclude peer dependencies from the bundle to reduce bundle size
       external: [
+        // React - ensure all React imports are external
         "react",
         "react-dom",
         "react/jsx-runtime",
+        /^react($|\/)/, // Catches all react imports including subpaths
         ...Object.keys(peerDependencies),
         // Also externalize all @radix-ui packages and other deps
         /^@radix-ui\//,
         "clsx",
         "class-variance-authority",
-        "tailwind-merge",
+        "tailwind-merge", // Explicitly external
         "lucide-react",
         "tw-animate-css",
       ],
