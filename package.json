@@ -83,7 +83,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "build": "storybook build",
-    "build:lib": "rm -rf dist && vite build && cp ./lib/theme.css ./dist/theme.css && mv ./dist/shared-ui.css ./dist/style.css",
+    "build:lib": "rm -rf dist && vite build && cp ./lib/theme.css ./dist/theme.css",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "format": "prettier . --write",
     "prepare": "echo \"npx --no -- commitlint --edit \\$1\" > .husky/commit-msg"
