@@ -65,7 +65,7 @@ export default defineConfig({
           preserveModules: true,
           preserveModulesRoot: "lib",
           entryFileNames: "[name].es.js",
-          assetFileNames: "styles.css",
+          assetFileNames: "style.css",
         },
         {
           format: "cjs",
@@ -73,7 +73,7 @@ export default defineConfig({
           preserveModulesRoot: "lib",
           entryFileNames: "[name].cjs.js",
           exports: "named",
-          assetFileNames: "styles.css",
+          assetFileNames: "style.css",
         },
       ],
     },
