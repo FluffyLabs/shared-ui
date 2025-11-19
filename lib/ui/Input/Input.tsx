@@ -7,7 +7,6 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(({ className, intent = "neutral", ...props }, ref) => {
-  console.log(intent);
   return (
     <input
       className={cn(
