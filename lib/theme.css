@@ -1,6 +1,24 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+  /*
+   * Typography
+   *
+   * Default fonts: Poppins (sans) and Inconsolata (mono).
+   * Consuming projects must load these fonts themselves, e.g. via Google Fonts:
+   *
+   *   <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Inconsolata:wght@400;500;600;700&display=swap" rel="stylesheet" />
+   *
+   * To override, redefine these tokens in your own @theme block:
+   *
+   *   @theme {
+   *     --font-sans: "Inter", sans-serif;
+   *     --font-mono: "Fira Code", monospace;
+   *   }
+   */
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Inconsolata", ui-monospace, SFMono-Regular, monospace;
+
   --color-title-foreground: var(--title-foreground);
   --color-title: var(--title);
   --color-title-secondary-foreground: var(--title-secondary-foreground);

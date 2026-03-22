@@ -6,8 +6,6 @@
 :root {
   --toastify-toast-width: 350px;
 
-  --font-display: "Poppins", "sans-serif";
-
   /*fixed colors*/
 
   --brand: #61ede2;
@@ -241,12 +239,3 @@
   }
 }
 
-body {
-  @font-face {
-    font-family: Oswald;
-    font-style: normal;
-    font-weight: 200 700;
-    font-display: swap;
-    src: url("/fonts/Oswald.woff2") format("woff2");
-  }
-}

@@ -58,6 +58,28 @@ Use the precompiled styles in your app:
 @import "tailwindcss/utilities" layer(utilities);
 ```
 
+### Fonts
+
+The library uses **Poppins** as the default sans-serif font and **Inconsolata** as the monospace font. Consuming projects must load these fonts themselves, for example via Google Fonts:
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Inconsolata:wght@400;500;600;700&display=swap"
+  rel="stylesheet"
+/>
+```
+
+To override the default fonts, redefine the Tailwind theme tokens in your CSS:
+
+```css
+@theme {
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "Fira Code", monospace;
+}
+```
+
 ### Tailwind Configuration
 
 To prevent class duplication when using Tailwind CSS in your project, add the shared-ui dist folder to your Tailwind content paths:
