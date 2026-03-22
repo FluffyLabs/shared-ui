@@ -114,39 +114,26 @@ For more usage examples and component documentation, visit our [Storybook](http:
 
 ### Releasing a New Version
 
-The release process involves three steps:
+The release process involves two steps:
 
-#### Step 1: Create a Version Bump PR
+#### Step 1: Create a Version Bump PR and Draft Release
 
-1. Go to [Actions → Release step 1 - Bump version and create PR](../../actions/workflows/shared-ui-bump-version-and-create-pr.yml)
+1. Go to [Actions → Release step 1](../../actions/workflows/shared-ui-bump-version-and-create-pr.yml)
 2. Click "Run workflow"
 3. Select:
    - **Branch**: `main` (releases should always be from main)
    - **Version bump type**: `patch`, `minor`, or `major`
-4. The workflow will create a pull request with the version bump
+4. The workflow will create a pull request with the version bump and a draft GitHub release
 5. Review and merge the PR
 
-#### Step 2: Create GitHub Release
+#### Step 2: Publish to NPM
 
-After merging the version bump PR:
-
-1. Go to [Actions → Release step 2 - create Github Release](../../actions/workflows/shared-ui-create-release.yml)
-2. Click "Run workflow"
-3. The workflow will:
-   - Create a git tag for the new version
-   - Create a GitHub release (as draft) with commit history
-   - The release includes installation instructions and changes
-
-#### Step 3: Publish to NPM
-
-Once a GitHub release is published (not draft), the [Release step 3 - Publish to NPM](.github/workflows/shared-ui-npm-publish.yml) workflow automatically:
-
-- Checks out the exact tag from the release
-- Verifies the tag matches the package.json version
-- Builds the component library
-- Publishes the package to NPM registry
-
-The publish workflow ensures you're always publishing the exact code that was tagged and released.
+1. Go to [Releases](../../releases) and find the draft release
+2. Click "Publish release" — this creates the git tag and triggers the [Publish to NPM](../../actions/workflows/shared-ui-npm-publish.yml) workflow, which automatically:
+   - Checks out the exact tag from the release
+   - Verifies the tag matches the package.json version
+   - Builds the component library
+   - Publishes the package to NPM registry
 
 ### Storybook Deployment
 

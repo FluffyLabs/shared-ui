@@ -1,4 +1,4 @@
-name: Release step 3 - Publish to NPM
+name: Release step 2 - Publish to NPM
 
 on:
   release:

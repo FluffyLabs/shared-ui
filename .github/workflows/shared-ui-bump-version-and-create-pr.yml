@@ -1,4 +1,4 @@
-name: Release step 1 - Bump version and create PR
+name: Release step 1 - Bump version, create PR and draft release
 
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ on:
 
 jobs:
   create-release-pr:
-    name: "🚀 Create Release PR (${{ github.event.inputs.bump }})"
+    name: "🚀 Create Release (${{ github.event.inputs.bump }})"
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -32,9 +32,11 @@ jobs:
         with:
           node-version: 24
 
-      - name: 🔢 Get current version
+      - name: 🔢 Get current version and package info
         id: get_version
-        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+        run: |
+          echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+          echo "package_name=$(node -p "require('./package.json').name")" >> "$GITHUB_OUTPUT"
 
       - name: ➕ Calculate new version
         id: bump
@@ -52,10 +54,10 @@ jobs:
           if [ -z "$last_tag" ]; then
             echo "No previous tags found"
             echo "last_tag=" >> "$GITHUB_OUTPUT"
-            git log --pretty=format:"- %s %H" | head -n 20 | tee commits.txt
+            git log --pretty=format:"- %s (%h)" | head -n 20 | tee commits.txt
           else
             echo "last_tag=$last_tag" >> "$GITHUB_OUTPUT"
-            git log "$last_tag"..HEAD --pretty=format:"- %s %H" | tee commits.txt
+            git log "$last_tag"..HEAD --pretty=format:"- %s (%h)" | tee commits.txt
           fi
 
       - name: 📢 Show summary in notices
@@ -86,7 +88,7 @@ jobs:
             echo "- Branch: ${{ github.ref_name }}"
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: 📋 Prepare PR Body
+      - name: 📋 Prepare PR body
         id: pr_body
         run: |
           {
@@ -109,10 +111,46 @@ jobs:
             echo ""
             echo "---"
             echo ""
-            echo "**Note:** After merging this PR, run 'Release step 2' workflow to create a GitHub release."
+            echo "**Note:** After merging this PR, publish the draft GitHub release to trigger NPM publishing."
           } > pr_body.txt
 
           body=$(cat pr_body.txt)
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          echo "$body" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: 📦 Prepare release notes
+        id: release_notes
+        run: |
+          version="${{ steps.bump.outputs.new_version }}"
+          package_name="${{ steps.get_version.outputs.package_name }}"
+
+          {
+            echo "## 📦 Release v$version"
+            echo ""
+            echo "This release is ready to be published to [npm](https://www.npmjs.com/package/$package_name)."
+            echo ""
+            echo "### 📝 Changes in this release"
+            echo ""
+            if [ -s commits.txt ]; then
+              cat commits.txt
+            else
+              echo "No new commits"
+            fi
+            echo ""
+            echo "### 📥 Installation"
+            echo ""
+            echo "\`\`\`bash"
+            echo "npm install $package_name@$version"
+            echo "\`\`\`"
+            echo ""
+            echo "### 📋 Next Steps"
+            echo ""
+            echo "1. Merge the release PR"
+            echo "2. Publish this draft release to trigger NPM publishing"
+          } > release_body.txt
+
+          body=$(cat release_body.txt)
           echo "body<<EOF" >> $GITHUB_OUTPUT
           echo "$body" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
@@ -121,7 +159,7 @@ jobs:
         run: npm version ${{ github.event.inputs.bump }} --no-git-tag-version
 
       - name: 🧹 Clean up temporary files
-        run: rm -f commits.txt pr_body.txt
+        run: rm -f commits.txt pr_body.txt release_body.txt
 
       - name: 🔄 Create Pull Request
         uses: peter-evans/create-pull-request@v8
@@ -133,3 +171,15 @@ jobs:
           title: "chore: release v${{ steps.bump.outputs.new_version }}"
           body: ${{ steps.pr_body.outputs.body }}
           base: main
+
+      - name: 📦 Create draft GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.bump.outputs.new_version }}
+          name: v${{ steps.bump.outputs.new_version }}
+          body: ${{ steps.release_notes.outputs.body }}
+          draft: true
+          prerelease: false
+          target_commitish: main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
