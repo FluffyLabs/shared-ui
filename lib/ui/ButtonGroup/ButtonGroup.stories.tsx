@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronDown } from "lucide-react";
 import { ToggleDarkModeIcon } from "../../components/DarkMode";
 import { Button } from "../Button/button";

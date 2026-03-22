@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useId, useState } from "react";
 import { ToggleDarkModeIcon } from "../../components/DarkMode";
 import { Checkbox } from "./Checkbox";
@@ -280,11 +280,7 @@ export const MultipleCheckboxes: Story = {
         </div>
 
         <div className="flex items-center space-x-2">
-          <Checkbox
-            id={newsletterId}
-            checked={preferences.newsletter}
-            onCheckedChange={handleChange("newsletter")}
-          />
+          <Checkbox id={newsletterId} checked={preferences.newsletter} onCheckedChange={handleChange("newsletter")} />
           <Label htmlFor={newsletterId} className="text-sm font-medium text-foreground cursor-pointer">
             Weekly newsletter
           </Label>
