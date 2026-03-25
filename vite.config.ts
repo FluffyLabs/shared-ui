@@ -53,6 +53,7 @@ export default defineConfig({
         ...Object.keys(peerDependencies),
         // Also externalize all @radix-ui packages and other deps
         /^@radix-ui\//,
+        /^@supabase\//,
         "clsx",
         "class-variance-authority",
         "tailwind-merge", // Explicitly external
