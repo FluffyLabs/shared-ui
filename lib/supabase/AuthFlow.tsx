@@ -85,6 +85,8 @@ export function AuthFlow({ onSuccess, className }: AuthFlowProps) {
           onClick={() => {
             setMode("login");
             setError(null);
+            setPassword("");
+            setConfirmPassword("");
           }}
         >
           Login
@@ -100,6 +102,8 @@ export function AuthFlow({ onSuccess, className }: AuthFlowProps) {
           onClick={() => {
             setMode("register");
             setError(null);
+            setPassword("");
+            setConfirmPassword("");
           }}
         >
           Register

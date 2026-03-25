@@ -18,11 +18,18 @@ export function SupabaseProvider({ supabaseUrl, supabaseAnonKey, appId, children
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    client.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setIsLoading(false);
-    });
+    client.auth
+      .getSession()
+      .then(({ data: { session } }) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+      })
+      .catch((error) => {
+        console.error("Failed to get session:", error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
 
     const {
       data: { subscription },

@@ -48,7 +48,7 @@ export function UserMenu({ onSettingsClick, onLoginClick, compact }: UserMenuPro
             Settings
           </DropdownMenuItem>
         )}
-        <DropdownMenuItem onClick={() => signOut()}>
+        <DropdownMenuItem onClick={() => signOut().catch((e) => console.error("Sign out failed:", e))}>
           <LogOut className="mr-2 h-4 w-4" />
           Sign out
         </DropdownMenuItem>
