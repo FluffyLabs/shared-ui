@@ -128,7 +128,7 @@ Run this in your Supabase SQL editor:
 create table user_data (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
-  app_id text,
+  app_id text not null default '',
   key text not null,
   value jsonb,
   created_at timestamptz default now(),

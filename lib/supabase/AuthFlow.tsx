@@ -33,8 +33,14 @@ export function AuthFlow({ onSuccess, className }: AuthFlowProps) {
           setIsSubmitting(false);
           return;
         }
-        const { error } = await client.auth.signUp({ email, password });
+        const { data, error } = await client.auth.signUp({ email, password });
         if (error) throw error;
+        if (data.user?.identities?.length === 0) {
+          setError(
+            "An account with this email already exists. Please log in or check your inbox for a confirmation link.",
+          );
+          return;
+        }
         setRegistered(true);
       } else {
         const { error } = await client.auth.signInWithPassword({ email, password });

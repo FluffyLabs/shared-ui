@@ -17,15 +17,15 @@ export interface UseUserDataResult<T> {
  * Read and write per-user key-value data from the `user_data` table.
  *
  * Expected table schema:
- *   user_data (id uuid PK, user_id uuid, app_id text nullable, key text, value jsonb)
+ *   user_data (id uuid PK, user_id uuid, app_id text not null default '', key text, value jsonb)
  *   unique constraint on (user_id, app_id, key)
  *
- * By default reads/writes shared data (app_id = null).
+ * By default reads/writes shared data (app_id = '').
  * Pass `{ appScoped: true }` to scope data to the current app's `appId`.
  */
 export function useUserData<T = unknown>(key: string, options?: UseUserDataOptions): UseUserDataResult<T> {
   const { client, user, appId } = useSupabaseContext();
-  const effectiveAppId = options?.appScoped ? appId : null;
+  const effectiveAppId = options?.appScoped ? appId : "";
 
   // A key that changes whenever the fetch inputs change, used to derive isLoading
   // without calling setState synchronously in the effect body.
@@ -44,11 +44,7 @@ export function useUserData<T = unknown>(key: string, options?: UseUserDataOptio
 
     let query = client.from("user_data").select("value").eq("user_id", user.id).eq("key", key);
 
-    if (effectiveAppId) {
-      query = query.eq("app_id", effectiveAppId);
-    } else {
-      query = query.is("app_id", null);
-    }
+    query = query.eq("app_id", effectiveAppId);
 
     query.maybeSingle().then(({ data: row, error: queryError }) => {
       if (cancelled) return;
@@ -81,15 +77,12 @@ export function useUserData<T = unknown>(key: string, options?: UseUserDataOptio
   const remove = useCallback(async () => {
     if (!user) throw new Error("User must be logged in to remove data");
 
-    let query = client.from("user_data").delete().eq("user_id", user.id).eq("key", key);
-
-    if (effectiveAppId) {
-      query = query.eq("app_id", effectiveAppId);
-    } else {
-      query = query.is("app_id", null);
-    }
-
-    const { error: deleteError } = await query;
+    const { error: deleteError } = await client
+      .from("user_data")
+      .delete()
+      .eq("user_id", user.id)
+      .eq("app_id", effectiveAppId)
+      .eq("key", key);
     if (deleteError) throw new Error(deleteError.message);
     setResult((prev) => ({ ...prev, data: null }));
   }, [client, user, key, effectiveAppId]);

@@ -36,7 +36,9 @@ export function UserMenu({ onSettingsClick, onLoginClick, compact }: UserMenuPro
       <DropdownMenuTrigger asChild>
         <Button variant="tertiary" forcedColorScheme="dark" className="mr-4 px-3 h-[32px]">
           <UserIcon className="h-4 w-4 mr-1" />
-          <span className="text-sm max-sm:hidden">{compact ? user.email?.split("@")[0] : user.email}</span>
+          <span className="text-sm max-sm:hidden">
+            {compact ? (user.email?.split("@")[0] ?? "User") : (user.email ?? "User")}
+          </span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" forcedColorScheme="dark">
