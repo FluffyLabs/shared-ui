@@ -110,6 +110,77 @@ function App() {
 
 For more usage examples and component documentation, visit our [Storybook](http://fluffylabs.dev/shared-ui/).
 
+### Supabase Integration (Auth, User Data)
+
+The library includes optional Supabase-powered components for authentication, user menus, settings, and per-user data storage. These are exported from a separate subpath so apps that don't use auth are unaffected.
+
+#### Install the Supabase SDK
+
+```bash
+npm install @supabase/supabase-js
+```
+
+#### Create the `user_data` table
+
+Run this in your Supabase SQL editor:
+
+```sql
+create table user_data (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  app_id text,
+  key text not null,
+  value jsonb,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now(),
+  unique (user_id, app_id, key)
+);
+
+alter table user_data enable row level security;
+
+create policy "Users can manage their own data"
+  on user_data for all
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+```
+
+#### Wrap your app
+
+```tsx
+import { SupabaseProvider, UserMenu, AuthFlow, Settings } from "@fluffylabs/shared-ui/supabase";
+import { Header } from "@fluffylabs/shared-ui/components";
+
+function App() {
+  return (
+    <SupabaseProvider supabaseUrl="https://your-project.supabase.co" supabaseAnonKey="your-anon-key" appId="my-app">
+      <Header
+        toolNameSrc={logo}
+        endSlot={<UserMenu onLoginClick={() => navigate("/login")} onSettingsClick={() => navigate("/settings")} />}
+      />
+      <Routes>
+        <Route path="/login" element={<AuthFlow onSuccess={() => navigate("/")} />} />
+        <Route path="/settings" element={<Settings />} />
+      </Routes>
+    </SupabaseProvider>
+  );
+}
+```
+
+#### Available exports
+
+| Export             | Description                                                                    |
+| ------------------ | ------------------------------------------------------------------------------ |
+| `SupabaseProvider` | Context provider — creates the Supabase client                                 |
+| `AuthFlow`         | Combined login/register screen                                                 |
+| `UserMenu`         | Header dropdown with login/email/settings/sign-out                             |
+| `Settings`         | Settings panel with theme selector                                             |
+| `useUser`          | `{ user, isLoading }`                                                          |
+| `useSession`       | `{ session, isLoading }`                                                       |
+| `useSignOut`       | Sign-out callback                                                              |
+| `useUserData`      | Per-user key-value storage (`{ appScoped }` option for shared vs per-app data) |
+
+For detailed docs and interactive examples, see the [Supabase section in Storybook](http://fluffylabs.dev/shared-ui/?path=/docs/supabase-getting-started--docs).
+
 ## Deployment
 
 ### Releasing a New Version

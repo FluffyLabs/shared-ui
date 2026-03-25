@@ -1,0 +1,158 @@
+{/* @jsxRuntime automatic */}
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Supabase/Getting Started" />
+
+# Supabase Integration
+
+The `@fluffylabs/shared-ui/supabase` subpath provides authentication, user menu, settings, and per-user data storage components powered by [Supabase](https://supabase.com).
+
+All Fluffy Labs apps share a single Supabase project, so users have one account across all apps.
+
+## Prerequisites
+
+Install the Supabase JS SDK alongside the shared UI:
+
+```bash
+npm install @supabase/supabase-js
+```
+
+## Supabase Project Setup
+
+### 1. Create the `user_data` table
+
+Run this SQL in your Supabase SQL editor (Dashboard > SQL Editor):
+
+```sql
+create table user_data (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  app_id text,
+  key text not null,
+  value jsonb,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now(),
+  unique (user_id, app_id, key)
+);
+
+-- Row Level Security: users can only access their own data
+alter table user_data enable row level security;
+
+create policy "Users can manage their own data"
+  on user_data for all
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+```
+
+### 2. Configure Auth
+
+In the Supabase dashboard under **Authentication > Settings**:
+
+- Email/password sign-up is enabled by default
+- Set the **Site URL** to your production domain
+- Add any additional **Redirect URLs** for local development (e.g., `http://localhost:5173`)
+
+## Usage
+
+### Wrap your app with `SupabaseProvider`
+
+```tsx
+import { SupabaseProvider } from "@fluffylabs/shared-ui/supabase";
+
+function App() {
+  return (
+    <SupabaseProvider
+      supabaseUrl="https://your-project.supabase.co"
+      supabaseAnonKey="your-anon-key"
+      appId="my-app"
+    >
+      {/* your app */}
+    </SupabaseProvider>
+  );
+}
+```
+
+The `appId` is used by `useUserData` to distinguish per-app data from shared data.
+
+### Add UserMenu to the Header
+
+```tsx
+import { Header } from "@fluffylabs/shared-ui/components";
+import { UserMenu } from "@fluffylabs/shared-ui/supabase";
+
+<Header
+  toolNameSrc={toolNameLogo}
+  endSlot={
+    <UserMenu
+      onLoginClick={() => navigate("/login")}
+      onSettingsClick={() => navigate("/settings")}
+    />
+  }
+/>
+```
+
+### Add the AuthFlow page
+
+```tsx
+import { AuthFlow } from "@fluffylabs/shared-ui/supabase";
+
+function LoginPage() {
+  return <AuthFlow onSuccess={() => navigate("/")} />;
+}
+```
+
+### Add the Settings page
+
+```tsx
+import { Settings } from "@fluffylabs/shared-ui/supabase";
+
+function SettingsPage() {
+  return <Settings />;
+}
+```
+
+### Store per-user data
+
+```tsx
+import { useUserData } from "@fluffylabs/shared-ui/supabase";
+
+function MyComponent() {
+  // Shared across all apps (app_id = null)
+  const { data: theme, save: saveTheme } = useUserData<string>("theme");
+
+  // Scoped to this app only (uses appId from SupabaseProvider)
+  const { data: bookmarks, save: saveBookmarks } = useUserData<string[]>(
+    "bookmarks",
+    { appScoped: true }
+  );
+}
+```
+
+### Access auth state
+
+```tsx
+import { useUser, useSession, useSignOut } from "@fluffylabs/shared-ui/supabase";
+
+function MyComponent() {
+  const { user, isLoading } = useUser();
+  const { session, isLoading: sessionLoading } = useSession();
+  const signOut = useSignOut();
+
+  if (isLoading) return <span>Loading...</span>;
+  if (!user) return <span>Not logged in</span>;
+  return <button onClick={signOut}>Sign out {user.email}</button>;
+}
+```
+
+## Components & Hooks
+
+| Export | Description |
+|--------|-------------|
+| `SupabaseProvider` | Context provider — wraps your app, creates the Supabase client |
+| `AuthFlow` | Combined login/register screen with tab toggle |
+| `UserMenu` | Header dropdown — login button (logged out) or email + settings + sign out (logged in) |
+| `Settings` | Settings panel with theme selector (light/dark/auto) |
+| `useUser` | Returns `{ user, isLoading }` |
+| `useSession` | Returns `{ session, isLoading }` |
+| `useSignOut` | Returns a sign-out callback |
+| `useUserData` | Per-user key-value storage with `{ appScoped }` option |
