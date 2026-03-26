@@ -269,3 +269,101 @@ function MyComponent() {
 | `PricingCard` | Pro plan card with price, features, and checkout button |
 | `QuotaGate` | Gates content behind subscription + free quota |
 | `SubscriptionStatus` | Plan badge with manage/upgrade button (for Settings) |
+
+## Stripe Edge Functions
+
+The `supabase/functions/` directory contains three Edge Functions that handle Stripe operations
+requiring a server-side secret key. These are deployed to your Supabase project, not published
+as part of the npm package.
+
+### Setup
+
+1. **Create a Stripe account** and get your API keys from the [Stripe Dashboard](https://dashboard.stripe.com/apikeys)
+
+2. **Create a Product and Price** in Stripe for the monthly Pro plan. Copy the Price ID (starts with `price_`).
+
+3. **Set environment variables** in your Supabase project (Dashboard > Edge Functions > Secrets):
+
+   ```
+   STRIPE_SECRET_KEY=sk_live_...
+   STRIPE_WEBHOOK_SECRET=whsec_...
+   STRIPE_PRICE_ID=price_...
+   SITE_URL=https://your-app.com
+   ```
+
+4. **Deploy the Edge Functions**:
+
+   ```bash
+   supabase functions deploy create-checkout
+   supabase functions deploy stripe-webhook
+   supabase functions deploy create-portal
+   ```
+
+5. **Create a Stripe webhook** pointing to your `stripe-webhook` function URL:
+   `https://<project-ref>.supabase.co/functions/v1/stripe-webhook`
+
+   Subscribe to these events:
+   - `checkout.session.completed`
+   - `customer.subscription.updated`
+   - `customer.subscription.deleted`
+
+6. **Configure the Customer Portal** in [Stripe Dashboard > Settings > Customer Portal](https://dashboard.stripe.com/settings/billing/portal)
+   to allow customers to cancel their subscription.
+
+### Calling from your app
+
+```tsx
+import { useSession } from "@fluffylabs/shared-ui/supabase";
+
+const SUPABASE_URL = "https://your-project.supabase.co";
+
+function useCheckout() {
+  const { session } = useSession();
+
+  return async () => {
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/create-checkout`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${session?.access_token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ returnUrl: window.location.origin }),
+    });
+    const { url } = await res.json();
+    window.location.href = url;
+  };
+}
+
+function useManageSubscription() {
+  const { session } = useSession();
+
+  return async () => {
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/create-portal`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${session?.access_token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ returnUrl: window.location.origin }),
+    });
+    const { url } = await res.json();
+    window.location.href = url;
+  };
+}
+```
+
+Then wire them into your components:
+
+```tsx
+function SettingsPage() {
+  const checkout = useCheckout();
+  const manage = useManageSubscription();
+
+  return (
+    <>
+      <Settings />
+      <SubscriptionStatus onCheckout={checkout} onManage={manage} />
+    </>
+  );
+}
+```
