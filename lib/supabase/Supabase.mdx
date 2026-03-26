@@ -44,7 +44,63 @@ create policy "Users can manage their own data"
   with check (auth.uid() = user_id);
 ```
 
-### 2. Configure Auth
+### 2. Create the `subscriptions` and `usage` tables
+
+```sql
+-- Subscription status per user (managed by Stripe webhooks via Edge Function)
+create table subscriptions (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  status text not null default 'free',
+  stripe_customer_id text,
+  stripe_subscription_id text,
+  current_period_end timestamptz,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+alter table subscriptions enable row level security;
+
+create policy "Users can read their own subscription"
+  on subscriptions for select
+  using (auth.uid() = user_id);
+
+-- Usage tracking for rate limiting (free plan)
+create table usage (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  app_id text not null default '',
+  action text not null,
+  period text not null,
+  count int not null default 0,
+  unique (user_id, app_id, action, period)
+);
+
+alter table usage enable row level security;
+
+create policy "Users can read their own usage"
+  on usage for select
+  using (auth.uid() = user_id);
+
+-- Atomic increment function (called by useQuota)
+create or replace function increment_usage(
+  p_user_id uuid,
+  p_app_id text,
+  p_action text,
+  p_period text
+) returns int as $$
+declare
+  new_count int;
+begin
+  insert into usage (user_id, app_id, action, period, count)
+  values (p_user_id, p_app_id, p_action, p_period, 1)
+  on conflict (user_id, app_id, action, period)
+  do update set count = usage.count + 1
+  returning count into new_count;
+  return new_count;
+end;
+$$ language plpgsql security definer;
+```
+
+### 3. Configure Auth
 
 In the Supabase dashboard under **Authentication > Settings**:
 
@@ -128,6 +184,58 @@ function MyComponent() {
 }
 ```
 
+### Gate premium features with quota
+
+```tsx
+import { QuotaGate } from "@fluffylabs/shared-ui/supabase";
+
+function DecoderPage() {
+  return (
+    <QuotaGate action="decode" freeLimit={50} onCheckout={handleCheckout}>
+      <Decoder />
+    </QuotaGate>
+  );
+}
+```
+
+Free users see a usage progress bar and can use the feature up to 50 times/month.
+When the limit is reached, a pricing card is shown instead.
+Pro users always see the content with no limit.
+
+### Show subscription status in Settings
+
+```tsx
+import { Settings, SubscriptionStatus } from "@fluffylabs/shared-ui/supabase";
+
+function SettingsPage() {
+  return (
+    <>
+      <Settings />
+      <SubscriptionStatus
+        onCheckout={() => handleCheckout()}
+        onManage={() => openStripePortal()}
+      />
+    </>
+  );
+}
+```
+
+### Use quota hook directly
+
+```tsx
+import { useQuota } from "@fluffylabs/shared-ui/supabase";
+
+function DecoderTool() {
+  const { canUse, remaining, increment } = useQuota("decode", { freeLimit: 50 });
+
+  async function handleDecode() {
+    if (!canUse) return; // show upgrade prompt
+    await increment();
+    // perform the action
+  }
+}
+```
+
 ### Access auth state
 
 ```tsx
@@ -156,3 +264,8 @@ function MyComponent() {
 | `useSession` | Returns `{ session, isLoading }` |
 | `useSignOut` | Returns a sign-out callback |
 | `useUserData` | Per-user key-value storage with `{ appScoped }` option |
+| `useSubscription` | Returns `{ subscription, isLoading }` with plan and status |
+| `useQuota` | Rate-limited usage tracking with `{ freeLimit }` option |
+| `PricingCard` | Pro plan card with price, features, and checkout button |
+| `QuotaGate` | Gates content behind subscription + free quota |
+| `SubscriptionStatus` | Plan badge with manage/upgrade button (for Settings) |
