@@ -10,34 +10,20 @@
 //   SUPABASE_ANON_KEY     — (auto-set by Supabase)
 //   SUPABASE_SERVICE_ROLE_KEY — (auto-set by Supabase)
 
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { corsHeaders } from "../_shared/cors.ts";
 import { stripe } from "../_shared/stripe.ts";
 import { supabaseAdmin } from "../_shared/supabase-admin.ts";
+import { authenticateUser } from "../_shared/auth.ts";
 
 Deno.serve(async (req) => {
-  // Handle CORS preflight
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
   }
 
   try {
-    // Authenticate the user from the Authorization header
-    const authHeader = req.headers.get("Authorization")!;
-    const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_ANON_KEY")!, {
-      global: { headers: { Authorization: authHeader } },
-    });
-
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
-    if (authError || !user) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
+    const auth = await authenticateUser(req);
+    if ("response" in auth) return auth.response;
+    const { user } = auth;
 
     // Check if user already has a Stripe customer ID
     const { data: subscription } = await supabaseAdmin
@@ -56,7 +42,6 @@ Deno.serve(async (req) => {
       });
       customerId = customer.id;
 
-      // Store the customer ID
       await supabaseAdmin.from("subscriptions").upsert(
         {
           user_id: user.id,
@@ -67,20 +52,13 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Parse optional return URL from request body
     const body = await req.json().catch(() => ({}));
     const returnUrl = body.returnUrl || Deno.env.get("SITE_URL") || "http://localhost:5173";
 
-    // Create Checkout Session
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       mode: "subscription",
-      line_items: [
-        {
-          price: Deno.env.get("STRIPE_PRICE_ID")!,
-          quantity: 1,
-        },
-      ],
+      line_items: [{ price: Deno.env.get("STRIPE_PRICE_ID")!, quantity: 1 }],
       success_url: `${returnUrl}?checkout=success`,
       cancel_url: `${returnUrl}?checkout=cancelled`,
     });
@@ -89,8 +67,9 @@ Deno.serve(async (req) => {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (err) {
+    const message = err instanceof Error ? err.message : "Internal server error";
     console.error("create-checkout error:", err);
-    return new Response(JSON.stringify({ error: err.message }), {
+    return new Response(JSON.stringify({ error: message }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
