@@ -236,7 +236,10 @@ function useManageSubscription() {
   const { session } = useSession();
 
   return async () => {
-    if (!session?.access_token) return;
+    if (!session?.access_token) {
+      alert("Please log in first");
+      return;
+    }
     try {
       const res = await fetch(`${SUPABASE_URL}/functions/v1/create-portal`, {
         method: "POST",
