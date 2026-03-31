@@ -11,7 +11,6 @@ import { SubscriptionStatus } from "../../lib/supabase/SubscriptionStatus";
 import { PricingCard } from "../../lib/supabase/PricingCard";
 import { QuotaGate } from "../../lib/supabase/QuotaGate";
 import { useUser } from "../../lib/supabase/useUser";
-import { useQuota } from "../../lib/supabase/useQuota";
 import { useSession } from "../../lib/supabase/useSession";
 import { Alert } from "../../lib/ui/Alert/Alert";
 import { Button } from "../../lib/ui/Button";
@@ -164,14 +163,18 @@ function GatedFeaturePage() {
     <div className="mx-auto max-w-lg pt-4">
       <h2 className="mb-4 text-xl font-semibold text-foreground">Quota-Gated Feature</h2>
       <QuotaGate action="demo-action" freeLimit={5} onCheckout={handleCheckout}>
-        <DemoAction />
+        {(quota) => <DemoAction quota={quota} />}
       </QuotaGate>
     </div>
   );
 }
 
-function DemoAction() {
-  const { used, remaining, limit, increment } = useQuota("demo-action", { freeLimit: 5 });
+function DemoAction({
+  quota,
+}: {
+  quota: { used: number; remaining: number | null; limit: number | null; increment: () => Promise<void> };
+}) {
+  const { used, remaining, limit, increment } = quota;
   const [lastResult, setLastResult] = useState<string | null>(null);
 
   async function handleAction() {
@@ -195,7 +198,9 @@ function DemoAction() {
         )}
         {limit === null && " You have unlimited uses (Pro plan)."}
       </p>
-      <Button onClick={handleAction}>Perform Action</Button>
+      <Button onClick={handleAction} disabled={remaining === 0}>
+        Perform Action
+      </Button>
       {lastResult && <p className="text-sm text-muted-foreground">{lastResult}</p>}
     </div>
   );
