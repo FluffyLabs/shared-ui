@@ -14,7 +14,9 @@ coverage
 storybook-static
 *.local
 env.stripe
+.env.stripe
 .env*
+supabase/.temp
 
 # Editor directories and files
 .vscode/*
