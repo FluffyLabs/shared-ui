@@ -71,7 +71,7 @@ create table usage (
   action text not null,
   period text not null,
   count int not null default 0,
-  unique (user_id, app_id, action, period)
+  primary key (user_id, app_id, action, period)
 );
 
 alter table usage enable row level security;
@@ -91,7 +91,7 @@ declare
   new_count int;
 begin
   -- Ensure caller can only increment their own usage
-  if p_user_id != auth.uid() then
+  if auth.uid() is null or p_user_id is distinct from auth.uid() then
     raise exception 'Access denied: cannot modify another user''s usage';
   end if;
 

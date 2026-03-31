@@ -1,5 +1,9 @@
--- Fix: validate caller identity in increment_usage to prevent
--- one user from incrementing another user's quota.
+-- Replace unique constraint with primary key on usage table
+alter table usage drop constraint if exists usage_user_id_app_id_action_period_key;
+alter table usage add primary key (user_id, app_id, action, period);
+
+-- Fix NULL-safe auth check in increment_usage
+-- (p_user_id != NULL evaluates to NULL, bypassing the guard)
 create or replace function increment_usage(
   p_user_id uuid,
   p_app_id text,
@@ -9,7 +13,6 @@ create or replace function increment_usage(
 declare
   new_count int;
 begin
-  -- Ensure caller can only increment their own usage
   if auth.uid() is null or p_user_id is distinct from auth.uid() then
     raise exception 'Access denied: cannot modify another user''s usage';
   end if;
