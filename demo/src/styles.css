@@ -1,8 +1,4 @@
-@import "tailwindcss/preflight" layer(base);
-@import "../../lib/theme.css";
 @import "../../lib/global.css";
-@import "tailwindcss/theme" layer(theme);
-@import "tailwindcss/utilities" layer(utilities);
 
 body {
   margin: 0;
