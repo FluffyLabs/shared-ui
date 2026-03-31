@@ -1,5 +1,6 @@
 import { cn } from "@/utils";
 import { useQuota } from "./useQuota";
+import type { UseQuotaResult } from "./useQuota";
 import { PricingCard } from "./PricingCard";
 
 export interface QuotaGateProps {
@@ -9,12 +10,14 @@ export interface QuotaGateProps {
   freeLimit: number;
   /** Callback to handle checkout (create Stripe session via Edge Function) */
   onCheckout: () => void;
-  children: React.ReactNode;
+  /** Pass a render function to access quota state (increment, remaining, etc.) */
+  children: React.ReactNode | ((quota: UseQuotaResult) => React.ReactNode);
   className?: string;
 }
 
 export function QuotaGate({ action, freeLimit, onCheckout, children, className }: QuotaGateProps) {
-  const { canUse, used, limit, remaining, isLoading } = useQuota(action, { freeLimit });
+  const quota = useQuota(action, { freeLimit });
+  const { canUse, used, limit, remaining, isLoading } = quota;
 
   if (isLoading) return null;
 
@@ -32,6 +35,8 @@ export function QuotaGate({ action, freeLimit, onCheckout, children, className }
     );
   }
 
+  const content = typeof children === "function" ? children(quota) : children;
+
   return (
     <div className={className}>
       {limit !== null && remaining !== null && (
@@ -47,7 +52,7 @@ export function QuotaGate({ action, freeLimit, onCheckout, children, className }
           </span>
         </div>
       )}
-      {children}
+      {content}
     </div>
   );
 }
