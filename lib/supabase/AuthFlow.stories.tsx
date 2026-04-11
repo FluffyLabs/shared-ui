@@ -27,25 +27,24 @@ export default meta;
 
 type Story = StoryObj<typeof AuthFlow>;
 
-export const Login: Story = {
+export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "The default login tab. Submitting will show an error since there is no real Supabase backend connected.",
+        story: "The default email entry screen. Users enter their email and receive a magic link.",
       },
     },
   },
 };
 
-export const WithClassName: Story = {
+export const WithRedirectTo: Story = {
   args: {
-    className: "p-4 border border-dashed border-muted-foreground rounded",
+    redirectTo: "http://localhost:6006/auth/callback",
   },
   parameters: {
     docs: {
       description: {
-        story: "AuthFlow with custom className applied.",
+        story: "AuthFlow with a redirectTo URL configured for the magic link.",
       },
     },
   },
