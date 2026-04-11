@@ -6,6 +6,7 @@ import { initializeTheme } from "../../lib/components/DarkMode";
 import { SupabaseProvider } from "../../lib/supabase/SupabaseProvider";
 import { UserMenu } from "../../lib/supabase/UserMenu";
 import { AuthFlow } from "../../lib/supabase/AuthFlow";
+import { AuthCallback } from "../../lib/supabase/AuthCallback";
 import { Settings } from "../../lib/supabase/Settings";
 import { SubscriptionStatus } from "../../lib/supabase/SubscriptionStatus";
 import { PricingCard } from "../../lib/supabase/PricingCard";
@@ -22,7 +23,7 @@ const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || "";
 
 initializeTheme();
 
-type Page = "home" | "login" | "settings" | "pricing" | "gated";
+type Page = "home" | "login" | "settings" | "pricing" | "gated" | "auth-callback";
 
 export function App() {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
@@ -47,7 +48,10 @@ export function App() {
 }
 
 function DemoApp() {
-  const [page, setPage] = useState<Page>("home");
+  const [page, setPage] = useState<Page>(() => {
+    if (window.location.pathname === "/auth/callback") return "auth-callback";
+    return "home";
+  });
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -77,6 +81,15 @@ function PageContent({ page, setPage }: { page: Page; setPage: (p: Page) => void
       return <PricingPage />;
     case "gated":
       return <GatedFeaturePage />;
+    case "auth-callback":
+      return (
+        <AuthCallback
+          onSuccess={() => {
+            window.history.replaceState({}, "", "/");
+            setPage("home");
+          }}
+        />
+      );
     default:
       return <HomePage setPage={setPage} />;
   }
@@ -126,7 +139,7 @@ function HomePage({ setPage }: { setPage: (p: Page) => void }) {
 function LoginPage({ onSuccess }: { onSuccess: () => void }) {
   return (
     <div className="mx-auto max-w-sm pt-8">
-      <AuthFlow onSuccess={onSuccess} />
+      <AuthFlow onSuccess={onSuccess} redirectTo={window.location.origin + "/auth/callback"} />
     </div>
   );
 }
