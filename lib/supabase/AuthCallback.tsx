@@ -1,5 +1,4 @@
-// lib/supabase/AuthCallback.tsx
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Alert } from "@/ui/Alert/Alert";
 import { cn } from "@/utils";
 import { useSupabaseContext } from "./context";
@@ -13,29 +12,46 @@ export interface AuthCallbackProps {
 }
 
 export function AuthCallback({ onSuccess, onError, className }: AuthCallbackProps) {
-  const { client } = useSupabaseContext();
+  const { client, user } = useSupabaseContext();
   const [error, setError] = useState<string | null>(null);
 
+  // Memoize to avoid re-running effects when consumer doesn't stabilize callbacks.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const stableOnSuccess = useCallback(() => onSuccess?.(), []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const stableOnError = useCallback((err: Error) => onError?.(err), []);
+
+  // If SupabaseProvider already established the session (e.g. it processed the
+  // magic-link tokens before this component mounted), fire onSuccess immediately.
   useEffect(() => {
+    if (user) {
+      stableOnSuccess();
+    }
+  }, [user, stableOnSuccess]);
+
+  useEffect(() => {
+    // Already signed in — no need to listen or timeout.
+    if (user) return;
+
     const {
       data: { subscription },
     } = client.auth.onAuthStateChange((event) => {
       if (event === "SIGNED_IN") {
-        onSuccess?.();
+        stableOnSuccess();
       }
     });
 
     const timeout = setTimeout(() => {
       const message = "Magic link expired or invalid. Please try again.";
       setError(message);
-      onError?.(new Error(message));
+      stableOnError(new Error(message));
     }, 5000);
 
     return () => {
       subscription.unsubscribe();
       clearTimeout(timeout);
     };
-  }, [client, onSuccess, onError]);
+  }, [client, user, stableOnSuccess, stableOnError]);
 
   if (error) {
     return (

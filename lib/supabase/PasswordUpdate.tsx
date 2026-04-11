@@ -1,4 +1,3 @@
-// lib/supabase/PasswordUpdate.tsx
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { Button } from "@/ui/Button";

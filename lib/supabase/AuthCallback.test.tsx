@@ -1,4 +1,3 @@
-// lib/supabase/AuthCallback.test.tsx
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { AuthCallback } from "./AuthCallback";

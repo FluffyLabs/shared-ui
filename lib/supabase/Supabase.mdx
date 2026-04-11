@@ -109,9 +109,8 @@ $$ language plpgsql security definer;
 
 In the Supabase dashboard under **Authentication > Settings**:
 
-- Email/password sign-up is enabled by default
 - Set the **Site URL** to your production domain
-- Add any additional **Redirect URLs** for local development (e.g., `http://localhost:5173`)
+- Add **Redirect URLs** for your magic link callback route (e.g., `http://localhost:5173/auth/callback`, `https://your-app.com/auth/callback`)
 
 ## Usage
 
@@ -154,15 +153,43 @@ import { UserMenu } from "@fluffylabs/shared-ui/supabase";
 
 ### Add the AuthFlow page
 
+The auth flow is magic-link-first: users enter their email, receive a link, and click it to sign in. Password login is available as a secondary option for users who have set a password in Settings.
+
 ```tsx
 import { AuthFlow } from "@fluffylabs/shared-ui/supabase";
 
 function LoginPage() {
-  return <AuthFlow onSuccess={() => navigate("/")} />;
+  return (
+    <AuthFlow
+      onSuccess={() => navigate("/")}
+      redirectTo={window.location.origin + "/auth/callback"}
+    />
+  );
+}
+```
+
+The `redirectTo` URL is where Supabase sends users after they click the magic link. You must add this URL to your Supabase project's **Redirect URLs** allow-list.
+
+### Add the AuthCallback page
+
+Mount `AuthCallback` at the route matching your `redirectTo` URL. It handles the token exchange and redirects on success.
+
+```tsx
+import { AuthCallback } from "@fluffylabs/shared-ui/supabase";
+
+function AuthCallbackPage() {
+  return (
+    <AuthCallback
+      onSuccess={() => navigate("/")}
+      onError={(err) => console.error(err)}
+    />
+  );
 }
 ```
 
 ### Add the Settings page
+
+Settings includes theme selection and password management. Users who signed in via magic link can set a password here for convenience.
 
 ```tsx
 import { Settings } from "@fluffylabs/shared-ui/supabase";
@@ -262,9 +289,11 @@ function MyComponent() {
 | Export | Description |
 |--------|-------------|
 | `SupabaseProvider` | Context provider — wraps your app, creates the Supabase client |
-| `AuthFlow` | Combined login/register screen with tab toggle |
+| `AuthFlow` | Magic-link-first auth screen with optional password login |
+| `AuthCallback` | Handles magic link redirect — mount at your callback route |
+| `PasswordUpdate` | Set/change password form (embedded in Settings) |
 | `UserMenu` | Header dropdown — login button (logged out) or email + settings + sign out (logged in) |
-| `Settings` | Settings panel with theme selector (light/dark/auto) |
+| `Settings` | Settings panel with theme selector and password management |
 | `useUser` | Returns `{ user, isLoading }` |
 | `useSession` | Returns `{ session, isLoading }` |
 | `useSignOut` | Returns a sign-out callback |
