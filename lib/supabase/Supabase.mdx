@@ -112,6 +112,17 @@ In the Supabase dashboard under **Authentication > Settings**:
 - Set the **Site URL** to your production domain
 - Add **Redirect URLs** for your magic link callback route (e.g., `http://localhost:5173/auth/callback`, `https://your-app.com/auth/callback`)
 
+### 4. Deploy Email Templates
+
+Custom email templates for magic link sign-in and email confirmation are in `supabase/templates/`. To push them to your hosted project:
+
+```bash
+supabase link --project-ref <your-project-ref>
+supabase config push --config auth
+```
+
+This applies the template settings from `supabase/config.toml` to your hosted project. Review the config before pushing — it controls auth settings beyond just templates.
+
 ## Usage
 
 ### Wrap your app with `SupabaseProvider`
