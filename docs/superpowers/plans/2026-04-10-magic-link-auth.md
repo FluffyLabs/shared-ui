@@ -40,7 +40,7 @@ Tests mock the Supabase client via `MockSupabaseProvider`. The mock client from 
 // lib/supabase/AuthFlow.test.tsx
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { AuthFlow } from "./AuthFlow";
 import { MockSupabaseProvider } from "./StorybookProvider";
 
@@ -67,7 +67,7 @@ describe("AuthFlow", () => {
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `cd /Users/tomusdrw/conductor/workspaces/shared-ui/boston && npx vitest run lib/supabase/AuthFlow.test.tsx`
+Run: `npx vitest run lib/supabase/AuthFlow.test.tsx`
 
 Expected: FAIL — the current AuthFlow doesn't have a "Continue with magic link" button.
 
@@ -117,6 +117,7 @@ Append to the `describe("AuthFlow")` block:
       await user.type(emailInput, "test@example.com");
       await user.click(screen.getByText(/sign in with password instead/i));
 
+      expect(screen.getByPlaceholderText("Password")).toBeInTheDocument();
       expect(screen.getByPlaceholderText("Email")).toHaveValue("test@example.com");
     });
 
@@ -268,7 +269,8 @@ export function AuthFlow({ onSuccess, redirectTo, className }: AuthFlowProps) {
 
         <button
           type="button"
-          className="text-sm text-muted-foreground underline hover:text-foreground"
+          disabled={isSubmitting}
+          className="text-sm text-muted-foreground underline hover:text-foreground disabled:pointer-events-none disabled:opacity-50"
           onClick={() => {
             setScreen("email");
             setError(null);
@@ -305,7 +307,8 @@ export function AuthFlow({ onSuccess, redirectTo, className }: AuthFlowProps) {
 
       <button
         type="button"
-        className="text-sm text-muted-foreground underline hover:text-foreground"
+        disabled={isSubmitting}
+        className="text-sm text-muted-foreground underline hover:text-foreground disabled:pointer-events-none disabled:opacity-50"
         onClick={() => {
           setScreen("password");
           setError(null);
@@ -320,7 +323,7 @@ export function AuthFlow({ onSuccess, redirectTo, className }: AuthFlowProps) {
 
 - [ ] **Step 2: Run tests**
 
-Run: `cd /Users/tomusdrw/conductor/workspaces/shared-ui/boston && npx vitest run lib/supabase/AuthFlow.test.tsx`
+Run: `npx vitest run lib/supabase/AuthFlow.test.tsx`
 
 Expected: All tests PASS.
 
@@ -366,7 +369,7 @@ describe("AuthCallback", () => {
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `cd /Users/tomusdrw/conductor/workspaces/shared-ui/boston && npx vitest run lib/supabase/AuthCallback.test.tsx`
+Run: `npx vitest run lib/supabase/AuthCallback.test.tsx`
 
 Expected: FAIL — `AuthCallback` doesn't exist yet.
 
@@ -388,7 +391,7 @@ git commit -m "test: add AuthCallback tests"
 
 ```tsx
 // lib/supabase/AuthCallback.tsx
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Alert } from "@/ui/Alert/Alert";
 import { cn } from "@/utils";
 import { useSupabaseContext } from "./context";
@@ -402,29 +405,52 @@ export interface AuthCallbackProps {
 }
 
 export function AuthCallback({ onSuccess, onError, className }: AuthCallbackProps) {
-  const { client } = useSupabaseContext();
+  const { client, user } = useSupabaseContext();
   const [error, setError] = useState<string | null>(null);
 
+  // Memoize to avoid re-running effects when consumer doesn't stabilize callbacks.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const stableOnSuccess = useCallback(() => onSuccess?.(), []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const stableOnError = useCallback((err: Error) => onError?.(err), []);
+
+  // If SupabaseProvider already established the session (e.g. it processed the
+  // magic-link tokens before this component mounted), fire onSuccess immediately.
   useEffect(() => {
+    if (user) {
+      stableOnSuccess();
+    }
+  }, [user, stableOnSuccess]);
+
+  useEffect(() => {
+    // Already signed in — no need to listen or timeout.
+    if (user) return;
+
+    let settled = false;
+
     const {
       data: { subscription },
     } = client.auth.onAuthStateChange((event) => {
-      if (event === "SIGNED_IN") {
-        onSuccess?.();
+      if (event === "SIGNED_IN" && !settled) {
+        settled = true;
+        clearTimeout(timeout);
+        stableOnSuccess();
       }
     });
 
     const timeout = setTimeout(() => {
+      if (settled) return;
+      settled = true;
       const message = "Magic link expired or invalid. Please try again.";
       setError(message);
-      onError?.(new Error(message));
+      stableOnError(new Error(message));
     }, 5000);
 
     return () => {
       subscription.unsubscribe();
       clearTimeout(timeout);
     };
-  }, [client, onSuccess, onError]);
+  }, [client, user, stableOnSuccess, stableOnError]);
 
   if (error) {
     return (
@@ -447,7 +473,7 @@ export function AuthCallback({ onSuccess, onError, className }: AuthCallbackProp
 
 - [ ] **Step 2: Run tests**
 
-Run: `cd /Users/tomusdrw/conductor/workspaces/shared-ui/boston && npx vitest run lib/supabase/AuthCallback.test.tsx`
+Run: `npx vitest run lib/supabase/AuthCallback.test.tsx`
 
 Expected: PASS.
 
@@ -517,7 +543,7 @@ describe("PasswordUpdate", () => {
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `cd /Users/tomusdrw/conductor/workspaces/shared-ui/boston && npx vitest run lib/supabase/PasswordUpdate.test.tsx`
+Run: `npx vitest run lib/supabase/PasswordUpdate.test.tsx`
 
 Expected: FAIL — `PasswordUpdate` doesn't exist yet.
 
@@ -632,7 +658,7 @@ export function PasswordUpdate({ className }: PasswordUpdateProps) {
 
 - [ ] **Step 2: Run tests**
 
-Run: `cd /Users/tomusdrw/conductor/workspaces/shared-ui/boston && npx vitest run lib/supabase/PasswordUpdate.test.tsx`
+Run: `npx vitest run lib/supabase/PasswordUpdate.test.tsx`
 
 Expected: PASS.
 
@@ -682,7 +708,7 @@ export function Settings({ className }: SettingsProps) {
 
 - [ ] **Step 2: Run all tests**
 
-Run: `cd /Users/tomusdrw/conductor/workspaces/shared-ui/boston && npx vitest run`
+Run: `npx vitest run`
 
 Expected: All tests PASS.
 
@@ -713,7 +739,7 @@ export type { PasswordUpdateProps } from "./PasswordUpdate";
 
 - [ ] **Step 2: Run all tests to verify nothing broke**
 
-Run: `cd /Users/tomusdrw/conductor/workspaces/shared-ui/boston && npx vitest run`
+Run: `npx vitest run`
 
 Expected: All tests PASS.
 
@@ -819,36 +845,43 @@ import { AuthCallback } from "../../lib/supabase/AuthCallback";
 type Page = "home" | "login" | "settings" | "pricing" | "gated" | "auth-callback";
 ```
 
-3. In `DemoApp`, detect `/auth/callback` path on initial render by changing the `useState` init:
+3. Add basename-aware URL constants before `DemoApp`:
+
+```ts
+const AUTH_CALLBACK_PATH = new URL("auth/callback", document.baseURI).pathname;
+const HOME_PATH = new URL(".", document.baseURI).pathname;
+```
+
+4. In `DemoApp`, detect the callback path on initial render by changing the `useState` init:
 
 ```ts
 const [page, setPage] = useState<Page>(() => {
-  if (window.location.pathname === "/auth/callback") return "auth-callback";
+  if (window.location.pathname === AUTH_CALLBACK_PATH) return "auth-callback";
   return "home";
 });
 ```
 
-4. Add the `auth-callback` case to the `PageContent` switch, before the `default`:
+5. Add the `auth-callback` case to the `PageContent` switch, before the `default`:
 
 ```tsx
     case "auth-callback":
       return (
         <AuthCallback
           onSuccess={() => {
-            window.history.replaceState({}, "", "/");
+            window.history.replaceState({}, "", HOME_PATH);
             setPage("home");
           }}
         />
       );
 ```
 
-5. Update `LoginPage` to pass `redirectTo`:
+6. Update `LoginPage` to pass `redirectTo`:
 
 ```tsx
 function LoginPage({ onSuccess }: { onSuccess: () => void }) {
   return (
     <div className="mx-auto max-w-sm pt-8">
-      <AuthFlow onSuccess={onSuccess} redirectTo={window.location.origin + "/auth/callback"} />
+      <AuthFlow onSuccess={onSuccess} redirectTo={new URL("auth/callback", document.baseURI).toString()} />
     </div>
   );
 }
@@ -856,13 +889,13 @@ function LoginPage({ onSuccess }: { onSuccess: () => void }) {
 
 - [ ] **Step 2: Run all tests**
 
-Run: `cd /Users/tomusdrw/conductor/workspaces/shared-ui/boston && npx vitest run`
+Run: `npx vitest run`
 
 Expected: All tests PASS.
 
 - [ ] **Step 3: Run lint**
 
-Run: `cd /Users/tomusdrw/conductor/workspaces/shared-ui/boston && npx eslint lib/supabase/ demo/src/App.tsx --max-warnings 0`
+Run: `npx eslint lib/supabase/ demo/src/App.tsx --max-warnings 0`
 
 Expected: No errors or warnings.
 
