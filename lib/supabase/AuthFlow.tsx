@@ -7,46 +7,35 @@ import { cn } from "@/utils";
 import { useSupabaseContext } from "./context";
 
 export interface AuthFlowProps {
+  /** Called after successful password login. Magic link logins are handled by AuthCallback. */
   onSuccess?: () => void;
+  /** URL that Supabase redirects to after the user clicks the magic link. */
+  redirectTo?: string;
   className?: string;
 }
 
-export function AuthFlow({ onSuccess, className }: AuthFlowProps) {
+type Screen = "email" | "magic-link-sent" | "password";
+
+export function AuthFlow({ onSuccess, redirectTo, className }: AuthFlowProps) {
   const { client } = useSupabaseContext();
-  const [mode, setMode] = useState<"login" | "register">("login");
+  const [screen, setScreen] = useState<Screen>("email");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [registered, setRegistered] = useState(false);
 
-  async function handleSubmit(e: FormEvent) {
+  async function handleMagicLink(e: FormEvent) {
     e.preventDefault();
     setError(null);
     setIsSubmitting(true);
 
     try {
-      if (mode === "register") {
-        if (password !== confirmPassword) {
-          setError("Passwords do not match");
-          setIsSubmitting(false);
-          return;
-        }
-        const { data, error } = await client.auth.signUp({ email, password });
-        if (error) throw error;
-        if (data.user?.identities?.length === 0) {
-          setError(
-            "An account with this email already exists. Please log in or check your inbox for a confirmation link.",
-          );
-          return;
-        }
-        setRegistered(true);
-      } else {
-        const { error } = await client.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        onSuccess?.();
-      }
+      const { error } = await client.auth.signInWithOtp({
+        email,
+        options: { emailRedirectTo: redirectTo },
+      });
+      if (error) throw error;
+      setScreen("magic-link-sent");
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
@@ -54,104 +43,124 @@ export function AuthFlow({ onSuccess, className }: AuthFlowProps) {
     }
   }
 
-  if (registered) {
+  async function handlePasswordLogin(e: FormEvent) {
+    e.preventDefault();
+    setError(null);
+    setIsSubmitting(true);
+
+    try {
+      const { error } = await client.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      onSuccess?.();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  if (screen === "magic-link-sent") {
     return (
       <div className={cn("mx-auto flex w-full max-w-sm flex-col items-center gap-4", className)}>
         <Alert intent="success">
           <Alert.Title>Check your email</Alert.Title>
           <Alert.Text>
-            We sent a confirmation link to <strong>{email}</strong>. Please verify your email to continue.
+            We sent a magic link to <strong>{email}</strong>. Click the link in your email to sign in.
           </Alert.Text>
         </Alert>
         <button
           type="button"
           className="text-sm text-muted-foreground underline hover:text-foreground"
           onClick={() => {
-            setRegistered(false);
-            setMode("login");
+            setScreen("email");
+            setError(null);
           }}
         >
-          Back to login
+          Back
         </button>
       </div>
     );
   }
 
-  return (
-    <div className={cn("mx-auto flex w-full max-w-sm flex-col items-center gap-6", className)}>
-      <div className="flex w-full gap-2">
+  if (screen === "password") {
+    return (
+      <div className={cn("mx-auto flex w-full max-w-sm flex-col items-center gap-6", className)}>
+        {error && (
+          <Alert intent="destructive" className="w-full">
+            <Alert.Text>{error}</Alert.Text>
+          </Alert>
+        )}
+
+        <form onSubmit={handlePasswordLogin} className="flex w-full flex-col gap-4">
+          <Input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <Input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            minLength={6}
+          />
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Logging in..." : "Login"}
+          </Button>
+        </form>
+
         <button
           type="button"
-          className={cn(
-            "flex-1 border-b-2 pb-2 text-sm font-medium transition-colors",
-            mode === "login"
-              ? "border-brand text-foreground"
-              : "border-transparent text-muted-foreground hover:text-foreground",
-          )}
+          disabled={isSubmitting}
+          className="text-sm text-muted-foreground underline hover:text-foreground disabled:pointer-events-none disabled:opacity-50"
           onClick={() => {
-            setMode("login");
+            setScreen("email");
             setError(null);
             setPassword("");
-            setConfirmPassword("");
           }}
         >
-          Login
-        </button>
-        <button
-          type="button"
-          className={cn(
-            "flex-1 border-b-2 pb-2 text-sm font-medium transition-colors",
-            mode === "register"
-              ? "border-brand text-foreground"
-              : "border-transparent text-muted-foreground hover:text-foreground",
-          )}
-          onClick={() => {
-            setMode("register");
-            setError(null);
-            setPassword("");
-            setConfirmPassword("");
-          }}
-        >
-          Register
+          Back to magic link
         </button>
       </div>
+    );
+  }
 
+  // Default: email screen
+  return (
+    <div className={cn("mx-auto flex w-full max-w-sm flex-col items-center gap-6", className)}>
       {error && (
         <Alert intent="destructive" className="w-full">
           <Alert.Text>{error}</Alert.Text>
         </Alert>
       )}
 
-      <form onSubmit={handleSubmit} className="flex w-full flex-col gap-4">
-        <Input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+      <form onSubmit={handleMagicLink} className="flex w-full flex-col gap-4">
         <Input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
-          minLength={6}
         />
-        {mode === "register" && (
-          <Input
-            type="password"
-            placeholder="Confirm password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-            minLength={6}
-          />
-        )}
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting
-            ? mode === "login"
-              ? "Logging in..."
-              : "Registering..."
-            : mode === "login"
-              ? "Login"
-              : "Register"}
+          {isSubmitting ? "Sending magic link..." : "Continue with magic link"}
         </Button>
       </form>
+
+      <button
+        type="button"
+        disabled={isSubmitting}
+        className="text-sm text-muted-foreground underline hover:text-foreground disabled:pointer-events-none disabled:opacity-50"
+        onClick={() => {
+          setScreen("password");
+          setError(null);
+        }}
+      >
+        Sign in with password instead
+      </button>
     </div>
   );
 }

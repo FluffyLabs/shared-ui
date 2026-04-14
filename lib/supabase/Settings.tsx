@@ -1,5 +1,6 @@
 import { ToggleDarkMode } from "@/components/DarkMode";
 import { cn } from "@/utils";
+import { PasswordUpdate } from "./PasswordUpdate";
 
 export interface SettingsProps {
   className?: string;
@@ -16,6 +17,7 @@ export function Settings({ className }: SettingsProps) {
         </div>
         <ToggleDarkMode className="w-32" />
       </div>
+      <PasswordUpdate />
     </div>
   );
 }
