@@ -33,15 +33,21 @@ export function AuthCallback({ onSuccess, onError, className }: AuthCallbackProp
     // Already signed in — no need to listen or timeout.
     if (user) return;
 
+    let settled = false;
+
     const {
       data: { subscription },
     } = client.auth.onAuthStateChange((event) => {
-      if (event === "SIGNED_IN") {
+      if (event === "SIGNED_IN" && !settled) {
+        settled = true;
+        clearTimeout(timeout);
         stableOnSuccess();
       }
     });
 
     const timeout = setTimeout(() => {
+      if (settled) return;
+      settled = true;
       const message = "Magic link expired or invalid. Please try again.";
       setError(message);
       stableOnError(new Error(message));

@@ -114,7 +114,8 @@ export function AuthFlow({ onSuccess, redirectTo, className }: AuthFlowProps) {
 
         <button
           type="button"
-          className="text-sm text-muted-foreground underline hover:text-foreground"
+          disabled={isSubmitting}
+          className="text-sm text-muted-foreground underline hover:text-foreground disabled:pointer-events-none disabled:opacity-50"
           onClick={() => {
             setScreen("email");
             setError(null);
@@ -151,7 +152,8 @@ export function AuthFlow({ onSuccess, redirectTo, className }: AuthFlowProps) {
 
       <button
         type="button"
-        className="text-sm text-muted-foreground underline hover:text-foreground"
+        disabled={isSubmitting}
+        className="text-sm text-muted-foreground underline hover:text-foreground disabled:pointer-events-none disabled:opacity-50"
         onClick={() => {
           setScreen("password");
           setError(null);

@@ -44,6 +44,7 @@ describe("AuthFlow", () => {
       await user.type(emailInput, "test@example.com");
       await user.click(screen.getByText(/sign in with password instead/i));
 
+      expect(screen.getByPlaceholderText("Password")).toBeInTheDocument();
       expect(screen.getByPlaceholderText("Email")).toHaveValue("test@example.com");
     });
 

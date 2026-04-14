@@ -47,9 +47,12 @@ export function App() {
   );
 }
 
+const AUTH_CALLBACK_PATH = new URL("auth/callback", document.baseURI).pathname;
+const HOME_PATH = new URL(".", document.baseURI).pathname;
+
 function DemoApp() {
   const [page, setPage] = useState<Page>(() => {
-    if (window.location.pathname === "/auth/callback") return "auth-callback";
+    if (window.location.pathname === AUTH_CALLBACK_PATH) return "auth-callback";
     return "home";
   });
 
@@ -85,7 +88,7 @@ function PageContent({ page, setPage }: { page: Page; setPage: (p: Page) => void
       return (
         <AuthCallback
           onSuccess={() => {
-            window.history.replaceState({}, "", "/");
+            window.history.replaceState({}, "", HOME_PATH);
             setPage("home");
           }}
         />
@@ -139,7 +142,7 @@ function HomePage({ setPage }: { setPage: (p: Page) => void }) {
 function LoginPage({ onSuccess }: { onSuccess: () => void }) {
   return (
     <div className="mx-auto max-w-sm pt-8">
-      <AuthFlow onSuccess={onSuccess} redirectTo={window.location.origin + "/auth/callback"} />
+      <AuthFlow onSuccess={onSuccess} redirectTo={new URL("auth/callback", document.baseURI).toString()} />
     </div>
   );
 }
