@@ -137,4 +137,25 @@ describe("AuthCallback", () => {
     expect(onError).toHaveBeenCalledTimes(1);
     expect(onError.mock.calls[0][0]).toBeInstanceOf(Error);
   });
+
+  it("does not fire timers when the URL already has an error", async () => {
+    window.history.replaceState(
+      {},
+      "",
+      "/auth/callback?error_code=otp_expired",
+    );
+    const onError = vi.fn();
+
+    renderAuthCallback({ onError });
+
+    expect(onError).toHaveBeenCalledTimes(1);
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(31000);
+    });
+
+    expect(onError).toHaveBeenCalledTimes(1);
+    expect(screen.queryByText(/taking longer than usual/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/magic link expired or invalid/i)).not.toBeInTheDocument();
+  });
 });
