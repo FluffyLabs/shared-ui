@@ -107,4 +107,18 @@ describe("AuthCallback", () => {
 
     expect(screen.getByText(/sign-in failed\. please try again\./i)).toBeInTheDocument();
   });
+
+  it("shows a soft 'taking longer' note after 5 seconds without erroring", async () => {
+    const onError = vi.fn();
+
+    renderAuthCallback({ onError });
+
+    expect(screen.queryByText(/taking longer than usual/i)).not.toBeInTheDocument();
+
+    await vi.advanceTimersByTimeAsync(5000);
+
+    expect(screen.getByText(/signing you in/i)).toBeInTheDocument();
+    expect(screen.getByText(/taking longer than usual/i)).toBeInTheDocument();
+    expect(onError).not.toHaveBeenCalled();
+  });
 });

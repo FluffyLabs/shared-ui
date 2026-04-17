@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { flushSync } from "react-dom";
 import { Alert } from "@/ui/Alert/Alert";
 import { cn } from "@/utils";
 import { useSupabaseContext } from "./context";
@@ -53,6 +54,7 @@ function authErrorMessage(code: string | null, description: string | null): stri
 export function AuthCallback({ onSuccess, onError, className }: AuthCallbackProps) {
   const { client, user } = useSupabaseContext();
   const [error, setError] = useState<string | null>(null);
+  const [takingLonger, setTakingLonger] = useState(false);
 
   // Memoize to avoid re-running effects when consumer doesn't stabilize callbacks.
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -85,27 +87,24 @@ export function AuthCallback({ onSuccess, onError, className }: AuthCallbackProp
 
     let settled = false;
 
+    const softNoteTimeout = setTimeout(() => {
+      if (settled) return;
+      flushSync(() => setTakingLonger(true));
+    }, 5000);
+
     const {
       data: { subscription },
     } = client.auth.onAuthStateChange((event) => {
       if (event === "SIGNED_IN" && !settled) {
         settled = true;
-        clearTimeout(timeout);
+        clearTimeout(softNoteTimeout);
         stableOnSuccess();
       }
     });
 
-    const timeout = setTimeout(() => {
-      if (settled) return;
-      settled = true;
-      const message = "Magic link expired or invalid. Please try again.";
-      setError(message);
-      stableOnError(new Error(message));
-    }, 5000);
-
     return () => {
       subscription.unsubscribe();
-      clearTimeout(timeout);
+      clearTimeout(softNoteTimeout);
     };
   }, [client, user, stableOnSuccess, stableOnError]);
 
@@ -123,6 +122,9 @@ export function AuthCallback({ onSuccess, onError, className }: AuthCallbackProp
   return (
     <div className={cn("mx-auto flex w-full max-w-sm flex-col items-center gap-4 py-8", className)}>
       <p className="text-sm text-muted-foreground">Signing you in...</p>
+      {takingLonger && (
+        <p className="text-xs text-muted-foreground">This is taking longer than usual…</p>
+      )}
     </div>
   );
 }
