@@ -45,4 +45,20 @@ describe("AuthCallback", () => {
     expect(onError.mock.calls[0][0]).toBeInstanceOf(Error);
     expect(screen.queryByText(/signing you in/i)).not.toBeInTheDocument();
   });
+
+  it("renders the expired-link error when error params are in a nested hash fragment (HashRouter)", () => {
+    window.history.replaceState(
+      {},
+      "",
+      "/#/auth/callback#error=access_denied&error_code=otp_expired&error_description=Email+link+is+invalid+or+has+expired",
+    );
+    const onError = vi.fn();
+
+    renderAuthCallback({ onError });
+
+    expect(
+      screen.getByText(/this sign-in link has expired\. please request a new one\./i),
+    ).toBeInTheDocument();
+    expect(onError).toHaveBeenCalledTimes(1);
+  });
 });
