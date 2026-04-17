@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { AuthCallback } from "./AuthCallback";
 import { MockSupabaseProvider } from "./StorybookProvider";
 
@@ -12,6 +12,16 @@ function renderAuthCallback(props: React.ComponentProps<typeof AuthCallback> = {
 }
 
 describe("AuthCallback", () => {
+  beforeEach(() => {
+    vi.useFakeTimers({ shouldAdvanceTime: false });
+    // Reset URL between tests so URL-error parsing starts from a clean slate.
+    window.history.replaceState({}, "", "/");
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it("shows a loading state initially", () => {
     renderAuthCallback();
 
