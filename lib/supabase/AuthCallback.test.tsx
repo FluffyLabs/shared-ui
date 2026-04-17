@@ -42,7 +42,7 @@ describe("AuthCallback", () => {
       screen.getByText(/this sign-in link has expired\. please request a new one\./i),
     ).toBeInTheDocument();
     expect(onError).toHaveBeenCalledTimes(1);
-    expect(onError.mock.calls[0][0]).toBeInstanceOf(Error);
+    expect(onError).toHaveBeenCalledWith(expect.any(Error));
     expect(screen.queryByText(/signing you in/i)).not.toBeInTheDocument();
   });
 
@@ -135,7 +135,7 @@ describe("AuthCallback", () => {
 
     expect(screen.getByText(/magic link expired or invalid\. please try again\./i)).toBeInTheDocument();
     expect(onError).toHaveBeenCalledTimes(1);
-    expect(onError.mock.calls[0][0]).toBeInstanceOf(Error);
+    expect(onError).toHaveBeenCalledWith(expect.any(Error));
   });
 
   it("does not fire timers when the URL already has an error", async () => {
