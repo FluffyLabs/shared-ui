@@ -121,4 +121,16 @@ describe("AuthCallback", () => {
     expect(screen.getByText(/taking longer than usual/i)).toBeInTheDocument();
     expect(onError).not.toHaveBeenCalled();
   });
+
+  it("renders a timeout error and calls onError after 30 seconds without SIGNED_IN", async () => {
+    const onError = vi.fn();
+
+    renderAuthCallback({ onError });
+
+    await vi.advanceTimersByTimeAsync(30000);
+
+    expect(screen.getByText(/magic link expired or invalid\. please try again\./i)).toBeInTheDocument();
+    expect(onError).toHaveBeenCalledTimes(1);
+    expect(onError.mock.calls[0][0]).toBeInstanceOf(Error);
+  });
 });

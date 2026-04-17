@@ -92,12 +92,21 @@ export function AuthCallback({ onSuccess, onError, className }: AuthCallbackProp
       flushSync(() => setTakingLonger(true));
     }, 5000);
 
+    const errorTimeout = setTimeout(() => {
+      if (settled) return;
+      settled = true;
+      const message = "Magic link expired or invalid. Please try again.";
+      flushSync(() => setError(message));
+      stableOnError(new Error(message));
+    }, 30000);
+
     const {
       data: { subscription },
     } = client.auth.onAuthStateChange((event) => {
       if (event === "SIGNED_IN" && !settled) {
         settled = true;
         clearTimeout(softNoteTimeout);
+        clearTimeout(errorTimeout);
         stableOnSuccess();
       }
     });
@@ -105,6 +114,7 @@ export function AuthCallback({ onSuccess, onError, className }: AuthCallbackProp
     return () => {
       subscription.unsubscribe();
       clearTimeout(softNoteTimeout);
+      clearTimeout(errorTimeout);
     };
   }, [client, user, stableOnSuccess, stableOnError]);
 
