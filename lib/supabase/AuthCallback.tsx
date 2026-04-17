@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-import { flushSync } from "react-dom";
 import { Alert } from "@/ui/Alert/Alert";
 import { cn } from "@/utils";
 import { useSupabaseContext } from "./context";
@@ -89,14 +88,14 @@ export function AuthCallback({ onSuccess, onError, className }: AuthCallbackProp
 
     const softNoteTimeout = setTimeout(() => {
       if (settled) return;
-      flushSync(() => setTakingLonger(true));
+      setTakingLonger(true);
     }, 5000);
 
     const errorTimeout = setTimeout(() => {
       if (settled) return;
       settled = true;
       const message = "Magic link expired or invalid. Please try again.";
-      flushSync(() => setError(message));
+      setError(message);
       stableOnError(new Error(message));
     }, 30000);
 

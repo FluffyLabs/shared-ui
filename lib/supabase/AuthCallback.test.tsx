@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { AuthCallback } from "./AuthCallback";
 import { MockSupabaseProvider } from "./StorybookProvider";
@@ -115,7 +115,9 @@ describe("AuthCallback", () => {
 
     expect(screen.queryByText(/taking longer than usual/i)).not.toBeInTheDocument();
 
-    await vi.advanceTimersByTimeAsync(5000);
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(5000);
+    });
 
     expect(screen.getByText(/signing you in/i)).toBeInTheDocument();
     expect(screen.getByText(/taking longer than usual/i)).toBeInTheDocument();
@@ -127,7 +129,9 @@ describe("AuthCallback", () => {
 
     renderAuthCallback({ onError });
 
-    await vi.advanceTimersByTimeAsync(30000);
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(30000);
+    });
 
     expect(screen.getByText(/magic link expired or invalid\. please try again\./i)).toBeInTheDocument();
     expect(onError).toHaveBeenCalledTimes(1);
