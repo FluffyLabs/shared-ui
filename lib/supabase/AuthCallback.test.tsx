@@ -77,4 +77,34 @@ describe("AuthCallback", () => {
     ).toBeInTheDocument();
     expect(onError).toHaveBeenCalledTimes(1);
   });
+
+  it("renders the access_denied message when only access_denied is present", () => {
+    window.history.replaceState({}, "", "/auth/callback?error_code=access_denied");
+
+    renderAuthCallback();
+
+    expect(
+      screen.getByText(/this sign-in link is no longer valid\. please request a new one\./i),
+    ).toBeInTheDocument();
+  });
+
+  it("falls back to error_description for unknown error codes", () => {
+    window.history.replaceState(
+      {},
+      "",
+      "/auth/callback?error=server_error&error_description=Something+went+wrong",
+    );
+
+    renderAuthCallback();
+
+    expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
+  });
+
+  it("uses a generic fallback when neither a known code nor description is present", () => {
+    window.history.replaceState({}, "", "/auth/callback?error=server_error");
+
+    renderAuthCallback();
+
+    expect(screen.getByText(/sign-in failed\. please try again\./i)).toBeInTheDocument();
+  });
 });
