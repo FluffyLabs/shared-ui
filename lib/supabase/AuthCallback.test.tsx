@@ -108,6 +108,18 @@ describe("AuthCallback", () => {
     expect(screen.getByText(/sign-in failed\. please try again\./i)).toBeInTheDocument();
   });
 
+  it("treats a blank or whitespace-only error_description as missing", () => {
+    window.history.replaceState(
+      {},
+      "",
+      "/auth/callback?error=server_error&error_description=%20%20",
+    );
+
+    renderAuthCallback();
+
+    expect(screen.getByText(/sign-in failed\. please try again\./i)).toBeInTheDocument();
+  });
+
   it("shows a soft 'taking longer' note after 5 seconds without erroring", async () => {
     const onError = vi.fn();
 

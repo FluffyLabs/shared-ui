@@ -47,7 +47,8 @@ function authErrorMessage(code: string | null, description: string | null): stri
   if (code === "access_denied") {
     return "This sign-in link is no longer valid. Please request a new one.";
   }
-  return description ?? "Sign-in failed. Please try again.";
+  const trimmed = description?.trim();
+  return trimmed ? trimmed : "Sign-in failed. Please try again.";
 }
 
 export function AuthCallback({ onSuccess, onError, className }: AuthCallbackProps) {
