@@ -183,7 +183,7 @@ The `redirectTo` URL is where Supabase sends users after they click the magic li
 
 ### Add the AuthCallback page
 
-Mount `AuthCallback` at the route matching your `redirectTo` URL. It handles the token exchange and redirects on success.
+Mount `AuthCallback` at the route matching your `redirectTo` URL. It handles the token exchange and redirects on success. The example below assumes `BrowserRouter`. If your app uses `HashRouter`, see [Using HashRouter](#using-hashrouter) below.
 
 ```tsx
 import { AuthCallback } from "@fluffylabs/shared-ui/supabase";
@@ -197,6 +197,35 @@ function AuthCallbackPage() {
   );
 }
 ```
+
+### Using HashRouter
+
+If your app uses `HashRouter` (for example, static hosting like GitHub Pages), the callback route only exists *inside* the hash. Your `redirectTo` must include `/#/` so Supabase delivers users back to a URL your router can match:
+
+```tsx
+<AuthFlow
+  onSuccess={() => navigate("/")}
+  redirectTo={window.location.origin + "/#/auth/callback"}
+/>
+```
+
+Add the **full** URL — including `/#/auth/callback` — to your Supabase project's **Redirect URLs** allow-list.
+
+Mount `AuthCallback` at `/auth/callback` inside your HashRouter:
+
+```tsx
+import { HashRouter, Route, Routes } from "react-router-dom";
+import { AuthCallback } from "@fluffylabs/shared-ui/supabase";
+
+<HashRouter>
+  <Routes>
+    <Route path="/auth/callback" element={<AuthCallback onSuccess={() => navigate("/")} />} />
+    {/* your other routes */}
+  </Routes>
+</HashRouter>
+```
+
+**Common pitfall:** if `redirectTo` omits `/#/` (for example, `${origin}/auth/callback`), Supabase appends its error params as a hash fragment at the site root — e.g. `https://your-app.com/#error=access_denied&error_code=otp_expired&...`. `HashRouter` then tries to match the error string as a route path and React Router logs `No routes matched location "/error=access_denied&..."`. Including `/#/` in both `redirectTo` and the Supabase allow-list fixes this.
 
 ### Add the Settings page
 
