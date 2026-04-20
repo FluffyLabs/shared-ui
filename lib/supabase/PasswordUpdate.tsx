@@ -17,8 +17,16 @@ export function PasswordUpdate({ className }: PasswordUpdateProps) {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   if (!user) return null;
+
+  function handleCancel() {
+    setIsEditing(false);
+    setPassword("");
+    setConfirmPassword("");
+    setError(null);
+  }
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -37,6 +45,7 @@ export function PasswordUpdate({ className }: PasswordUpdateProps) {
       setPassword("");
       setConfirmPassword("");
       setSuccess(true);
+      setIsEditing(false);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
@@ -63,27 +72,38 @@ export function PasswordUpdate({ className }: PasswordUpdateProps) {
         </Alert>
       )}
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-        <Input
-          type="password"
-          placeholder="New password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          minLength={6}
-        />
-        <Input
-          type="password"
-          placeholder="Confirm new password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-          minLength={6}
-        />
-        <Button type="submit" disabled={isSubmitting} variant="secondary">
-          {isSubmitting ? "Updating..." : "Set password"}
+      {!isEditing ? (
+        <Button type="button" variant="secondary" onClick={() => setIsEditing(true)}>
+          Set/Change password
         </Button>
-      </form>
+      ) : (
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+          <Input
+            type="password"
+            placeholder="New password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            minLength={6}
+          />
+          <Input
+            type="password"
+            placeholder="Confirm new password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+            minLength={6}
+          />
+          <div className="flex gap-2">
+            <Button type="submit" disabled={isSubmitting} variant="secondary">
+              {isSubmitting ? "Updating..." : "Set password"}
+            </Button>
+            <Button type="button" variant="ghost" onClick={handleCancel} disabled={isSubmitting}>
+              Cancel
+            </Button>
+          </div>
+        </form>
+      )}
     </div>
   );
 }
